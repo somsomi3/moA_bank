@@ -16,11 +16,11 @@ class User(AbstractUser):
     # 매니저 수집자료
     age = models.IntegerField(blank=True, null=True)
     income = models.IntegerField(blank=True, null=True)
-    job = models.IntegerField(blank=True, null=True)
-    gender = models.CharField(max_length=10)
-    grade = models.CharField(max_length=10)
-    main_bank = models.CharField(max_length=10)
-    region = models.CharField(max_length=10)
+    job = models.CharField(max_length=50, blank=True, null=True)
+    gender = models.CharField(max_length=10, blank=True, null=True)
+    grade = models.CharField(max_length=10, blank=True, null=True)
+    main_bank = models.CharField(max_length=10, blank=True, null=True)
+    region = models.CharField(max_length=10, blank=True, null=True)
     consume = models.IntegerField(blank=True, null=True)
     desire_period = models.IntegerField(blank=True, null=True)
     # 예금/적금량은 우리가 추천해줘야 한다. 

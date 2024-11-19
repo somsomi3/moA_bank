@@ -23,14 +23,15 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # moA와 앱들의 연결
     path('data/', include('data.urls')),
-    # moA와 accounts와의 연결
     path('api/v1/', include('accounts.urls')),
+    path('api/v1/', include('communities.urls')),
+    path('api/v1/', include('cards.urls')),
+
     path('accounts/', include('dj_rest_auth.urls')),
     path('accounts/signup/', include('dj_rest_auth.registration.urls')),
-
-    # moA와 communnities와의 연결
-    path('api/v1/', include('communities.urls')),
 
     # YOUR PATTERNS
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

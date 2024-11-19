@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'accounts',
     'communities',
     'data',
+    'cards',
+    'suggests',
 
     'rest_framework',
     'rest_framework.authtoken',  # Token 인증 앱
