@@ -1,13 +1,13 @@
-# from django.urls import path
-# from .views import (
-#     # custom_register,
-#     user_profile,
-#     user_list,
-#     user_info_change,
-#     my_page,
-#     follow_user,
-#     user_recommendation,
-# )
+from django.urls import path
+from .views import (
+    user_profile,
+    user_list,
+    user_info_change,
+    my_page,
+    follow_user,
+    user_recommendation,
+    user_info,
+)
 
 # urlpatterns = [
     
