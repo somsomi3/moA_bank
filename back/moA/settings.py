@@ -31,8 +31,27 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
+    # django-allauth 관련 앱
+    'django.contrib.sites',  # 필수
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+    # 필요에 따라 추가
+    # 'allauth.socialaccount.providers.google',  # 예: 구글 OAuth
+    # 'allauth.socialaccount.providers.facebook',  # 예: 페이스북 OAuth
+    
     # 앱등록
     'accounts',
+    'communities',
+
+    'rest_framework',
+    'rest_framework.authtoken',  # Token 인증 앱
+    'corsheaders',
+
+    #drf를 위한 OpenAPI 3.0구조생성을 도와주는 라이브러리
+    'drf_spectacular',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,19 +59,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'dj_rest_auth',
 ]
 
 SITE_ID = 1
 
+
+
+
 REST_FRAMEWORK = {
     # Authentication
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
     # # permission
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
+    
+    # api테스트 관련 framework설정
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 MIDDLEWARE = [
@@ -63,6 +91,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 이메일 인증관련
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -157,8 +188,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # ]
 
 import os
-import environ 
+import environ
 
 env = environ.Env(DEBUG=(bool, True))
-environ.Env.read_env(env_file=os.path.join(BASE_DIR,'.env'))
-API_KEY = env('API_KEY') # .env 파일에 작성된 API_KEY 값을 API_KEY 변수에 대입
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
+
+API_KEY = env('API_KEY', default='dummy_api_key')  # 기본값 설정
+DEBUG = env('DEBUG', default=True)

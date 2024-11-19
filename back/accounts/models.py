@@ -26,7 +26,7 @@ class User(AbstractUser):
     # 예금/적금량은 우리가 추천해줘야 한다. 
     # desire_amount_saving = models.IntegerField(blank=True, null=True)
     # desire_amount_deposit = models.IntegerField(blank=True, null=True)
-      
+
     following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
     
 
@@ -38,3 +38,15 @@ class User(AbstractUser):
 
 
     USERNAME_FIELD = 'username'
+
+# # 커뮤니티 앱에서 배너/ Article 분류에 사용됨.
+# class CustomUser(AbstractUser):
+#     income_bracket = models.CharField(
+#         max_length=20,
+#         choices=[
+#             ('low', 'Low Income'),
+#             ('middle', 'Middle Income'),
+#             ('high', 'High Income'),
+#         ],
+#         default='middle'
+#     )
