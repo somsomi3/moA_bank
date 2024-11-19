@@ -14,7 +14,7 @@ from .serializers import (
     MyPageSerializer,
     UserRecommendationSerializer,
 )
-from rest_framework.decorators import authentication_classes
+from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from .serializers import UserProfileSerializer
 from .models import User
@@ -27,21 +27,21 @@ from .models import User
 
 
 # 1. 회원가입
-# @api_view(['POST'])
-# def custom_register(request):
-#     serializer = CustomRegisterSerializer(data=request.data)
-#     if serializer.is_valid():
-#         user = serializer.save()
+@api_view(['POST'])
+def custom_register(request):
+    serializer = CustomRegisterSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
         
-#         # 토큰 생성
-#         token, created = Token.objects.get_or_create(user=user)
+        # 토큰 생성
+        # token, created = Token.objects.get_or_create(user=user)
         
-#         return Response({
-#             "message": "회원가입 성공!",
-#             "token": token.key
-#         }, status=status.HTTP_201_CREATED)
+        return Response({
+            "message": "회원가입 성공!",
+            # "token": token.key
+        }, status=status.HTTP_201_CREATED)
     
-#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

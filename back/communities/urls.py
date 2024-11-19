@@ -42,11 +42,11 @@ from .views import (
 )
 
 urlpatterns = [
-    path('communities/', community_list, ),
-    path('communities/create/', create_community,),
-    path('communities/<int:community_id>/delete/', delete_community, ),
-    path('communities/<int:community_id>/articles/', community_articles, ),
-    path('communities/<int:community_id>/articles/list/', article_list_create,),
+    path('', community_list, ),
+    path('create/', create_community,),
+    path('<int:community_id>/delete/', delete_community, ),
+    path('<int:community_id>/articles/', community_articles, ),
+    path('<int:community_id>/articles/list/', article_list_create,),
     path('articles/<int:article_id>/', article_detail_comment,),
     path('articles/<int:article_id>/like/', like_article, ),
 ]
