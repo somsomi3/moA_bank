@@ -13,19 +13,40 @@
 #     path('articles/<int:article_id>/like/', like_article, name='like_article'),  # 게시글 좋아요
 # ]
 
+# from django.urls import path
+# from .views import community_list, community_articles, article_list_create, article_detail_comment
+
+# urlpatterns = [
+#     # 커뮤니티 목록 보기
+#     path('communities/', community_list, name='community_list'),
+
+#     # 특정 커뮤니티의 게시판 보기
+#     path('communities/<int:community_id>/articles/', community_articles, name='community_articles'),
+
+#     # 게시판에서 게시글 작성 및 목록 보기
+#     path('communities/<int:community_id>/articles/list/', article_list_create, name='article_list_create'),
+
+#     # 게시글 상세 보기 및 댓글 작성/보기
+#     path('articles/<int:article_id>/', article_detail_comment, name='article_detail_comment'),
+# ]
+
 from django.urls import path
-from .views import community_list, community_articles, article_list_create, article_detail_comment
+from .views import (
+    community_list,
+    create_community,
+    delete_community,
+    community_articles,
+    article_list_create,
+    article_detail_comment,
+    like_article,
+)
 
 urlpatterns = [
-    # 커뮤니티 목록 보기
-    path('communities/', community_list, name='community_list'),
-
-    # 특정 커뮤니티의 게시판 보기
-    path('communities/<int:community_id>/articles/', community_articles, name='community_articles'),
-
-    # 게시판에서 게시글 작성 및 목록 보기
-    path('communities/<int:community_id>/articles/list/', article_list_create, name='article_list_create'),
-
-    # 게시글 상세 보기 및 댓글 작성/보기
-    path('articles/<int:article_id>/', article_detail_comment, name='article_detail_comment'),
+    path('communities/', community_list, ),
+    path('communities/create/', create_community,),
+    path('communities/<int:community_id>/delete/', delete_community, ),
+    path('communities/<int:community_id>/articles/', community_articles, ),
+    path('communities/<int:community_id>/articles/list/', article_list_create,),
+    path('articles/<int:article_id>/', article_detail_comment,),
+    path('articles/<int:article_id>/like/', like_article, ),
 ]
