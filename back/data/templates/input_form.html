@@ -1,0 +1,179 @@
+{% comment %} <form method="post" action="{% url "articles:input_form" %}">  <!-- 변경 가능: /articles/api/recommend/ --> #성공했음
+    {% csrf_token %}
+    <label for="gender">Gender:</label>
+    <select name="gender" id="gender">
+        <option value="남성">Male</option>
+        <option value="여성">Female</option>
+    </select><br><br>
+
+    <label for="age">Age:</label>
+    <input type="text" id="age" name="age"><br><br>
+
+    <label for="income">Income:</label>
+    <input type="number" id="income" name="income"><br><br>
+
+    <label for="consume">Consume:</label>
+    <input type="number" id="consume" name="consume"><br><br>
+
+    <label for="carduseratio">Card Usage Ratio:</label>
+    <input type="number" step="0.01" id="carduseratio" name="carduseratio"><br><br>
+
+    <button type="submit">Submit</button>
+</form> {% endcomment %}
+
+
+{% comment %} gpt 추가 2024.11.18까지 {% endcomment %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Input Form</title>
+</head>
+<body>
+    <h1>Financial Input Form</h1>
+    <form method="post" action="{% url 'articles:input_form' %}">  <!-- Updated action to use URL reverse lookup -->
+        {% csrf_token %}
+        <label for="gender">Gender:</label>
+        <select name="gender" id="gender">
+            <option value="남성">Male</option>
+            <option value="여성">Female</option>
+        </select><br><br>
+
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age"><br><br>
+
+        <label for="income">Income:</label>
+        <input type="number" id="income" name="income"><br><br>
+
+        <label for="consume">Consume:</label>
+        <input type="number" id="consume" name="consume"><br><br>
+
+        <label for="carduseratio">Card Usage Ratio:</label>
+        <input type="number" step="0.01" id="carduseratio" name="carduseratio"><br><br>
+
+        <label for="job">Job:</label>
+        <select name="job" id="job">
+            <option value="경영·사무·금융·보험직">Management/Finance</option>
+            <option value="연구직 및 공학 기술직">Research/Engineering</option>
+            <option value="교육·법률·사회복지·경찰·소방직 및 군인">Education/Law/Social Work</option>
+            <option value="보건·의료직">Healthcare</option>
+        </select><br><br>
+
+        <label for="grade">Education Level:</label>
+        <select name="grade" id="grade">
+            <option value="고졸이하">고졸이하</option>
+            <option value="전문대졸">전문대졸</option>
+            <option value="대졸이상">대졸이상</option>
+        </select><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+ {% endcomment %}
+
+ {% comment %} 2024.11.19 시작 {% endcomment %}
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Input Form</title>
+</head>
+<body>
+    <h1>Financial Input Form</h1>
+    
+    <!-- Input Form -->
+    <form method="post" action="{% url 'articles:input_form' %}">
+        {% csrf_token %}
+        
+        <label for="gender">성별:</label>
+        <select name="gender" id="gender">
+            <option value="남자">남성</option>
+            <option value="여자">여성</option>
+        </select><br><br>
+
+        <label for="age">나이:</label>
+        <input type="number" id="age" name="age" required><br><br>
+
+        <label for="income">월소득금액:</label>
+        <input type="number" id="income" name="income" required><br><br>
+
+        <label for="consume">월소비금액:</label>
+        <input type="number" id="consume" name="consume" required><br><br>
+
+        <label for="carduseratio">카드사용비율:</label>
+        <input type="number" step="0.01" id="carduseratio" name="carduseratio"><br><br>
+
+        <label for="job">직업:</label>
+        <select name="job" id="job">
+            {% for job in jobs %}
+            <option value="{{ job }}">{{ job }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="grade">최종학력:</label>
+        <select name="grade" id="grade">
+            <option value="고졸이하">고졸이하</option>
+            <option value="전문대졸">전문대졸</option>
+            <option value="대졸이상">대졸이상</option>
+        </select><br><br>
+
+        <label for="use_bank">주거래은행:</label>
+        <input type="text" id="use_bank" name="use_bank" required><br><br>
+
+        <label for="save_trm">희망저축기간(달):</label>
+        <input type="number" id="save_trm" name="save_trm" required><br><br>
+
+        <button type="submit">검사하기!</button>
+    </form>
+
+    <!-- Results Section -->
+    {% if recommendations %}
+        <h2>Recommendations</h2>
+
+        <h3>소득분석</h3>
+        <p>{{ recommendations2.income_analysis }}</p>
+
+        <h3>나의 소득분위</h3>
+        <p>{{ recommendations2.income_decile }}</p>
+        <h3>동일 직업군과의 소득비교</h3>
+        <p>{{ recommendations.job_analysis }}</p>
+
+        <h3>동일 최종학력군과의 소득비교</h3>
+        <p>{{ recommendations.grade_analysis }}</p>
+
+        <h3>소비분석</h3>
+        <p>{{ recommendations2.spending_analysis }}</p>
+
+        <h3>예상환급금</h3>
+        <p><strong>근로소득세:</strong> {{ recommendations.tax_refund_estimation.annual_income_tax }}</p>
+        <p><strong>환급 예상:</strong> {{ recommendations.tax_refund_estimation.refund_estimation }}</p>
+
+        <h3>추천카드</h3>
+        <ul>
+            {% for card in recommendations.card_recommendations %}
+                <li>{{ card.card_name }}: {{ card.merit_summary }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>예금 추천</h3>
+        <ul>
+            {% for deposit in recommendations.deposit_recommendations %}
+            <li>{{ deposit.0 }}: {{ deposit.1 }}% (기간: {{ deposit.2 }}개월)</li>
+            {% endfor %}
+        </ul>
+        
+        <h3>적금 추천</h3>
+        <ul>
+            {% for saving in recommendations.saving_recommendations %}
+            <li>{{ saving.0 }}: {{ saving.1 }}% (기간: {{ saving.2 }}개월)</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
+</body>
+</html>
