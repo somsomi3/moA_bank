@@ -39,17 +39,17 @@ export const useCounterStore = defineStore('counter', () => {
     // const username = payload.username
     // const password1 = payload.password1
     // const password2 = payload.password2
-    const { username, password1, password2 } = payload
+    const { username, name, password1, password2, age, income, job, gender, grade, main_bank, region, consume, desire_period, financial_product } = payload
 
     axios({
       method: 'post',
       url: `${API_URL}/accounts/signup/`,
       data: {
-        username, password1, password2
+        username, name, password1, password2, age, income, job, gender, grade, main_bank, region, consume, desire_period, financial_product
       }
     })
       .then((res) => {
-        // console.log(res)
+        // console.log('response_data:',  res.data)
         // console.log('회원가입 성공')
         const password = password1
         logIn({ username, password })

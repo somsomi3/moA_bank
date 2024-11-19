@@ -10,6 +10,28 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 
 # 입력 데이터를 받아 , 모델필드에 맞추어, serializer을 진행하고 보여줄거다.
 # 1. 회원가입 (CustomRegisterSerializer)
+# class CustomRegisterSerializer(RegisterSerializer):
+#     username = serializers.CharField(
+#         required=False,
+#         allow_blank=True,
+#         max_length=100
+#     )
+#     name = serializers.CharField(max_length=100)
+#     email = serializers.EmailField(required=False)
+
+#     def get_cleaned_data(self):
+#         # 기본 필드와 커스텀 필드 데이터를 결합하여 반환
+#         data = super().get_cleaned_data()
+#         data['name'] = self.validated_data.get('name', '')
+#         return data
+
+#===
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 class CustomRegisterSerializer(RegisterSerializer):
     username = serializers.CharField(
         required=False,
@@ -20,10 +42,60 @@ class CustomRegisterSerializer(RegisterSerializer):
     email = serializers.EmailField(required=False)
 
     def get_cleaned_data(self):
-        # 기본 필드와 커스텀 필드 데이터를 결합하여 반환
+        # 기본 필드와 커스텀 필드를 결합하여 반환
         data = super().get_cleaned_data()
         data['name'] = self.validated_data.get('name', '')
         return data
+
+    def save(self, request):
+        # 기존 save 메서드 호출
+        user = super().save(request)
+        # 커스텀 필드 저장
+        user.name = self.validated_data.get('name', '')
+        user.save()
+        return user
+
+# from dj_rest_auth.registration.serializers import RegisterSerializer
+# from rest_framework import serializers
+# from django.contrib.auth import get_user_model
+
+# User = get_user_model()
+
+# class CustomRegisterSerializer(RegisterSerializer):
+#     username = serializers.CharField(required=True)
+#     name = serializers.CharField(required=True)
+#     age = serializers.IntegerField(required=False)
+#     income = serializers.FloatField(required=False)
+#     job = serializers.CharField(required=False)
+#     gender = serializers.CharField(required=False)
+#     grade = serializers.CharField(required=False)
+#     main_bank = serializers.CharField(required=False)
+#     region = serializers.CharField(required=False)
+#     consume = serializers.FloatField(required=False)
+#     desire_period = serializers.IntegerField(required=False)
+#     financial_product = serializers.CharField(required=False)
+
+#     def save(self, request):
+#         user = super().save(request)
+#         # 추가 필드 저장
+#         user.name = self.validated_data.get('name', '')
+#         user.age = self.validated_data.get('age', None)
+#         user.income = self.validated_data.get('income', None)
+#         user.job = self.validated_data.get('job', '')
+#         user.gender = self.validated_data.get('gender', '')
+#         user.grade = self.validated_data.get('grade', '')
+#         user.main_bank = self.validated_data.get('main_bank', '')
+#         user.region = self.validated_data.get('region', '')
+#         user.consume = self.validated_data.get('consume', None)
+#         user.desire_period = self.validated_data.get('desire_period', None)
+#         user.financial_product = self.validated_data.get('financial_product', '')
+#         user.save()
+#         return user
+
+
+
+
+
 
 # 2. 사용자 프로필 (UserProfileSerializer)
 class UserProfileSerializer(serializers.ModelSerializer):

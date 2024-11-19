@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import User
 from rest_framework.response import Response
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import User
@@ -27,21 +28,38 @@ from .models import User
 
 
 # 1. 회원가입
+# @csrf_exempt
+# @api_view(['POST'])
+# def custom_register(request):
+    
+#     serializer = CustomRegisterSerializer(data=request.data)
+#     if serializer.is_valid():
+#         user = serializer.save()
+        
+#         # 토큰 생성
+#         # token, created = Token.objects.get_or_create(user=user)
+        
+#         return Response({
+#             "message": "회원가입 성공!",
+#             # "token": token.key
+#         }, status=status.HTTP_201_CREATED)
+    
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@csrf_exempt
 @api_view(['POST'])
 def custom_register(request):
+    print("Request Headers:", request.headers)  # 요청 헤더 확인
+    print("Request Data:", request.data)  # 요청 데이터 확인
+
     serializer = CustomRegisterSerializer(data=request.data)
     if serializer.is_valid():
-        user = serializer.save()
-        
-        # 토큰 생성
-        # token, created = Token.objects.get_or_create(user=user)
-        
-        return Response({
-            "message": "회원가입 성공!",
-            # "token": token.key
-        }, status=status.HTTP_201_CREATED)
-    
+        serializer.save(request)
+        return Response({"message": "회원가입 성공!"}, status=status.HTTP_201_CREATED)
+    print("Errors:", serializer.errors)  # 유효성 검사 에러 확인
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 

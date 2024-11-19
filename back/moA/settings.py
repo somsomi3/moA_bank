@@ -60,12 +60,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    
     'dj_rest_auth',
 ]
 
 SITE_ID = 1
 
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+}
 
 
 
@@ -97,6 +100,10 @@ MIDDLEWARE = [
     # 이메일 인증관련
     'allauth.account.middleware.AccountMiddleware',
 ]
+
+
+
+
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
