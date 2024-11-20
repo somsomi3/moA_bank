@@ -27,10 +27,10 @@ urlpatterns = [
     # moA와 accounts와의 연결
     path('api/v1/', include('accounts.urls')),
     path('accounts/', include('dj_rest_auth.urls')),
-    # path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+    path('accounts/signup/', include('dj_rest_auth.registration.urls')),
 
     # 커스텀 회원가입 뷰를 먼저 등록
-    path('accounts/', include('accounts.urls')),  
+    # path('accounts/', include('accounts.urls')),  
     # dj_rest_auth의 URL은 뒤로 이동
     path('accounts/auth/', include('dj_rest_auth.registration.urls')),  
 

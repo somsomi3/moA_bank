@@ -8,8 +8,10 @@ from django.db import models
 from django.conf import settings
 
 class Community(models.Model):
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE  # 커뮤니티 생성자
+    user = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,  # User 모델과 Many-to-Many 관계를 설정
+        related_name='communities',  # 역참조 이름 설정 (사용자가 가입한 커뮤니티들)
+        blank=True  # 커뮤니티 생성 시 사용자가 없어도 가능
     )
     name = models.CharField(max_length=100)
     description = models.TextField()

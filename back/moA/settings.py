@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',  # Token 인증 앱
     'corsheaders',
-
+    'django_extensions',
     #drf를 위한 OpenAPI 3.0구조생성을 도와주는 라이브러리
     'drf_spectacular',
 
@@ -80,7 +80,7 @@ REST_FRAMEWORK = {
     ],
     # # permission
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
     
     # api테스트 관련 framework설정

@@ -1,26 +1,26 @@
 <template>
+  
+  
+  
   <header>
     <nav>
-      <RouterLink :to="{ name: 'ArticleView' }">Articles</RouterLink> |
-      <RouterLink :to="{ name: 'SignUpView' }">SignUpView</RouterLink> |
-      <RouterLink :to="{ name: 'LogInView' }">LogInView</RouterLink> | 
-      <form @submit.prevent="logOut">
-        <input type="submit" value="Logout">
-      </form>
+      <StartPage />
+      <!-- <HomePage /> -->
     </nav>
   </header>
-  <RouterView />
+  <!-- <RouterView /> -->
 </template>
 
 <script setup>
 import { RouterView, RouterLink } from 'vue-router'
 import { useCounterStore } from '@/stores/counter'
+import StartPage from './components/StartPage.vue';
+import HomePage from './components/HomePage.vue';
+// const store = useCounterStore()
 
-const store = useCounterStore()
-
-const logOut = function () {
-  store.logOut()
-}
+// const logOut = function () {
+//   store.logOut()
+// }
 </script>
 
 <style scoped>

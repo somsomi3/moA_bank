@@ -53,5 +53,5 @@ urlpatterns = [
 
     # 사용자 목록 조회 및 추가 (GET/POST)
     path('userinfo/', user_info, name='user_info'),
-    path('signup/', custom_register),
+    
 ]

@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 
 export const useCounterStore = defineStore('counter', () => {
-  const articles = ref([])
+  const communities = ref([])
   const API_URL = 'http://127.0.0.1:8000'
   const token = ref(null)
   const isLogin = computed(() => {
@@ -20,14 +20,14 @@ export const useCounterStore = defineStore('counter', () => {
   const getArticles = function () {
     axios({
       method: 'get',
-      url: `${API_URL}/communities/1/articles/list/`,
+      url: `${API_URL}/communities/4/articles/list/`,
       headers: {
         Authorization: `Token ${token.value}`
       }
     })
       .then((res) => {
-        // console.log(res.data)
-        articles.value = res.data
+        console.log(res.data)
+        communities.value = res.data
       })
       .catch((err) => {
         console.log(err)
@@ -98,5 +98,19 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
-  return { articles, API_URL, getArticles, signUp, logIn, token, isLogin, logOut }
+  return { communities, API_URL, getArticles, signUp, logIn, token, isLogin, logOut }
 }, { persist: true })
+
+export const useLayoutStore = defineStore('layout', {
+  state: () => ({
+    navVisible: true, // 기본적으로 nav를 표시
+  }),
+  actions: {
+    hideNav() {
+      this.navVisible = false;
+    },
+    showNav() {
+      this.navVisible = true;
+    },
+  },
+});

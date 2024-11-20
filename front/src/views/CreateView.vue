@@ -13,6 +13,7 @@
       <input type="submit">
     </form>
   </div>
+  <p>{{ store.communities.community.id}}</p>
 </template>
 
 <script setup>
@@ -30,10 +31,11 @@ const router = useRouter()
 const createArticle = function () {
   axios({
     method: 'post',
-    url: `${store.API_URL}/communities/create/`,
+    url: `${store.API_URL}/communities/1/articles/create/`,
     data: {
       title: title.value,
-      content: content.value
+      content: content.value,
+      community : store.communities.community.id
     },
     headers: {
       Authorization: `Token ${store.token}`
@@ -45,6 +47,7 @@ const createArticle = function () {
     })
     .catch((err) => {
       console.log(err)
+      console.log(err.response.data);
     })
 }
 

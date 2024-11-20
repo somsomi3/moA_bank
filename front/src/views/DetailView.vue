@@ -1,12 +1,11 @@
 <template>
   <div>
     <h1>Detail</h1>
-    <div v-if="article">
-      <p>게시글 번호 : {{ article.id }}</p>
-      <p>제목 : {{ article.title }}</p>
-      <p>내용 : {{ article.content }}</p>
-      <p>작성일 : {{ article.created_at }}</p>
-      <p>수정일 : {{ article.updated_at }}</p>
+    <div v-if="store">
+      <p>게시글 번호 : {{ store.communities.articles[route.params.id-1].id }}</p>
+      <p>제목 : {{ store.communities.articles[route.params.id-1].title }}</p>
+      <p>내용 : {{ store.communities.articles[route.params.id-1].content }}</p>
+      <p>생성일 : {{ store.communities.articles[route.params.id-1].created_at }}</p>
     </div>
   </div>
 </template>
@@ -15,7 +14,8 @@
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useCounterStore } from '@/stores/counter'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { errorMessages } from 'vue/compiler-sfc';
 
 const store = useCounterStore()
 const route = useRoute()
@@ -25,16 +25,21 @@ const article = ref(null)
 onMounted(() => {
   axios({
     method: 'get',
-    url: `${store.API_URL}/api/v1/articles/${route.params.id}/`
+    url: `${store.API_URL}/communities/1/articles/${route.params.id}/`,
+    headers: {
+        Authorization: `Token ${store.token}`
+      },
+    data: {data : store.communities.article}
   })
     .then((res) => {
-      // console.log(res.data)
+      console.log(res.data)
+      
       article.value = res.data
     })
     .catch((err) => {
       console.log(err)
     })
-})
+}, {persist : true})
 
 </script>
 
