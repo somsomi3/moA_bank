@@ -5,11 +5,12 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 from .models import User
 
 class CustomRegisterSerializer(RegisterSerializer):    
-    def create(self, validated_data):
-        # 기본 사용자 생성 로직 실행
-        user = super().create(validated_data)
-        return user  # 저장된 사용자 객체 반환
-    
+    # def create(self, validated_data):
+    #     # 기본 사용자 생성 로직 실행
+    #     user = super().create(validated_data)
+    #     return user  # 저장된 사용자 객체 반환
+
+    # 필요한 필드들을 추가합니다.
     nickname = serializers.CharField(
         required=False,
         allow_blank=True,
@@ -72,6 +73,8 @@ class CustomRegisterSerializer(RegisterSerializer):
         required=False,
         allow_null=True
     )
+
+    
     def get_cleaned_data(self):
         return {
             'username': self.validated_data.get('username', ''),
@@ -117,11 +120,11 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
             extra_fields.append('nickname')    
 
         # 없어도 db에 저장 됨.
-        # if hasattr(UserModel, 'gender'):  # gender 필드 추가
-        #     extra_fields.append('gender')
+        if hasattr(UserModel, 'gender'):  # gender 필드 추가
+            extra_fields.append('gender')
 
-        # if hasattr(UserModel, 'job'):
-        #     extra_fields.append('job') 
+        if hasattr(UserModel, 'job'):
+            extra_fields.append('job') 
         
         model = UserModel
         fields = ('pk', *extra_fields)

@@ -1,28 +1,16 @@
 from django.urls import path, include
 from .views import (
-
-    user_profile,
-    user_list,
-    user_info_change,
-    my_page,
-    follow_user,
-    user_recommendation,
+    user_profile, user_list,
+    user_info_change, my_page,
+    follow_user, user_recommendation,
     user_info,
 )
+# from .views import CustomRegisterView  # 방금 생성한 CustomRegisterView 가져오기
 
-# urlpatterns = [
-    
-    # path('register/', custom_register, name='register'), 
-    # path('profile/', user_profile, name='profile'),       
-    # path('users/', user_list, name='user_list'),         
-    # path('profile/edit/', user_info_change, name='profile_edit'),  
-    # path('mypage/', my_page, name='mypage'),              
-    # path('follow/<int:pk>/', follow_user, name='follow'), 
-    # path('recommendation/', user_recommendation, name='recommendation'),  
-# ]
 
 urlpatterns = [
-
+     # 기존 dj-rest-auth의 회원가입 엔드포인트 대체
+    # path('dj-rest-auth/registration/', CustomRegisterView.as_view(), name='custom_registration'),
 
     # 사용자 프로필 조회 및 수정
     path('profile/', user_profile,),

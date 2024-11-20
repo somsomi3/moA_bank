@@ -79,7 +79,7 @@ SITE_ID = 1
 REST_FRAMEWORK = {
     # Authentication
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
     # # permission
@@ -217,5 +217,5 @@ DEFAULTS = {
 
 ACCOUNT_ADAPTER  = 'accounts.models.CustomAccountAdapter'
 
-# CustomUser 모델에서 USERNAME_FIELD가 정수형 필드를 가리키지 않도록 확인
-USERNAME_FIELD = 'username'  # 반드시 문자열 필드를 사용
+
+

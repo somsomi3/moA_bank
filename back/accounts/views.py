@@ -19,6 +19,21 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 from .serializers import UserProfileSerializer
 from .models import User
 
+
+from dj_rest_auth.registration.views import RegisterView
+
+# # CustomRegisterView 정의
+# class CustomRegisterView(RegisterView):
+#     def create(self, request, *args, **kwargs):
+#         data = request.data.copy()
+
+#         # 숫자형 데이터를 문자열로 변환 (임시 처리)
+#         if isinstance(data.get("age"), int):
+#             data["age"] = str(data["age"])
+
+#         request._data = data  # 수정된 데이터를 request에 덮어쓰기
+#         return super().create(request, *args, **kwargs)
+
 # 1. 사용자 정보 조회
 @api_view(['GET',])
 def user_info(request):

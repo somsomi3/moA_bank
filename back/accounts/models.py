@@ -4,14 +4,12 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
 
-    # 본명
+    # 로그인시 입력받을 아이디 값으로, 고유한 값이어야하는 username
     nickname = models.CharField(max_length=100)
 
-    # # 로그인시 입력받을 아이디 값으로, 고유한 값이어야하는 username
+    # 닉네임 
     username = models.CharField(max_length=50, unique=True)
-    # name = models.CharField(max_length=50)
-    
-    # email = models.EmailField(max_length=300, blank=True, null=True)
+
     email = models.CharField(max_length=50, unique=True)
     profile_img = models.ImageField(upload_to='image/', default='image/user.png')
     # 현재 가지고 있는 상품
@@ -27,14 +25,9 @@ class User(AbstractUser):
     region = models.CharField(max_length=10, blank=True, null=True)
     consume = models.IntegerField(blank=True, null=True)
     desire_period = models.IntegerField(blank=True, null=True)
-    # 예금/적금량은 우리가 추천해줘야 한다. 
-    # desire_amount_saving = models.IntegerField(blank=True, null=True)
-    # desire_amount_deposit = models.IntegerField(blank=True, null=True)
 
     following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
     
-
-
     # 관리자?
     # is_superuser = models.BooleanField(default=False)
 
