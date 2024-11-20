@@ -1,14 +1,19 @@
-from django.urls import path
-from .views import (
-    CardListCreateView,
-    CardDetailView,
-    CardDesignListCreateView,
-    CardDesignDetailView,
-)
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from . import views
+
+# # Router 설정 (ViewSet용)
+# router = DefaultRouter()
+# router.register(r'cards', views.CardViewSet, basename='card')
+# router.register(r'card-designs', views.CardDesignViewSet, basename='card-design')
 
 urlpatterns = [
-    path('cards/', CardListCreateView.as_view(), name='card-list'),
-    path('cards/<int:pk>/', CardDetailView.as_view(), name='card-detail'),
-    path('card-designs/', CardDesignListCreateView.as_view(), name='card-design-list'),
-    path('card-designs/<int:pk>/', CardDesignDetailView.as_view(), name='card-design-detail'),
+    # # ViewSet 라우팅
+    # path('', include(router.urls)),
+
+    # @api_view 기반 뷰 라우팅
+    path('cards/list-create/', views.card_list_create, name='card-list-create'),
+    path('cards/<int:card_id>/', views.card_detail, name='card-detail'),
+    path('card-designs/list-create/', views.card_design_list_create, name='card-design-list-create'),
+    path('card-designs/<int:card_design_id>/', views.card_design_detail, name='card-design-detail'),
 ]
