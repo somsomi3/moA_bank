@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Community, Article, Comment, ArticleLike
 from .serializers import CommunitySerializer, ArticleSerializer, CommentSerializer, ArticleLikeSerializer
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 from rest_framework import status
 from .models import Community, Article, Comment, ArticleLike
 from .serializers import CommunitySerializer, ArticleSerializer, ArticleListSerializer, CommentSerializer, ArticleLikeSerializer
@@ -31,7 +31,7 @@ class ArticleViewSet(ModelViewSet):
 # 권한 drf설정
 @permission_classes([IsAuthenticated])
 def community_list(request):
-    communities = Community.objects.all()
+    communities = get_list_or_404
     serializer = CommunitySerializer(communities, many=True)
     return Response(serializer.data)
 
@@ -87,18 +87,18 @@ def community_articles(request, community_id):
 # 게시판에서 게시글 작성 및 게시글 목록 보기
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
-def article_list_create(request, community_id):
+def article_create(request, community_id):
     try:
         community = Community.objects.get(pk=community_id)
     except Community.DoesNotExist:
         return Response({"error": "Community not found."}, status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == 'GET':
-        articles = Article.objects.filter(community=community)
-        serializer = ArticleListSerializer(articles, many=True)
-        return Response(serializer.data)
+    # if request.method == 'GET':
+    #     articles = Article.objects.filter(community=community)
+    #     serializer = ArticleListSerializer(articles, many=True)
+    #     return Response(serializer.data)
 
-    elif request.method == 'POST':
+    if request.method == 'POST':
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user, community=community)

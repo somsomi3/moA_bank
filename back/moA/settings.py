@@ -32,16 +32,13 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
 
-    # django-allauth 관련 앱
-    'django.contrib.sites',  # 필수
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'dj_rest_auth.registration',
-    # 필요에 따라 추가
-    # 'allauth.socialaccount.providers.google',  # 예: 구글 OAuth
-    # 'allauth.socialaccount.providers.facebook',  # 예: 페이스북 OAuth
+    # # django-allauth 관련 앱
+    # 'dj_rest_auth.registration',
+    # # 필요에 따라 추가
+    # # 'allauth.socialaccount.providers.google',  # 예: 구글 OAuth
+    # # 'allauth.socialaccount.providers.facebook',  # 예: 페이스북 OAuth
     
+
     # 앱등록
     'accounts',
     'communities',
@@ -49,12 +46,21 @@ INSTALLED_APPS = [
     'cards',
     'suggests',
 
+    # DRF
     'rest_framework',
     'rest_framework.authtoken',  # Token 인증 앱
     'corsheaders',
 
     #drf를 위한 OpenAPI 3.0구조생성을 도와주는 라이브러리
     'drf_spectacular',
+    # REST_AUTH
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+
+ # social login 필요 시 추가
+    'django.contrib.sites',
+    'allauth.socialaccount',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,7 +69,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'dj_rest_auth',
 ]
 
 SITE_ID = 1
@@ -74,7 +79,7 @@ SITE_ID = 1
 REST_FRAMEWORK = {
     # Authentication
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
     # # permission
@@ -181,6 +186,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
 
+# REST-AUTH 회원가입 기본 serilalizer재정의
+REST_AUTH = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailsSerializer',
+}
 
 import os
 MEDIA_URL = 'media/'
@@ -199,3 +209,13 @@ environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
 
 API_KEY = env('API_KEY', default='dummy_api_key')  # 기본값 설정
 DEBUG = env('DEBUG', default=True)
+
+DEFAULTS = {
+
+    'REGISTER_SERIALIZER': 'dj_rest_auth.registration.serializers.RegisterSerializer',
+}
+
+ACCOUNT_ADAPTER  = 'accounts.models.CustomAccountAdapter'
+
+# CustomUser 모델에서 USERNAME_FIELD가 정수형 필드를 가리키지 않도록 확인
+USERNAME_FIELD = 'username'  # 반드시 문자열 필드를 사용

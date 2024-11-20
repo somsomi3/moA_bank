@@ -30,8 +30,10 @@ urlpatterns = [
     path('api/v1/', include('communities.urls')),
     path('api/v1/', include('cards.urls')),
 
-    path('accounts/', include('dj_rest_auth.urls')),
-    path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+    # path('accounts/', include('dj_rest_auth.urls')),
+    # # path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
 
     # YOUR PATTERNS
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

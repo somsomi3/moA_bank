@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import User
 from .serializers import (
-    CustomRegisterSerializer,
+    # CustomRegisterSerializer,
     UserProfileSerializer,
     UserInfoSerializer,
     UserInfoChangeSerializer,
@@ -19,39 +19,8 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 from .serializers import UserProfileSerializer
 from .models import User
 
-# 사용자 프로필
-# 사용자 상세정보
-# 사용자 정보수정
-# 마이페이지
-# 상품추천-> community에서 하기
-
-
-# 1. 회원가입
-@api_view(['POST'])
-def custom_register(request):
-    serializer = CustomRegisterSerializer(data=request.data)
-    if serializer.is_valid():
-        user = serializer.save()
-        
-        # 토큰 생성
-        # token, created = Token.objects.get_or_create(user=user)
-        
-        return Response({
-            "message": "회원가입 성공!",
-            # "token": token.key
-        }, status=status.HTTP_201_CREATED)
-    
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-# @api_view(['GET', 'POST'])
-# @authentication_classes([TokenAuthentication, BasicAuthentication])
-# def user_list(request):
-#     if request.method == 'GET':
-#         article = get_object_or_404()
-
-
+# 1. 사용자 정보 조회
+@api_view(['GET',])
 def user_info(request):
     if request.method == 'GET':
         users = get_list_or_404(User)
