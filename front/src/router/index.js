@@ -71,15 +71,3 @@ router.beforeEach((to, from) => {
 })
 
 export default router
-
-router.beforeEach((to, from, next) => {
-  const layoutStore = useLayoutStore();
-
-  if (to.name === 'StartPage') {
-    layoutStore.hideNav(); // StartPage로 이동하면 nav 숨김
-  } else {
-    layoutStore.showNav(); // 다른 경로로 이동하면 nav 표시
-  }
-
-  next();
-});

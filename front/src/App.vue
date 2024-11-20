@@ -5,7 +5,7 @@
   <header>
     <nav>
       <StartPage />
-      <!-- <HomePage /> -->
+      <HomePage />
     </nav>
   </header>
   <!-- <RouterView /> -->
