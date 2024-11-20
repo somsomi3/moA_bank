@@ -4,9 +4,9 @@
       <RouterLink :to="{ name: 'ArticleView' }">Articles</RouterLink> |
       <RouterLink :to="{ name: 'SignUpView' }">SignUpView</RouterLink> |
       <RouterLink :to="{ name: 'LogInView' }">LogInView</RouterLink> | 
-      <form @submit.prevent="logOut">
+      <!-- <form @submit.prevent="logOut">
         <input type="submit" value="Logout">
-      </form>
+      </form> -->
     </nav>
   </header>
 </template>

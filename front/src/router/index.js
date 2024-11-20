@@ -8,6 +8,8 @@ import { useCounterStore } from '@/stores/counter'
 import HomePage from '@/components/HomePage.vue'
 import StartPage from '@/components/StartPage.vue'
 import { useLayoutStore } from '@/stores/counter'
+import HelloView from '@/views/HelloView.vue'
+import App from '@/App.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -45,6 +47,11 @@ const router = createRouter({
       path: '/articles',
       name: 'ArticleView', // 라우트 이름 정의
       component: ArticleView, // 관련 컴포넌트 연결
+    },
+    {
+      path: '/HelloView',
+      name: 'HelloView', // 라우트 이름 정의
+      component: HelloView, // 관련 컴포넌트 연결
     }
   ]
 })
@@ -52,7 +59,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   const store = useCounterStore()
   
-  if (to.name === 'StartPage') {
+  if (to.name === 'App') {
     return true
   }
   // 만약 이동하는 목적지가 메인 페이지이면서
