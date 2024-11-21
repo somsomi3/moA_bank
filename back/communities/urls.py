@@ -36,7 +36,7 @@ from .views import (
     create_community,
     delete_community,
     community_articles,
-    article_list_create,
+    article_create,
     article_detail_comment,
     like_article,
 )
@@ -45,8 +45,8 @@ urlpatterns = [
     path('', community_list, ),
     path('create/', create_community,),
     path('<int:community_id>/delete/', delete_community, ),
-    path('<int:community_id>/articles/', community_articles, ),
-    path('<int:community_id>/articles/list/', article_list_create,),
+    path('<int:community_id>/articles/list/', community_articles, ),
+    path('<int:community_id>/articles/create/', article_create,),
     path('articles/<int:article_id>/', article_detail_comment,),
     path('articles/<int:article_id>/like/', like_article, ),
 ]
