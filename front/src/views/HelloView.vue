@@ -292,9 +292,18 @@ async function registerUser() {
       },
       body: JSON.stringify({
         username: userData.value.username,
-        
         password1: userData.value.password1,
         password2: userData.value.password2,
+        nickname: userData.value.nickname,
+        gender: userData.value.gender,
+        region: userData.value.region,
+        main_bank: userData.value.main_bank,
+        age: userData.value.age,
+        income: userData.value.income,
+        consume: userData.value.consume,
+        grade: userData.value.grade,
+        job: userData.value.job,
+        desire_period: userData.value.desire_period,
       }),
     });
 

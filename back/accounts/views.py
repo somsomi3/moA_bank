@@ -129,27 +129,94 @@ def user_recommendation(request):
 from allauth.account.signals import user_signed_up
 from django.dispatch import receiver
 from django.db import transaction
+import json
+
+# @receiver(user_signed_up)
+# @csrf_exempt
+# def save_profile_data(request, user, **kwargs):
+#     """
+#     회원가입 후 추가 데이터를 User 모델 또는 UserProfile에 저장.
+#     """
+#     try:
+#         if request.content_type == 'application/json':
+#             data = json.loads(request.body)
+#         else:
+#             data = request.POST
+
+#         print("Received data:", data)
+
+#         # Transaction으로 데이터 저장
+#         with transaction.atomic():
+#             user.nickname = data.get("nickname", "")
+#             user.gender = data.get("gender", "")
+#             user.age = int(data.get("age", 0))
+#             user.region = data.get("region", "")
+#             user.main_bank = data.get("main_bank", "")
+#             user.income = float(data.get("income", 0))
+#             user.consume = float(data.get("consume", 0))
+#             user.grade = data.get("grade", "")
+#             user.job = data.get("job", "")
+#             user.desire_period = int(data.get("desire_period", 0))
+#             user.save()
+
+#     except Exception as e:
+#         print(f"Error saving profile data: {e}")
 
 
+#         @receiver(user_signed_up)
+# def save_profile_data(sender, user, request, **kwargs):
+#     """
+#     회원가입 후 추가 데이터를 User 모델 또는 UserProfile에 저장.
+#     """
+#     try:
+#         # 요청 데이터 가져오기
+#         if request.content_type == 'application/json':
+#             data = json.loads(request.body.decode('utf-8'))  # request.body는 바이트로 반환되므로 decode 필요
+#         else:
+#             data = request.POST.dict()
 
-@receiver(user_signed_up)
-@csrf_exempt
-def save_profile_data(request, user, **kwargs):
-    """
-    회원가입 후 추가 데이터를 User 모델 또는 UserProfile에 저장.
-    """
-    data = request.data
+#         print("Received data:", data)
 
-    # Transaction으로 데이터 저장
-    with transaction.atomic():
-        user.nickname = data.get("nickname", "")
-        user.gender = data.get("gender", "")
-        user.age = data.get("age", 0)
-        user.region = data.get("region", "")
-        user.main_bank = data.get("main_bank", "")
-        user.income = data.get("income", 0)
-        user.consume = data.get("consume", 0)
-        user.grade = data.get("grade", "")
-        user.job = data.get("job", "")
-        user.desire_period = data.get("desire_period", 0)
-        user.save()
+#         # Transaction으로 데이터 저장
+#         with transaction.atomic():
+#             user.nickname = data.get("nickname", "")
+#             user.gender = data.get("gender", "")
+#             user.age = int(data.get("age", 0))
+#             user.region = data.get("region", "")
+#             user.main_bank = data.get("main_bank", "")
+#             user.income = float(data.get("income", 0))
+#             user.consume = float(data.get("consume", 0))
+#             user.grade = data.get("grade", "")
+#             user.job = data.get("job", "")
+#             user.desire_period = int(data.get("desire_period", 0))
+#             user.save()
+
+#     except Exception as e:
+#         print(f"Error saving profile data: {e}")
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view(['POST'])
+def save_profile_data(request):
+    try:
+        data = request.data  # DRF의 request.data 사용
+        print("Received data:", data)
+
+        # 사용자 데이터 저장
+        user = request.user
+        with transaction.atomic():
+            user.nickname = data.get("nickname", "")
+            user.gender = data.get("gender", "")
+            user.age = int(data.get("age", 0))
+            user.region = data.get("region", "")
+            user.main_bank = data.get("main_bank", "")
+            user.income = float(data.get("income", 0))
+            user.consume = float(data.get("consume", 0))
+            user.grade = data.get("grade", "")
+            user.job = data.get("job", "")
+            user.desire_period = int(data.get("desire_period", 0))
+            user.save()
+
+        return Response({"message": "Profile saved successfully!"}, status=201)
+    except Exception as e:
+        return Response({"error": str(e)}, status=400)
