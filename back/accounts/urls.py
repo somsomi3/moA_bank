@@ -9,7 +9,7 @@ from .views import (
 
 
 urlpatterns = [
-     # 기존 dj-rest-auth의 회원가입 엔드포인트 대체
+    # 기존 dj-rest-auth의 회원가입 엔드포인트 대체
     # path('dj-rest-auth/registration/', CustomRegisterView.as_view(), name='custom_registration'),
 
     # 사용자 프로필 조회 및 수정
