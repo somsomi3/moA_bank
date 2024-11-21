@@ -13,18 +13,20 @@ class User(AbstractUser):
     email = models.CharField(max_length=50, unique=True)
     profile_img = models.ImageField(upload_to='image/', default='image/user.png')
     # 현재 가지고 있는 상품
-    financial_products = models.TextField(blank=True, null=True)
+    # financial_products = models.TextField(blank=True, null=True)
+    financial_products = models.BooleanField(default=False)
+
     
     # 매니저 수집자료
-    age = models.IntegerField(blank=True, null=True)
-    income = models.IntegerField(blank=True, null=True)
+    age = models.IntegerField(default=0)
+    income = models.IntegerField(default=0)
     job = models.CharField(max_length=50, blank=True, null=True)
     gender = models.CharField(max_length=10, blank=True, null=True)
     grade = models.CharField(max_length=10, blank=True, null=True)
     main_bank = models.CharField(max_length=10, blank=True, null=True)
     region = models.CharField(max_length=10, blank=True, null=True)
-    consume = models.IntegerField(blank=True, null=True)
-    desire_period = models.IntegerField(blank=True, null=True)
+    consume = models.IntegerField(default=0)
+    desire_period = models.IntegerField(default=0)
 
     following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
     
@@ -70,15 +72,15 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         
         email = data.get("email")
         financial_products = data.get("financial_products")
-        age = data.get("age")
-        income = data.get("income")
+        age = str(data.get("age"))
+        income = str(data.get("income"))
         job = data.get("job")
         gender = data.get("gender")
         grade = data.get("grade")
         main_bank = data.get("main_bank")
         region = data.get("region")
-        consume = data.get("consume")
-        desire_period = data.get("desire_period")
+        consume = str(data.get("consume"))
+        desire_period = str(data.get("desire_period"))
 
         user_email(user, email)
         user_username(user, username)
@@ -90,7 +92,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             user_field(user, "nickname", nickname)
         if gender:
             user_field(user, "gender", gender)
-
+        if age:
+            user_field(user, "age", age)
         if job:
             user_field(user, "job", job)
         if income:
@@ -103,6 +106,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             user_field(user, "region", region)
         if consume:
             user_field(user, "consume", consume)
+        if financial_products:
+            user_field(user, "financial_products", financial_products)
         if desire_period:
             user_field(user, "desire_period", desire_period)
 
