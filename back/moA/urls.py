@@ -23,19 +23,19 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # moA와 앱들의 연결
     path('data/', include('data.urls')),
-    # moA와 accounts와의 연결
     path('api/v1/', include('accounts.urls')),
-    path('accounts/', include('dj_rest_auth.urls')),
-    path('accounts/signup/', include('dj_rest_auth.registration.urls')),
-
-    # 커스텀 회원가입 뷰를 먼저 등록
-    # path('accounts/', include('accounts.urls')),  
-    # dj_rest_auth의 URL은 뒤로 이동
-    path('accounts/auth/', include('dj_rest_auth.registration.urls')),  
-
-    # moA와 communnities와의 연결
     path('api/v1/', include('communities.urls')),
+    path('api/v1/', include('cards.urls')),
+    path('api/v1/', include('suggests.urls')),
+
+
+    # path('accounts/', include('dj_rest_auth.urls')),
+    # # path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
 
     # YOUR PATTERNS
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

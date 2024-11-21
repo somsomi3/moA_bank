@@ -7,6 +7,7 @@ from accounts.models import User
 from django.db import models
 from django.conf import settings
 
+
 class Community(models.Model):
     user = models.ManyToManyField(
         settings.AUTH_USER_MODEL,  # User 모델과 Many-to-Many 관계를 설정

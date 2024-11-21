@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, get_list_or_404
 from .models import User
 from .serializers import (
-    CustomRegisterSerializer,
+    # CustomRegisterSerializer,
     UserProfileSerializer,
     UserInfoSerializer,
     UserInfoChangeSerializer,
@@ -20,56 +20,23 @@ from rest_framework.authentication import TokenAuthentication, BasicAuthenticati
 from .serializers import UserProfileSerializer
 from .models import User
 
-# 사용자 프로필
-# 사용자 상세정보
-# 사용자 정보수정
-# 마이페이지
-# 상품추천-> community에서 하기
 
+from dj_rest_auth.registration.views import RegisterView
 
-# 1. 회원가입
-# @csrf_exempt
-# @api_view(['POST'])
-# def custom_register(request):
-    
-#     serializer = CustomRegisterSerializer(data=request.data)
-#     if serializer.is_valid():
-#         user = serializer.save()
-        
-#         # 토큰 생성
-#         # token, created = Token.objects.get_or_create(user=user)
-        
-#         return Response({
-#             "message": "회원가입 성공!",
-#             # "token": token.key
-#         }, status=status.HTTP_201_CREATED)
-    
-#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# # CustomRegisterView 정의
+# class CustomRegisterView(RegisterView):
+#     def create(self, request, *args, **kwargs):
+#         data = request.data.copy()
 
+#         # 숫자형 데이터를 문자열로 변환 (임시 처리)
+#         if isinstance(data.get("age"), int):
+#             data["age"] = str(data["age"])
 
-@csrf_exempt
-@api_view(['POST'])
-def custom_register(request):
-    print("Request Headers:", request.headers)  # 요청 헤더 확인
-    print("Request Data:", request.data)  # 요청 데이터 확인
+#         request._data = data  # 수정된 데이터를 request에 덮어쓰기
+#         return super().create(request, *args, **kwargs)
 
-    serializer = CustomRegisterSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save(request)
-        return Response({"message": "회원가입 성공!"}, status=status.HTTP_201_CREATED)
-    print("Errors:", serializer.errors)  # 유효성 검사 에러 확인
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-# @api_view(['GET', 'POST'])
-# @authentication_classes([TokenAuthentication, BasicAuthentication])
-# def user_list(request):
-#     if request.method == 'GET':
-#         article = get_object_or_404()
-
-
+# 1. 사용자 정보 조회
+@api_view(['GET',])
 def user_info(request):
     if request.method == 'GET':
         users = get_list_or_404(User)
