@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h5>{{ article.id }}</h5>
-    <p>{{ article.title }}</p>
-    <p>{{ article.content }}</p>
+    <h5>{{ article.id }}번 게시글</h5>
+    <p>제목 : {{ article.title}}</p>
+    <p>내용 : {{ article.content }}</p>
     <RouterLink 
       :to="{ name: 'DetailView', params: { id: article.id } }"  
     >
-      Detail
+      자세히 보기
     </RouterLink>
     <hr>
   </div>

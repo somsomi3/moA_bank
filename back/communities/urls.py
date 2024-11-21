@@ -47,6 +47,6 @@ urlpatterns = [
     path('<int:community_id>/delete/', delete_community, ),
     path('<int:community_id>/articles/list/', community_articles, ),
     path('<int:community_id>/articles/create/', article_create,),
-    path('articles/<int:article_id>/', article_detail_comment,),
-    path('articles/<int:article_id>/like/', like_article, ),
+    path('<int:community_id>/articles/<int:article_id>/', article_detail_comment,),
+    path('<int:community_id>/articles/<int:article_id>/like/', like_article, ),
 ]
