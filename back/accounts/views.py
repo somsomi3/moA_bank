@@ -34,7 +34,7 @@ class CustomRegisterView(RegisterView):
 
         request._data = data  # 수정된 데이터를 request에 덮어쓰기
         return super().create(request, *args, **kwargs)
-
+    
 # 1. 사용자 정보 조회
 @api_view(['GET',])
 def user_info(request):
@@ -125,3 +125,31 @@ def user_recommendation(request):
 
     serializer = UserRecommendationSerializer(request.user)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+from allauth.account.signals import user_signed_up
+from django.dispatch import receiver
+from django.db import transaction
+
+
+
+@receiver(user_signed_up)
+@csrf_exempt
+def save_profile_data(request, user, **kwargs):
+    """
+    회원가입 후 추가 데이터를 User 모델 또는 UserProfile에 저장.
+    """
+    data = request.data
+
+    # Transaction으로 데이터 저장
+    with transaction.atomic():
+        user.nickname = data.get("nickname", "")
+        user.gender = data.get("gender", "")
+        user.age = data.get("age", 0)
+        user.region = data.get("region", "")
+        user.main_bank = data.get("main_bank", "")
+        user.income = data.get("income", 0)
+        user.consume = data.get("consume", 0)
+        user.grade = data.get("grade", "")
+        user.job = data.get("job", "")
+        user.desire_period = data.get("desire_period", 0)
+        user.save()

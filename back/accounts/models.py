@@ -10,14 +10,11 @@ class User(AbstractUser):
     # 닉네임 
     username = models.CharField(max_length=50, unique=True)
 
-    email = models.CharField(max_length=50, unique=True)
+    # email = models.CharField(max_length=50, unique=True)
     profile_img = models.ImageField(upload_to='image/', default='image/user.png')
     # 현재 가지고 있는 상품
     # financial_products = models.TextField(blank=True, null=True)
     financial_products = models.BooleanField(default=False)
-
-    
-    # 매니저 수집자료
     age = models.IntegerField(default=0)
     income = models.IntegerField(default=0)
     job = models.CharField(max_length=50, blank=True, null=True)
