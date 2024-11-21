@@ -133,6 +133,56 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
 
 
 
+    def save(self, request):
+        # 기존 save 메서드 호출
+        user = super().save(request)
+        # 커스텀 필드 저장
+        user.name = self.validated_data.get('name', '')
+        user.save()
+        return user
+
+# from dj_rest_auth.registration.serializers import RegisterSerializer
+# from rest_framework import serializers
+# from django.contrib.auth import get_user_model
+
+# User = get_user_model()
+
+# class CustomRegisterSerializer(RegisterSerializer):
+#     username = serializers.CharField(required=True)
+#     name = serializers.CharField(required=True)
+#     age = serializers.IntegerField(required=False)
+#     income = serializers.FloatField(required=False)
+#     job = serializers.CharField(required=False)
+#     gender = serializers.CharField(required=False)
+#     grade = serializers.CharField(required=False)
+#     main_bank = serializers.CharField(required=False)
+#     region = serializers.CharField(required=False)
+#     consume = serializers.FloatField(required=False)
+#     desire_period = serializers.IntegerField(required=False)
+#     financial_product = serializers.CharField(required=False)
+
+#     def save(self, request):
+#         user = super().save(request)
+#         # 추가 필드 저장
+#         user.name = self.validated_data.get('name', '')
+#         user.age = self.validated_data.get('age', None)
+#         user.income = self.validated_data.get('income', None)
+#         user.job = self.validated_data.get('job', '')
+#         user.gender = self.validated_data.get('gender', '')
+#         user.grade = self.validated_data.get('grade', '')
+#         user.main_bank = self.validated_data.get('main_bank', '')
+#         user.region = self.validated_data.get('region', '')
+#         user.consume = self.validated_data.get('consume', None)
+#         user.desire_period = self.validated_data.get('desire_period', None)
+#         user.financial_product = self.validated_data.get('financial_product', '')
+#         user.save()
+#         return user
+
+
+
+
+
+
 # 2. 사용자 프로필 (UserProfileSerializer)
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:

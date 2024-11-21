@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',  # Token 인증 앱
     'corsheaders',
-
+    'django_extensions',
     #drf를 위한 OpenAPI 3.0구조생성을 도와주는 라이브러리
     'drf_spectacular',
     # REST_AUTH
@@ -68,11 +68,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    
+    'dj_rest_auth',
 ]
 
 SITE_ID = 1
 
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+}
 
 
 
@@ -84,7 +88,7 @@ REST_FRAMEWORK = {
     ],
     # # permission
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
     
     # api테스트 관련 framework설정
@@ -104,6 +108,10 @@ MIDDLEWARE = [
     # 이메일 인증관련
     'allauth.account.middleware.AccountMiddleware',
 ]
+
+
+
+
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',

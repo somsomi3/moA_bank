@@ -4,6 +4,7 @@ from .views import (
     user_info_change, my_page,
     follow_user, user_recommendation,
     user_info,
+    custom_register,
 )
 # from .views import CustomRegisterView  # 방금 생성한 CustomRegisterView 가져오기
 

@@ -31,7 +31,7 @@ class ArticleViewSet(ModelViewSet):
 # 권한 drf설정
 @permission_classes([IsAuthenticated])
 def community_list(request):
-    communities = get_list_or_404
+    communities = get_list_or_404(Community)
     serializer = CommunitySerializer(communities, many=True)
     return Response(serializer.data)
 
@@ -85,25 +85,52 @@ def community_articles(request, community_id):
 
 
 # 게시판에서 게시글 작성 및 게시글 목록 보기
+# @api_view(['GET', 'POST'])
+# @permission_classes([IsAuthenticated])
+# def article_create(request, community_id):
+#     try:
+#         community = Community.objects.get(pk=community_id)
+
+        
+#     except Community.DoesNotExist:
+#         return Response({"error": "Community not found."}, status=status.HTTP_404_NOT_FOUND)
+    
+#     # if request.method == 'GET':
+#     #     articles = Article.objects.filter(community=community)
+#     #     serializer = ArticleListSerializer(articles, many=True)
+#     #     return Response(serializer.data)
+    
+#     if request.method == 'POST':
+#         serializer = ArticleSerializer(data=request.data)
+#         print(request.data)
+#         if serializer.is_valid():
+#             serializer.save(user=request.user, community=community)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
 def article_create(request, community_id):
     try:
+        # community_id를 사용해 커뮤니티 가져오기
         community = Community.objects.get(pk=community_id)
     except Community.DoesNotExist:
         return Response({"error": "Community not found."}, status=status.HTTP_404_NOT_FOUND)
+    
+    # GET 요청 처리: 커뮤니티의 게시글 목록 조회
+    if request.method == 'GET':
+        articles = Article.objects.filter(community=community)
+        serializer = ArticleSerializer(articles, many=True)  # 게시글 목록 직렬화
+        return Response(serializer.data)
 
-    # if request.method == 'GET':
-    #     articles = Article.objects.filter(community=community)
-    #     serializer = ArticleListSerializer(articles, many=True)
-    #     return Response(serializer.data)
-
+    # POST 요청 처리: 게시글 생성
     if request.method == 'POST':
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user, community=community)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 # 특정 게시글 보기 및 댓글 작성/보기
