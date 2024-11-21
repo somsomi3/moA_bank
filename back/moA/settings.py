@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
 
     # # django-allauth 관련 앱
-    # 'dj_rest_auth.registration',
+    'dj_rest_auth.registration',
     # # 필요에 따라 추가
     # # 'allauth.socialaccount.providers.google',  # 예: 구글 OAuth
     # # 'allauth.socialaccount.providers.facebook',  # 예: 페이스북 OAuth
@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'dj_rest_auth',
+
 ]
 
 SITE_ID = 1
@@ -227,3 +227,5 @@ ACCOUNT_ADAPTER  = 'accounts.models.CustomAccountAdapter'
 
 
 
+ACCOUNT_EMAIL_VERIFICATION = "none"  # 이메일 인증 비활성화
+ACCOUNT_EMAIL_REQUIRED = False
