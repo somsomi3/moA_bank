@@ -15,6 +15,13 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/articles/:id',
+      name: 'CommunityDetail',
+      component: DetailView,
+      props: true, // URL 매개변수를 컴포넌트에 props로 전달
+    },
+
+    {
       path: '/',
       name: 'StartPage',
       component: StartPage
