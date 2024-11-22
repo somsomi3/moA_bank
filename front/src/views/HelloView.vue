@@ -39,11 +39,17 @@
       </select>
       <select v-model="userData.job" class="input">
         <option disabled value="">직업을 선택하세요</option>
-        <option value="학생">학생</option>
-        <option value="회사원">회사원</option>
-        <option value="자영업자">자영업자</option>
-        <option value="프리랜서">프리랜서</option>
-        <option value="기타">기타</option>
+        <option value="경영·사무·금융·보험직">경영·사무·금융·보험직</option>
+        <option value="연구직 및 공학 기술직">연구직 및 공학 기술직</option>
+        <option value="교육·법률·사회복지·경찰·소방직 및 군인">교육·법률·사회복지·경찰·소방직 및 군인</option>
+        <option value="보건·의료직">보건·의료직</option>
+        <option value="예술·디자인·방송·스포츠직">예술·디자인·방송·스포츠직</option>
+        <option value="미용·여행·숙박·음식·경비·청소직">미용·여행·숙박·음식·경비·청소직</option>
+        <option value="영업·판매·운전·운송직">영업·판매·운전·운송직</option>
+        <option value="건설·채굴직">건설·채굴직</option>
+        <option value="설치·정비·생산직">설치·정비·생산직</option>
+        <option value="농림어업직">농림어업직</option>
+        <option value="미분류">미분류</option>
       </select>
     </div>
 
@@ -57,9 +63,9 @@
       확인
     </button>
 
-    <button>
+  
   <!-- 결과 출력 -->
-  <div v-if="submitted">
+  <div v-if="submitted && !showReport">
     <h3>입력된 정보</h3>
     <p>닉네임: {{ userData.nickname }}</p>
     <p>아이디: {{ userData.username }}</p>
@@ -72,34 +78,50 @@
     <p>월소비: {{ userData.consume }}</p>
     <p>최종 학력: {{ userData.grade }}</p>
     <p>직업: {{ userData.job }}</p>
-    <button @click="registerUser" class="next-button">회원가입</button>
+    <button  @click="registerUser" class="next-button">회원가입</button>
   </div>
 
-    </button>
+    
+      <!-- 결과 리포트 -->
+      <div v-if="showReport">
+      <h2>🎉 {{ userData.nickname }}님의 맞춤형 리포트</h2>
+      <p><strong>소득 분석:</strong> {{ recommendations.income_analysis }}</p>
+      <p><strong>소득 분위:</strong> {{ recommendations.income_decile }}</p>
+      <p><strong>소비 분석:</strong> {{ recommendations.spending_analysis }}</p>
+      <p><strong>세금 환급 예상:</strong> {{ recommendations.tax_refund_estimation.refund_estimation }}</p>
+      <p><strong>동일 직업 소비 수준 분석:</strong> {{ recommendations.job_analysis }}</p>
+      <p><strong>동일 학력 소비 수준 분석:</strong> {{ recommendations.grade_analysis }}</p>
+      <h3>추천 카드</h3>
+      <ul>
+        <li v-for="(card, index) in recommendations.card_recommendations" :key="index">
+          {{ card.card_name }} - {{ card.merit_summary }}
+        </li>
+      </ul>
 
-    <!-- 결과 출력 -->
-    <div v-if="submitted">
-      <h3>입력된 정보</h3>
-      <p>닉네임: {{ userData.nickname }}</p>
-      <p>아이디: {{ userData.username }}</p>
-      <p>성별: {{ userData.gender }}</p>
-      <p>지역: {{ userData.region }}</p>
-      <p>주거래은행: {{ userData.main_bank }}</p>
-      <p>예적금 기간: {{ userData.desire_period }}</p>
-      <p>나이: {{ userData.age }}</p>
-      <p>월소득: {{ userData.income }}</p>
-      <p>월소비: {{ userData.consume }}</p>
-      <p>최종 학력: {{ userData.grade }}</p>
-      <p>직업: {{ userData.job }}</p>
+      <h3>추천 예금 상품</h3>
+      <ul>
+        <li v-for="(deposit, index) in recommendations.deposit_recommendations" :key="index">
+          {{ deposit.name }} - {{ deposit.rate }}% ({{ deposit.term }})
+        </li>
+      </ul>
+
+      <h3>추천 적금 상품</h3>
+      <ul>
+        <li v-for="(saving, index) in recommendations.saving_recommendations" :key="index">
+          {{ saving.name }} - {{ saving.rate }}% ({{ saving.term }})
+        </li>
+      </ul>
     </div>
   </div>
+  
 
   
 </template>
 
 <script setup>
 import { ref } from "vue";
-
+import { useCounterStore } from "@/stores/counter";
+const store = useCounterStore()
 // 메시지 리스트
 const messages = [
   "안녕하세요! 저는 당신의 경제 생활 매니저 모아에요!",
@@ -128,6 +150,10 @@ const userData = ref({
   consume: null,
   desire_period: null,
 });
+
+// 추천 결과 상태
+const recommendations = ref({});
+const showReport = ref(false);
 
 // 상태 관리
 const currentIndex = ref(0);
@@ -299,8 +325,8 @@ async function registerUser() {
         region: userData.value.region,
         main_bank: userData.value.main_bank,
         age: userData.value.age,
-        income: userData.value.income,
-        consume: userData.value.consume,
+        income: userData.value.income ,
+        consume: userData.value.consume ,
         grade: userData.value.grade,
         job: userData.value.job,
         desire_period: userData.value.desire_period,
@@ -311,6 +337,21 @@ async function registerUser() {
       const result = await response.json();
       alert("회원가입 성공!");
       console.log(result);
+      const token = result.key;
+
+      const userInfoResponse = await fetch("http://127.0.0.1:8000/dj-rest-auth/user/", {
+        method: "GET",
+        headers: {
+          "Authorization": `Token ${token}`,
+        },
+      });
+      if (userInfoResponse.ok) {
+        const userInfo = await userInfoResponse.json();
+        const userId = userInfo.pk; // 사용자 ID 가져오기
+        fetchRecommendations(userId); // 추천 API 호출
+      } else {
+        alert("사용자 정보를 가져오는 데 실패했습니다.");
+      }
     } else {
       const errorData = await response.json();
       alert(`회원가입 실패: ${JSON.stringify(errorData)}`);
@@ -321,6 +362,23 @@ async function registerUser() {
   }
 }
 
+// 추천 결과 API 호출
+async function fetchRecommendations(userId) {
+  const url = `http://127.0.0.1:8000/data/recommend_view/${userId}/`;
+
+  try {
+    const response = await fetch(url);
+    if (response.ok) {
+      const result = await response.json();
+      recommendations.value = result; // 추천 결과 저장
+      showReport.value = true; // 리포트 표시
+    } else {
+      console.error("추천 API 오류:", await response.json());
+    }
+  } catch (error) {
+    console.error("추천 API 호출 중 오류 발생:", error);
+  }
+}
 
 
 
