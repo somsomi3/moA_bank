@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'communities',
     'data',
     'cards',
+    'searches',
+    
     'suggests',
 
     # DRF
@@ -233,5 +235,5 @@ ACCOUNT_EMAIL_REQUIRED = False
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "my_app/static",
+    BASE_DIR / "cards/static",
 ]
