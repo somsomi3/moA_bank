@@ -1,12 +1,10 @@
 <template>
   <header>
     <nav>
-      <RouterLink :to="{ name: 'ArticleView' }">Articles</RouterLink> |
-      <RouterLink :to="{ name: 'SignUpView' }">SignUpView</RouterLink> |
-      <RouterLink :to="{ name: 'LogInView' }">LogInView</RouterLink> | 
-      <!-- <form @submit.prevent="logOut">
-        <input type="submit" value="Logout">
-      </form> -->
+      <RouterLink :to="{ name: 'ArticleView' }">커뮤니티</RouterLink> |
+      <RouterLink :to="{ name: 'MyPageView' }" >마이페이지</RouterLink> |
+      <RouterLink :to="{ name: 'LogInView' }">로그인</RouterLink> | 
+      <RouterLink :to="{ name: 'SignUpView' }">회원가입</RouterLink> |
     </nav>
   </header>
 </template>
