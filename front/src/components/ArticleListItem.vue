@@ -4,7 +4,7 @@
     <p>제목 : {{ article.title}}</p>
     <p>내용 : {{ article.content }}</p>
     <RouterLink 
-      :to="{ name: 'DetailView', params: { id: article.id } }"  
+      :to="{ name: 'DetailView', params: { id: article?.id } }"  
     >
       자세히 보기
     </RouterLink>

@@ -12,8 +12,9 @@
       </div>
       <input type="submit">
     </form>
+    <p>{{ store }}</p>
   </div>
-  <p>{{ store.communities.community.id}}</p>
+  <p>{{ store.communities.community?.id}}</p>
 </template>
 
 <script setup>
@@ -31,7 +32,7 @@ const router = useRouter()
 const createArticle = function () {
   axios({
     method: 'post',
-    url: `${store.API_URL}/communities/1/articles/create/`,
+    url: `${store.API_URL}/communities/${store.communities.community.id}/articles/create/`,
     data: {
       title: title.value,
       content: content.value,
