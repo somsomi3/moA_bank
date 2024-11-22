@@ -12,8 +12,10 @@ urlpatterns = [
     # path('', include(router.urls)),
 
     # @api_view 기반 뷰 라우팅
-    path('cards/list-create/', views.card_list_create, name='card-list-create'),
-    path('cards/<int:card_id>/', views.card_detail, name='card-detail'),
-    path('card-designs/list-create/', views.card_design_list_create, name='card-design-list-create'),
+    # path('cards/list-create/', views.card_list_create, name='card-list-create'),
+    # path('cards/<int:card_id>/', views.card_detail, name='card-detail'),
+    # path('card-designs/list-create/', views.card_design_list_create, name='card-design-list-create'),
     path('card-designs/<int:card_design_id>/', views.card_design_detail, name='card-design-detail'),
+    path('card-designs/generate_card/', views.generate_card, name='card-design-detail'),
+
 ]

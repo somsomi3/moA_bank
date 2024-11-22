@@ -119,7 +119,14 @@ def analyze_income_and_spending(data):
         income_analysis = "소득이 해당 성별 및 연령대의 평균보다 낮습니다."
 
     decile_entry = Decile_income.objects.filter(worker__lte=income).order_by('-worker').first()
-    income_decile = decile_entry.per_range if decile_entry else Decile_income.objects.order_by('-worker').first().per_range
+    # income_decile = decile_entry.per_range if decile_entry else Decile_income.objects.order_by('-worker').first().per_range
+
+    if decile_entry:
+        income_decile = decile_entry.per_range
+    else:
+        # 모든 소득 분위 데이터가 없을 때를 대비한 기본 값
+        top_decile = Decile_income.objects.order_by('-worker').first()
+        income_decile = top_decile.per_range if top_decile else "데이터 없음"
 
     consume_entry = Decile_consume.objects.filter(per_range__startswith=income_decile[:3]).first()
     avg_consume = consume_entry.worker if consume_entry else 0
