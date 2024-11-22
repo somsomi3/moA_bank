@@ -47,7 +47,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('api/recommend/', views.RecommendView.as_view(), name='recommend'),  # Updated to use the new RecommendView class
     path('form/', views.input_form_view, name='input_form'),  # Added URL pattern
-    path('recommend/', views.get_recommendations, name='recommend'),
-    # path('recommend_view/', views.RecommendView.as_view(), name='recommend_view'),
+    # path('recommend/', views.get_recommendations, name='recommend'),
+    # path('recommend_view/<int:user_id>/', views.recommend_view(), name='recommend_view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
