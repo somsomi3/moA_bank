@@ -15,24 +15,52 @@ export const useCounterStore = defineStore('counter', () => {
     }
   })
   const router = useRouter()
+  
 
+  const communityid = ref(0)
+  
+  const getcommunityid = async function () {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: `http://127.0.0.1:8000/api/v1/profile/`,
+        headers: {
+          Authorization: `Token ${token.value}`,
+        },
+      });
+      
+      communityid.value = res.data.community_id; // 커뮤니티 ID 업데이트
+      return communityid.value; // 업데이트된 community_id 반환
+    } catch (err) {
+      console.error('Error fetching community ID:', err);
+      return 0; // 에러 발생 시 기본값 반환
+    }
+  };
+
+  const usercommunity = ref(0)
   // DRF로 전체 게시글 요청을 보내고 응답을 받아 articles에 저장하는 함수
-  const getArticles = function () {
-    axios({
-      method: 'get',
-      url: `${API_URL}/communities/1/articles/list/`,
-      headers: {
-        Authorization: `Token ${token.value}`
+  const getArticles = async function () {
+    try {
+      usercommunity.value = await getcommunityid(); // 비동기 커뮤니티 ID 가져오기
+      if (usercommunity.value !== 0) {
+        const res = await axios({
+          method: 'get',
+          url: `${API_URL}/communities/${usercommunity.value}/articles/list/`,
+          headers: {
+            Authorization: `Token ${token.value}`,
+          },
+          
+        });
+        
+        communities.value = res.data; // 게시글 저장
+        
+      } else {
+        console.warn('커뮤니티 ID를 가져올 수 없습니다.');
       }
-    })
-      .then((res) => {
-        console.log(res.data)
-        communities.value = res.data
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+    } catch (err) {
+      console.error('Error fetching articles:', err);
+    }
+  };
 
   // 회원가입 요청 액션
   const signUp = function (payload) {
@@ -68,6 +96,9 @@ export const useCounterStore = defineStore('counter', () => {
     axios({
       method: 'post',
       url: `${API_URL}/accounts/login/`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
       data: {
         username, password
       }
@@ -98,7 +129,7 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
-  return { communities, API_URL, getArticles, signUp, logIn, token, isLogin, logOut }
+  return { communities, API_URL, getArticles, signUp, logIn, token, isLogin, logOut, getcommunityid }
 }, { persist: true })
 
 export const useLayoutStore = defineStore('layout', {
