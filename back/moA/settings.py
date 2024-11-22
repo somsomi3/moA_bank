@@ -184,7 +184,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -229,3 +229,9 @@ ACCOUNT_ADAPTER  = 'accounts.models.CustomAccountAdapter'
 
 ACCOUNT_EMAIL_VERIFICATION = "none"  # 이메일 인증 비활성화
 ACCOUNT_EMAIL_REQUIRED = False
+
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "my_app/static",
+]

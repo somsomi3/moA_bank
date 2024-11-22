@@ -25,9 +25,7 @@
 #     path('api/recommend/', views.recommend, name='recommend'),
 # ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-   
- 
- #============gpt코드
+#============gpt코드
 from django.urls import path
 from . import views
 from django.conf.urls.static import static

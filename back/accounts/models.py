@@ -1,20 +1,27 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-# Create your models here.
+from communities.models import Community  # 커뮤니티 모델 import
 
 class User(AbstractUser):
+    # ForeignKey: 단일 커뮤니티와 연결
+    community = models.ForeignKey(
+        Community, on_delete=models.SET_NULL, null=True, blank=True, related_name="users_foreignkey"
+    )
+    
+    # ManyToManyField: 여러 커뮤니티와 연결 가능
+    communities = models.ManyToManyField(
+        Community, related_name="members", blank=True
+    )
 
-    # 로그인시 입력받을 아이디 값으로, 고유한 값이어야하는 username
+    # 사용자 추가 필드
     nickname = models.CharField(max_length=100)
-
-    # 닉네임 
     username = models.CharField(max_length=50, unique=True)
 
     # email = models.CharField(max_length=50, unique=True)
     profile_img = models.ImageField(upload_to='image/', default='image/user.png')
-    # 현재 가지고 있는 상품
-    # financial_products = models.TextField(blank=True, null=True)
     financial_products = models.BooleanField(default=False)
+
+    # 사용자 수집 정보
     age = models.IntegerField(default=0)
     income = models.IntegerField(default=0)
     job = models.CharField(max_length=50, blank=True, null=True)
@@ -25,40 +32,30 @@ class User(AbstractUser):
     consume = models.IntegerField(default=0)
     desire_period = models.IntegerField(default=0)
 
+    # 사용자 팔로잉
     following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
-    
-    # 관리자?
-    # is_superuser = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'username'
 
     @staticmethod
     def clean_consume_and_period(user):
         user.consume = str(user.consume) if user.consume is not None else ""
         user.desire_period = str(user.desire_period) if user.desire_period is not None else ""
         user.save()
-        
-    USERNAME_FIELD = 'username'
-
-# # 커뮤니티 앱에서 배너/ Article 분류에 사용됨.
-# class CustomUser(AbstractUser):
-#     income_bracket = models.CharField(
-#         max_length=20,
-#         choices=[
-#             ('low', 'Low Income'),
-#             ('middle', 'Middle Income'),
-#             ('high', 'High Income'),
-#         ],
-#         default='middle'
-#     )
 
 
 from allauth.account.adapter import DefaultAccountAdapter
+
 class CustomAccountAdapter(DefaultAccountAdapter):
     def save_user(self, request, user, form, commit=True):
         """
-        Saves a new `User` instance using information provided in the
+        Saves a new User instance using information provided in the
         signup form.
         """
         from allauth.account.utils import user_email, user_field, user_username
+        data = form.cleaned_data
+
+        # 사용자 정보 저장
         data = form.cleaned_data
         first_name = data.get("first_name")
         last_name = data.get("last_name")
@@ -117,4 +114,50 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             # Ability not to commit makes it easier to derive from
             # this adapter by adding
             user.save()
+
+        # 소득 기반 커뮤니티 할당
+        self.assign_user_to_community(user)
         return user
+    def assign_user_to_community(self, user):
+        """소득 분위에 따라 커뮤니티를 할당"""
+        try:
+            income_decile = self.calculate_income_decile(user.income)
+            community, created = Community.objects.get_or_create(
+                decile=income_decile,
+                defaults={
+                    'name': f"Community {income_decile}",
+                    'description': f"Community for decile {income_decile}"
+                }
+            )
+            user.community = community  # ForeignKey 필드 설정
+            user.save()
+            user.communities.add(community)  # ManyToMany 관계 추가
+        except Exception as e:
+            print(f"Error in assigning community: {e}")
+
+    def calculate_income_decile(self, income):
+        """소득 분위 계산"""
+        try:
+            income = int(income)
+        except (ValueError, TypeError):
+            income = 0
+
+        if income <= 2000:
+            return 1
+        elif income <= 4000:
+            return 2
+        elif income <= 6000:
+            return 3
+        elif income <= 8000:
+            return 4
+        elif income <= 10000:
+            return 5
+        elif income <= 12000:
+            return 6
+        elif income <= 14000:
+            return 7
+        elif income <= 16000:
+            return 8
+        elif income <= 18000:
+            return 9
+        return 10  # 상위 소득

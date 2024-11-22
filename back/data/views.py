@@ -69,7 +69,7 @@ def save_deposit_products(request):
 
     # return Response(response)
     
-    
+    # print(api_key,1)
     for li in response['result'].get('baseList'):
         fin_prdt_cd = li.get('fin_prdt_cd')
         kor_co_nm = li.get('kor_co_nm')
@@ -1128,10 +1128,10 @@ def fetch_cards():
     connection = sqlite3.connect(DB_PATH)
     cursor = connection.cursor()
 
-    query = "SELECT card_name, merit_summary, base_performance, annual_fee FROM articles_card"
+    query = "SELECT card_name, merit_summary, base_performance, annual_fee FROM data_card"
     cursor.execute(query)
     rows = cursor.fetchall()
-
+    
     cards = []
     for row in rows:
         cards.append({
@@ -1182,18 +1182,19 @@ def recommend_savings_and_deposits(use_bank, save_trm):
 
     # Fetch deposits from user's bank
     deposit_query = (
-        "SELECT d.fin_prdt_nm, o.intr_rate2, o.save_trm FROM articles_depositproducts d "
-        "JOIN articles_depositoptions o ON d.fin_prdt_cd = o.fin_prdt_cd "
+        "SELECT d.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_depositproducts d "
+        "JOIN data_depositoptions o ON d.fin_prdt_cd = o.fin_prdt_cd "
         "WHERE d.kor_co_nm LIKE ? AND o.save_trm LIKE ? "
         "ORDER BY o.intr_rate2 DESC LIMIT 2"
     )
+    print(deposit_query)
     cursor.execute(deposit_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
     user_bank_deposits = cursor.fetchall()
 
     # Fetch savings from user's bank
     saving_query = (
-        "SELECT s.fin_prdt_nm, o.intr_rate2, o.save_trm FROM articles_savingproducts s "
-        "JOIN articles_savingoptions o ON s.fin_prdt_cd = o.fin_prdt_cd "
+        "SELECT s.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_savingproducts s "
+        "JOIN data_savingoptions o ON s.fin_prdt_cd = o.fin_prdt_cd "
         "WHERE s.kor_co_nm LIKE ? AND o.save_trm LIKE ? "
         "ORDER BY o.intr_rate2 DESC LIMIT 2"
     )
@@ -1202,8 +1203,8 @@ def recommend_savings_and_deposits(use_bank, save_trm):
 
     # Fetch deposits from other banks
     other_deposit_query = (
-        "SELECT d.fin_prdt_nm, o.intr_rate2, o.save_trm FROM articles_depositproducts d "
-        "JOIN articles_depositoptions o ON d.fin_prdt_cd = o.fin_prdt_cd "
+        "SELECT d.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_depositproducts d "
+        "JOIN data_depositoptions o ON d.fin_prdt_cd = o.fin_prdt_cd "
         "WHERE d.kor_co_nm NOT LIKE ? AND o.save_trm LIKE ? "
         "ORDER BY o.intr_rate2 DESC LIMIT 1"
     )
@@ -1212,8 +1213,8 @@ def recommend_savings_and_deposits(use_bank, save_trm):
 
     # Fetch savings from other banks
     other_saving_query = (
-        "SELECT s.fin_prdt_nm, o.intr_rate2, o.save_trm FROM articles_savingproducts s "
-        "JOIN articles_savingoptions o ON s.fin_prdt_cd = o.fin_prdt_cd "
+        "SELECT s.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_savingproducts s "
+        "JOIN data_savingoptions o ON s.fin_prdt_cd = o.fin_prdt_cd "
         "WHERE s.kor_co_nm NOT LIKE ? AND o.save_trm LIKE ? "
         "ORDER BY o.intr_rate2 DESC LIMIT 1"
     )
@@ -1225,7 +1226,8 @@ def recommend_savings_and_deposits(use_bank, save_trm):
     # Combine user bank and other bank recommendations
     deposit_recommendations = user_bank_deposits + other_deposits
     saving_recommendations = user_bank_savings + other_savings
-
+    print("Deposit Recommendations:", deposit_recommendations)
+    print("Saving Recommendations:", saving_recommendations)
     return deposit_recommendations, saving_recommendations
 
 # 소득 및 소비 분석 함수
@@ -1389,7 +1391,7 @@ def recommend_cards(use_bank):
 
     # Fetch all cards from the database
     all_cards = fetch_cards()
-
+    
     # Filter cards by the user's bank
     user_bank_cards = [card for card in all_cards if bank_prefix in card['card_name']]
 
