@@ -3,6 +3,7 @@
     <nav  v-if="showNav"  >
       <RouterLink :to="{ name: 'HelloView' }" @click="toggleNav">시작하기</RouterLink> |
       <RouterLink :to="{ name: 'HomePage' }" @click="toggleNav">홈페이지 바로가기</RouterLink> |
+      
     </nav>
   </header>
   

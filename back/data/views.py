@@ -1237,7 +1237,7 @@ def analyze_income_and_spending(data):
     income = float(data.get('income', 0))
     consume = float(data.get('consume', 0))
     
-    if age.isdigit():
+    if age:
         if int(age) <= 19 :
             age = '19세이하'  # 25 → "20-29"
         elif 20<= int(age) <= 24:
@@ -1414,30 +1414,30 @@ from accounts.models import User
 def get_recommendations(user_id):
     try:
         # 유저 정보 조회
-        profile = User.objects.get(user_id=user_id)
+        profile = User.objects.get(id=user_id)
         
         data = {
             "gender": profile.gender,
             "age": profile.age,
-            "income": profile.income,
-            "consume": profile.consume,
+            "income": profile.income*10000,
+            "consume": profile.consume*10000,
             "job": profile.job,
             "grade": profile.grade,
             "use_bank": profile.main_bank,
             "save_trm": profile.desire_period,
         }
+        
     
     
-    
-        income_analysis, income_decile, spending_analysis = analyze_income_and_spending(data)
+        income_analysis, income_decile, spending_analysis = analyze_income_and_spending(data)['income_analysis'],analyze_income_and_spending(data)['income_decile'],analyze_income_and_spending(data)['spending_analysis']
 
     
     
     # 종합소득세 환급 계산
-        tax_refund_estimation = calculate_tax_refund(profile.income, profile.job)
+        tax_refund_estimation = calculate_tax_refund(data['income'], profile.job)
 
     # 직업과 학력에 따른 소득 분석
-        job_analysis, grade_analysis = compare_income_by_job_and_grade(profile.income, profile.job, profile.grade)
+        job_analysis, grade_analysis = compare_income_by_job_and_grade(data['income'], profile.job, profile.grade)
 
 
     # 카드 추천 (2개는 주거래 은행, 1개는 다른 은행)
@@ -1474,12 +1474,12 @@ def get_recommendations(user_id):
     except User.DoesNotExist:
         return {"error": "User profile not found"}
     
-# @csrf_exempt
-# def recommend_view(request, user_id):
-#     if request.method == 'GET':
-#         recommendations = get_recommendations(user_id)
-#         return JsonResponse(recommendations)
-#     return JsonResponse({"error": "Invalid request method"}, status=405)
+@csrf_exempt
+def recommend_view(request, user_id):
+    if request.method == 'GET':
+        recommendations = get_recommendations(user_id)
+        return JsonResponse(recommendations)
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
 @csrf_exempt
 def input_form_view(request):
