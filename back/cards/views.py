@@ -141,8 +141,8 @@ def card_design_detail(request, card_design_id):
 # GPU없어서, cpu
 from django.http import HttpResponse
 from PIL import Image, ImageDraw, ImageFont
-from diffusers import StableDiffusionPipeline
-import torch
+# from diffusers import StableDiffusionPipeline
+# import torch
 
 def generate_card(request):
     # 1. Stable Diffusion 설정 (CPU 사용)

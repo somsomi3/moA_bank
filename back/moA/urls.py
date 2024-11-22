@@ -29,6 +29,9 @@ urlpatterns = [
     path('api/v1/', include('accounts.urls')),
     path('api/v1/', include('communities.urls')),
     path('api/v1/', include('cards.urls')),
+    path('api/v1/', include('searches.urls')),
+
+
     path('api/v1/', include('suggests.urls')),
 
 
