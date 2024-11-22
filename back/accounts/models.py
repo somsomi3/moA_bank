@@ -16,7 +16,8 @@ class User(AbstractUser):
     # 사용자 추가 필드
     nickname = models.CharField(max_length=100)
     username = models.CharField(max_length=50, unique=True)
-    email = models.CharField(max_length=50, unique=True)
+
+    # email = models.CharField(max_length=50, unique=True)
     profile_img = models.ImageField(upload_to='image/', default='image/user.png')
     financial_products = models.BooleanField(default=False)
 

@@ -1408,52 +1408,78 @@ def recommend_cards(use_bank):
     return recommendations
 
 
-
+from accounts.models import User
 
 # 추천 로직 함수
-def get_recommendations(data):
-    income_analysis, income_decile, spending_analysis = analyze_income_and_spending(data)
+def get_recommendations(user_id):
+    try:
+        # 유저 정보 조회
+        profile = User.objects.get(user_id=user_id)
+        
+        data = {
+            "gender": profile.gender,
+            "age": profile.age,
+            "income": profile.income,
+            "consume": profile.consume,
+            "job": profile.job,
+            "grade": profile.grade,
+            "use_bank": profile.main_bank,
+            "save_trm": profile.desire_period,
+        }
+    
+    
+    
+        income_analysis, income_decile, spending_analysis = analyze_income_and_spending(data)
 
-    consume = float(data.get('consume', 0))
-    income = float(data.get('income', 0))
-    job = data.get('job')
-    use_bank = data.get('use_bank', "")
-    save_trm = data.get('save_trm', "")
-    grade = data.get('grade', "")
-
+    
+    
     # 종합소득세 환급 계산
-    tax_refund_estimation = calculate_tax_refund(income, job)
+        tax_refund_estimation = calculate_tax_refund(profile.income, profile.job)
 
     # 직업과 학력에 따른 소득 분석
-    job_analysis, grade_analysis = compare_income_by_job_and_grade(income, job, grade)
+        job_analysis, grade_analysis = compare_income_by_job_and_grade(profile.income, profile.job, profile.grade)
 
 
     # 카드 추천 (2개는 주거래 은행, 1개는 다른 은행)
-    card_recommendations = recommend_cards(use_bank)
+        card_recommendations = recommend_cards(profile.main_bank)
 
     # 예적금 추천
-    deposits, savings = recommend_savings_and_deposits(use_bank, save_trm)
+        deposits, savings = recommend_savings_and_deposits(profile.main_bank, profile.desire_period)
     
-    deposit_recommendations = [
-        (deposit[0], deposit[1], deposit[2]) for deposit in deposits
-    ]
+    # deposit_recommendations = [
+    #     (deposit[0], deposit[1], deposit[2]) for deposit in deposits
+    # ]
 
-    saving_recommendations = [
-        (saving[0], saving[1], saving[2]) for saving in savings
-    ]
-
-    return {
-        "income_analysis": income_analysis,
-        "income_decile": income_decile,
-        "spending_analysis": spending_analysis,
-        "tax_refund_estimation": tax_refund_estimation,
-        "card_recommendations": card_recommendations[:3],
-        # "savings_and_deposits": savings_and_deposits,
-        "deposit_recommendations": deposit_recommendations,
-        "saving_recommendations": saving_recommendations,
-        "job_analysis": job_analysis,
-        "grade_analysis": grade_analysis,
-    }
+    # saving_recommendations = [
+    #     (saving[0], saving[1], saving[2]) for saving in savings
+    # ]
+        deposit_recommendations = [
+            {"name": deposit[0], "rate": deposit[1], "term": deposit[2]} for deposit in deposits
+        ]
+        saving_recommendations = [
+            {"name": saving[0], "rate": saving[1], "term": saving[2]} for saving in savings
+        ]
+        return {
+            "income_analysis": income_analysis,
+            "income_decile": income_decile,
+            "spending_analysis": spending_analysis,
+            "tax_refund_estimation": tax_refund_estimation,
+            "card_recommendations": card_recommendations[:3],
+            # "savings_and_deposits": savings_and_deposits,
+            "deposit_recommendations": deposit_recommendations,
+            "saving_recommendations": saving_recommendations,
+            "job_analysis": job_analysis,
+            "grade_analysis": grade_analysis,
+        }
+    except User.DoesNotExist:
+        return {"error": "User profile not found"}
+    
+# @csrf_exempt
+# def recommend_view(request, user_id):
+#     if request.method == 'GET':
+#         recommendations = get_recommendations(user_id)
+#         return JsonResponse(recommendations)
+#     return JsonResponse({"error": "Invalid request method"}, status=405)
 
 @csrf_exempt
 def input_form_view(request):
