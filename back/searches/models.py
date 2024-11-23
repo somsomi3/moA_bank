@@ -13,3 +13,5 @@
 
 #     def __str__(self):
 #         return self.name
+
+#  모델은 데이터 앱에서 

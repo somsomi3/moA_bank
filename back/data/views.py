@@ -379,7 +379,7 @@ from .serializers import SavingOptionSerializer, SavingProductSerializer
 @api_view(['GET'])
 def save_saving_products(request):
     api_key = settings.API_KEY
-    url = f"http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json?auth={api_key}&topFinGrpNo=020000&pageNo=1"
+    url = f"http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json?auth=f1ba1f367bbcbbe7a97d419ce0de8c53&topFinGrpNo=020000&pageNo=1"
     response = requests.get(url).json()
 
     # 2. 원하는 필드 
