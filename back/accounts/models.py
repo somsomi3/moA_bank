@@ -138,26 +138,26 @@ class CustomAccountAdapter(DefaultAccountAdapter):
     def calculate_income_decile(self, income):
         """소득 분위 계산"""
         try:
-            income = int(income)
+            income = int(income)*10000
         except (ValueError, TypeError):
             income = 0
 
-        if income <= 2000:
+        if income <= 2433469.5:
             return 1
-        elif income <= 4000:
+        elif income <= 3104528.25:
             return 2
-        elif income <= 6000:
+        elif income <= 3776786.875:
             return 3
-        elif income <= 8000:
+        elif income <= 4494899.0:
             return 4
-        elif income <= 10000:
+        elif income <= 5296783.5:
             return 5
-        elif income <= 12000:
+        elif income <= 6215137.625:
             return 6
-        elif income <= 14000:
+        elif income <= 7355015.5:
             return 7
-        elif income <= 16000:
+        elif income <= 9051067.0:
             return 8
-        elif income <= 18000:
+        elif income > 9051067.0:
             return 9
         return 10  # 상위 소득

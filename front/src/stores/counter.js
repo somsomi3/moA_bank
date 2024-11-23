@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
-
+import DetailView from '@/views/DetailView.vue'
 export const useCounterStore = defineStore('counter', () => {
   const communities = ref([])
   const API_URL = 'http://127.0.0.1:8000'

@@ -123,6 +123,8 @@ def article_create(request, community_id):
         try:
             # community_id를 사용해 커뮤니티 가져오기
             community = Community.objects.get(pk=community_id)
+            print(user.community.id)
+            print(community_id)
         except Community.DoesNotExist:
             return Response({"error": "Community not found."}, status=status.HTTP_404_NOT_FOUND)
         
