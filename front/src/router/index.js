@@ -10,6 +10,9 @@ import StartPage from '@/components/StartPage.vue'
 import { useLayoutStore } from '@/stores/counter'
 import HelloView from '@/views/HelloView.vue'
 import MyPageView from '@/views/MyPageView.vue'
+import SearchProductView from '@/views/SearchProductView.vue'
+
+
 import App from '@/App.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,7 +68,12 @@ const router = createRouter({
       path: '/MyPageView',
       name: 'MyPageView', // 라우트 이름 정의
       component: MyPageView, // 관련 컴포넌트 연결
-    }
+    },
+    {
+      path: '/SearchProductView',
+      name: 'SearchProductView', // 라우트 이름 정의
+      component: SearchProductView, // 관련 컴포넌트 연결
+    },
   ]
 })
 
