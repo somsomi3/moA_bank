@@ -1,7 +1,7 @@
 <template>
   <header>
     <nav>
-      <RouterLink :to="{ name: 'ArticleView' }">커뮤니티</RouterLink> |
+      <RouterLink :to="{ name: 'ArticleView' }">자유게시판</RouterLink> |
       <RouterLink :to="{ name: 'MyPageView' }" >마이페이지</RouterLink> |
       <RouterLink :to="{ name: 'LogInView' }">로그인</RouterLink> | 
       <RouterLink :to="{ name: 'SignUpView' }">회원가입</RouterLink> |
