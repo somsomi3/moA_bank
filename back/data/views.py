@@ -1182,3 +1182,5 @@ def compare_income_by_job_and_grade(income, job, grade):
         grade_analysis = f"학력({grade})에 대한 평균 소득 데이터를 찾을 수 없습니다."
 
     return job_analysis, grade_analysis
+
+

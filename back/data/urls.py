@@ -50,5 +50,6 @@ urlpatterns = [
     # path('recommend/', views.get_recommendations, name='recommend'),
     path('recommend_view/<int:user_id>/', views.recommend_view, name='recommend_view'),
 
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

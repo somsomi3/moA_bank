@@ -238,3 +238,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "cards/static",
 ]
+
+DISABLE_ADMIN_ACTIONS = False
+

@@ -39,11 +39,6 @@ import { ref } from 'vue';
   box-sizing: border-box;
 }
 
-header {
-  background-color: #f8f9fa;
-  padding: 10px 20px;
-  border-bottom: 1px solid #ddd;
-}
 
 nav {
   display: flex;
