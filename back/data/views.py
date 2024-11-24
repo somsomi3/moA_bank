@@ -544,65 +544,320 @@ def fetch_cards():
 #     connection.close()
 #     return deposits, savings
 
-def recommend_savings_and_deposits(use_bank, save_trm):
-    """
-    Recommend 2 savings/deposit products from the user's bank and 1 from other banks.
-    """
-    # Extract the first two characters of the user's bank
-    bank_prefix = use_bank[:2] if use_bank else ""
 
-    connection = sqlite3.connect(DB_PATH)
-    cursor = connection.cursor()
+# ==========================기존 예적금 추천 알고리즘
+# def recommend_savings_and_deposits(use_bank, save_trm):
+#     """
+#     Recommend 2 savings/deposit products from the user's bank and 1 from other banks.
+#     """
+#     # Extract the first two characters of the user's bank
+#     bank_prefix = use_bank[:2] if use_bank else ""
 
-    # Fetch deposits from user's bank
-    deposit_query = (
-        "SELECT d.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_depositproducts d "
-        "JOIN data_depositoptions o ON d.fin_prdt_cd = o.fin_prdt_cd "
-        "WHERE d.kor_co_nm LIKE ? AND o.save_trm LIKE ? "
-        "ORDER BY o.intr_rate2 DESC LIMIT 2"
-    )
-    print(deposit_query)
-    cursor.execute(deposit_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
-    user_bank_deposits = cursor.fetchall()
+#     connection = sqlite3.connect(DB_PATH)
+#     cursor = connection.cursor()
 
-    # Fetch savings from user's bank
-    saving_query = (
-        "SELECT s.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_savingproducts s "
-        "JOIN data_savingoptions o ON s.fin_prdt_cd = o.fin_prdt_cd "
-        "WHERE s.kor_co_nm LIKE ? AND o.save_trm LIKE ? "
-        "ORDER BY o.intr_rate2 DESC LIMIT 2"
-    )
-    cursor.execute(saving_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
-    user_bank_savings = cursor.fetchall()
+#     # Fetch deposits from user's bank
+#     deposit_query = (
+#         "SELECT d.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_depositproducts d "
+#         "JOIN data_depositoptions o ON d.fin_prdt_cd = o.fin_prdt_cd "
+#         "WHERE d.kor_co_nm LIKE ? AND o.save_trm LIKE ? "
+#         "ORDER BY o.intr_rate2 DESC LIMIT 2"
+#     )
+#     print(deposit_query)
+#     cursor.execute(deposit_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
+#     user_bank_deposits = cursor.fetchall()
 
-    # Fetch deposits from other banks
-    other_deposit_query = (
-        "SELECT d.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_depositproducts d "
-        "JOIN data_depositoptions o ON d.fin_prdt_cd = o.fin_prdt_cd "
-        "WHERE d.kor_co_nm NOT LIKE ? AND o.save_trm LIKE ? "
-        "ORDER BY o.intr_rate2 DESC LIMIT 1"
-    )
-    cursor.execute(other_deposit_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
-    other_deposits = cursor.fetchall()
+#     # Fetch savings from user's bank
+#     saving_query = (
+#         "SELECT s.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_savingproducts s "
+#         "JOIN data_savingoptions o ON s.fin_prdt_cd = o.fin_prdt_cd "
+#         "WHERE s.kor_co_nm LIKE ? AND o.save_trm LIKE ? "
+#         "ORDER BY o.intr_rate2 DESC LIMIT 2"
+#     )
+#     cursor.execute(saving_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
+#     user_bank_savings = cursor.fetchall()
 
-    # Fetch savings from other banks
-    other_saving_query = (
-        "SELECT s.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_savingproducts s "
-        "JOIN data_savingoptions o ON s.fin_prdt_cd = o.fin_prdt_cd "
-        "WHERE s.kor_co_nm NOT LIKE ? AND o.save_trm LIKE ? "
-        "ORDER BY o.intr_rate2 DESC LIMIT 1"
-    )
-    cursor.execute(other_saving_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
-    other_savings = cursor.fetchall()
+#     # Fetch deposits from other banks
+#     other_deposit_query = (
+#         "SELECT d.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_depositproducts d "
+#         "JOIN data_depositoptions o ON d.fin_prdt_cd = o.fin_prdt_cd "
+#         "WHERE d.kor_co_nm NOT LIKE ? AND o.save_trm LIKE ? "
+#         "ORDER BY o.intr_rate2 DESC LIMIT 1"
+#     )
+#     cursor.execute(other_deposit_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
+#     other_deposits = cursor.fetchall()
 
-    connection.close()
+#     # Fetch savings from other banks
+#     other_saving_query = (
+#         "SELECT s.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_savingproducts s "
+#         "JOIN data_savingoptions o ON s.fin_prdt_cd = o.fin_prdt_cd "
+#         "WHERE s.kor_co_nm NOT LIKE ? AND o.save_trm LIKE ? "
+#         "ORDER BY o.intr_rate2 DESC LIMIT 1"
+#     )
+#     cursor.execute(other_saving_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
+#     other_savings = cursor.fetchall()
 
-    # Combine user bank and other bank recommendations
-    deposit_recommendations = user_bank_deposits + other_deposits
-    saving_recommendations = user_bank_savings + other_savings
-    print("Deposit Recommendations:", deposit_recommendations)
-    print("Saving Recommendations:", saving_recommendations)
-    return deposit_recommendations, saving_recommendations
+#     connection.close()
+
+#     # Combine user bank and other bank recommendations
+#     deposit_recommendations = user_bank_deposits + other_deposits
+#     saving_recommendations = user_bank_savings + other_savings
+#     print("Deposit Recommendations:", deposit_recommendations)
+#     print("Saving Recommendations:", saving_recommendations)
+#     return deposit_recommendations, saving_recommendations
+#==============================================================================================
+
+
+# import sqlite3
+
+# DB_PATH = os.path.join(settings.BASE_DIR, 'db.sqlite3')
+
+# def recommend_savings_and_deposits(use_bank, save_trm, financial_products):
+#     """
+#     Recommend savings and deposit products based on user's bank, term, and existing products.
+    
+#     If has_savings_or_deposits == 1:
+#         - Recommend 1 deposit and 1 savings from user's bank.
+#     If has_savings_or_deposits == 0:
+#         - Recommend 1 deposit from user's bank and 2 savings from other banks.
+#     """
+#     bank_prefix = use_bank[:2] if use_bank else ""
+
+#     connection = sqlite3.connect(DB_PATH)
+#     cursor = connection.cursor()
+
+#     # Fetch deposits from user's bank
+#     user_deposit_query = (
+#         "SELECT d.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_depositproducts d "
+#         "JOIN data_depositoptions o ON d.fin_prdt_cd = o.fin_prdt_cd "
+#         "WHERE d.kor_co_nm LIKE ? AND o.save_trm LIKE ? "
+#         "ORDER BY o.intr_rate2 DESC LIMIT 1"
+#     )
+#     cursor.execute(user_deposit_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
+#     user_deposit = cursor.fetchall()
+
+#     # Fetch savings from user's bank
+#     user_saving_query = (
+#         "SELECT s.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_savingproducts s "
+#         "JOIN data_savingoptions o ON s.fin_prdt_cd = o.fin_prdt_cd "
+#         "WHERE s.kor_co_nm LIKE ? AND o.save_trm LIKE ? "
+#         "ORDER BY o.intr_rate2 DESC LIMIT 1"
+#     )
+#     cursor.execute(user_saving_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
+#     user_saving = cursor.fetchall()
+
+#     # Fetch additional savings from other banks
+#     other_saving_query = (
+#         "SELECT s.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_savingproducts s "
+#         "JOIN data_savingoptions o ON s.fin_prdt_cd = o.fin_prdt_cd "
+#         "WHERE s.kor_co_nm NOT LIKE ? AND o.save_trm LIKE ? "
+#         "ORDER BY o.intr_rate2 DESC LIMIT 2"
+#     )
+#     cursor.execute(other_saving_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
+#     other_savings = cursor.fetchall()
+
+#     # Fetch additional deposits from other banks
+#     other_deposit_query = (
+#         "SELECT d.fin_prdt_nm, o.intr_rate2, o.save_trm FROM data_depositproducts d "
+#         "JOIN data_depositoptions o ON d.fin_prdt_cd = o.fin_prdt_cd "
+#         "WHERE d.kor_co_nm NOT LIKE ? AND o.save_trm LIKE ? "
+#         "ORDER BY o.intr_rate2 DESC LIMIT 1"
+#     )
+#     cursor.execute(other_deposit_query, (f"%{bank_prefix}%", f"%{save_trm}%"))
+#     other_deposit = cursor.fetchall()
+
+#     connection.close()
+
+#     # Determine recommendations based on `has_savings_or_deposits`
+#     if financial_products == 1:
+#         # Recommend 1 deposit and 1 saving from user's bank
+#         deposit_recommendations = user_deposit
+#         saving_recommendations = user_saving
+        
+#     else:
+#         # Recommend 1 deposit from user's bank and 2 savings from other banks
+#         deposit_recommendations = user_deposit + other_deposit
+#         saving_recommendations = other_savings
+
+    
+#     print("Deposit Recommendations:", deposit_recommendations)
+#     print("Saving Recommendations:", saving_recommendations)
+#     return deposit_recommendations, saving_recommendations
+
+#-============================================================================
+
+# from django.http import JsonResponse
+# from .models import SavingOptions, DepositOptions
+
+# def recommend_savings_and_deposits(use_bank, save_trm, financial_products):
+#     """
+#     Recommend savings and deposit products based on user's preferences and current holdings.
+
+#     Args:
+#         use_bank (str): User's preferred bank.
+#         save_trm (str): Desired savings/deposit term (e.g., "12").
+#         financial_products (int): Whether the user already has financial products (1: Yes, 0: No).
+
+#     Returns:
+#         JsonResponse: Recommended deposit and savings products.
+#     """
+#     def filter_products(option_model, product_field, exclude_bank=False):
+#         """
+#         Filter products based on user's bank and save term.
+#         Args:
+#             option_model: Model for options (SavingOptions or DepositOptions).
+#             product_field: Field name for the foreign key (e.g., 'product2' or 'product').
+#             exclude_bank: Exclude the user's bank if True.
+        
+#         Returns:
+#             QuerySet: Filtered and sorted options.
+#         """
+#         # Step 1: Filter by bank and term
+#         query = option_model.objects.filter(
+#             save_trm=save_trm,
+#         ).select_related(product_field).order_by("-intr_rate2")
+        
+#         if exclude_bank:
+#             query = query.exclude(**{f"{product_field}__kor_co_nm__icontains": use_bank})
+#         else:
+#             query = query.filter(**{f"{product_field}__kor_co_nm__icontains": use_bank})
+
+#         # Step 2: If no match, return options for term only
+#         if not query.exists():
+#             query = option_model.objects.filter(
+#                 save_trm=save_trm
+#             ).select_related(product_field).order_by("-intr_rate2")
+
+#         # Step 3: If still no match, return all products sorted by interest
+#         if not query.exists():
+#             query = option_model.objects.all().select_related(product_field).order_by("-intr_rate2")
+
+#         return query
+
+#     # Determine recommendations based on financial_products
+#     if financial_products == 1:  # User already has financial products
+#         # 예금: product_id를 사용
+#         deposit_options = filter_products(DepositOptions, "product")[:1]
+#         # 적금: product2_id를 사용
+#         saving_options = filter_products(SavingOptions, "product2")[:1]
+#     else:  # User does not have financial products
+#         # 예금: product_id를 사용
+#         deposit_options = filter_products(DepositOptions, "product")[:1]
+#         # 적금: product2_id를 사용하며 사용자의 은행 제외
+#         saving_options = filter_products(SavingOptions, "product2", exclude_bank=True)[:2]
+
+#     def format_results(options, product_field):
+#         return [
+#             {
+#                 "product_name": getattr(option, product_field).fin_prdt_nm,
+#                 "bank_name": getattr(option, product_field).kor_co_nm,
+#                 "term": option.save_trm,
+#                 "interest_rate": option.intr_rate,
+#                 "max_interest_rate": option.intr_rate2,
+#                 "special_conditions": getattr(option, product_field).spcl_cnd,
+#             }
+#             for option in options
+#         ]
+    
+    
+#     return JsonResponse({
+#         "deposit_recommendations": format_results(deposit_options, "product"),
+#         "saving_recommendations": format_results(saving_options, "product2"),
+#     })
+
+
+# from django.http import JsonResponse
+# from .models import SavingOptions, DepositOptions
+
+# def recommend_savings_and_deposits(use_bank, save_trm, has_savings_or_deposits):
+    
+#     """
+#     Recommend savings and deposit products based on user's preferences.
+
+#     Args:
+#         use_bank (str): User's preferred bank.
+#         save_trm (str): Desired savings or deposit term (e.g., "12").
+#         has_savings_or_deposits (int): Whether the user already has financial products (1: Yes, 0: No).
+
+#     Returns:
+#         tuple: Two lists containing deposit and saving recommendations.
+#     """
+#     def filter_products(option_model, product_field, exclude_bank=False):
+#         """
+#         Filter products based on user's bank and save term.
+
+#         Args:
+#             option_model: The model to query (e.g., SavingOptions, DepositOptions).
+#             product_field: The field name for the related product (e.g., 'product', 'product2').
+#             exclude_bank: Exclude products from the user's bank if True.
+
+#         Returns:
+#             QuerySet: Filtered and sorted products.
+#         """
+#         query = option_model.objects.filter(
+#             save_trm=save_trm,
+#         ).select_related(product_field).order_by("-intr_rate2")
+
+#         if exclude_bank:
+#             query = query.exclude(**{f"{product_field}__kor_co_nm__icontains": use_bank})
+#         else:
+#             query = query.filter(**{f"{product_field}__kor_co_nm__icontains": use_bank})
+
+#         # If no match, fall back to filtering by term only
+#         if not query.exists():
+#             query = option_model.objects.filter(
+#                 save_trm=save_trm
+#             ).select_related(product_field).order_by("-intr_rate2")
+
+#         # If still no match, return all products sorted by interest rate
+#         if not query.exists():
+#             query = option_model.objects.all().select_related(product_field).order_by("-intr_rate2")
+
+#         return query
+
+#     # Recommendations
+#     if has_savings_or_deposits == 1:
+#         deposit_options = filter_products(DepositOptions, "product")[:1]
+#         saving_options = filter_products(SavingOptions, "product2")[:1]
+#     else:
+#         deposit_options = filter_products(DepositOptions, "product")[:1]
+#         saving_options = filter_products(SavingOptions, "product2", exclude_bank=True)[:2]
+
+#     # Format results for both deposits and savings
+#     def format_results(options, product_field):
+#         return [
+#             {
+#                 "product_name": getattr(option, product_field).fin_prdt_nm,
+#                 "bank_name": getattr(option, product_field).kor_co_nm,
+#                 "term": option.save_trm,
+#                 "interest_rate": option.intr_rate,
+#                 "max_interest_rate": option.intr_rate2,
+#                 "special_conditions": getattr(option, product_field).spcl_cnd,
+#             }
+#             for option in options
+#         ]
+
+#     deposit_recommendations = format_results(deposit_options, "product")
+#     saving_recommendations = format_results(saving_options, "product2")
+
+#     return deposit_recommendations, saving_recommendations
+
+
+from django.http import JsonResponse
+from .models import SavingOptions, DepositOptions
+from .models import DepositProducts, SavingProducts
+def recommend_savings_and_deposits(use_bank, save_trm, has_savings_or_deposits):
+    savingproducts = SavingProducts.objects.all()
+    print(savingproducts[0]['product_name'])
+
+
+    # if has_savings_or_deposits ==1:
+    #     if use_bank[:2] == 
+    # else:
+    #     print(use_bank)
+    #     print(save_trm)
+
+
 
 # 소득 및 소비 분석 함수
 def analyze_income_and_spending(data):
@@ -762,20 +1017,32 @@ def recommend_cards(use_bank):
     """
     # Extract the first two characters of the user's bank
     bank_prefix = use_bank[:2] if use_bank else ""
-
+    
+    if bank_prefix == "부산":
+        bank_prefix = "BNK"
+    if bank_prefix in ['롯데', '롯데카드']:
+        bank_prefix = '디지'
+    if bank_prefix in ["농협", "농협은행","농협카드"]:
+        bank_prefix = 'NH'
+    if bank_prefix in ['국민', '국민카드']:
+        bank_prefix = '국민'
+    if bank_prefix in ['기업은행','기업', 'IBK기업', 'IBK기업은행']:
+        bank_prefix = 'IBK'
+    if bank_prefix in ['삼성', '삼성카드']:
+        bank_prefix = '삼성'
     # Fetch all cards from the database
     all_cards = fetch_cards()
     
     # Filter cards by the user's bank
     user_bank_cards = [card for card in all_cards if bank_prefix in card['card_name']]
-
     # Select 2 cards from the user's bank
     user_bank_recommendations = user_bank_cards[:2]
 
     # Select 1 card from other banks
     other_bank_cards = [card for card in all_cards if bank_prefix not in card['card_name']]
     other_bank_recommendations = other_bank_cards[:1]
-
+    if len(user_bank_recommendations) == 0:
+        other_bank_recommendations = other_bank_cards[:3]
     # Combine the recommendations
     recommendations = user_bank_recommendations + other_bank_recommendations
 
@@ -799,6 +1066,7 @@ def get_recommendations(user_id):
             "grade": profile.grade,
             "use_bank": profile.main_bank,
             "save_trm": profile.desire_period,
+            "financial_products" : profile.financial_products,
         }
         
     
@@ -818,8 +1086,9 @@ def get_recommendations(user_id):
         card_recommendations = recommend_cards(profile.main_bank)
 
     # 예적금 추천
-        deposits, savings = recommend_savings_and_deposits(profile.main_bank, profile.desire_period)
+
     
+        deposits, savings = recommend_savings_and_deposits(profile.main_bank, profile.desire_period, profile.financial_products)
     # deposit_recommendations = [
     #     (deposit[0], deposit[1], deposit[2]) for deposit in deposits
     # ]
@@ -828,10 +1097,10 @@ def get_recommendations(user_id):
     #     (saving[0], saving[1], saving[2]) for saving in savings
     # ]
         deposit_recommendations = [
-            {"name": deposit[0], "rate": deposit[1], "term": deposit[2]} for deposit in deposits
+            {"name": deposit['product_name'], "bank_name": deposit['bank_name'],"term": deposit['term'], "max_interest_rate": deposit['max_interest_rate']} for deposit in deposits
         ]
         saving_recommendations = [
-            {"name": saving[0], "rate": saving[1], "term": saving[2]} for saving in savings
+            {"name": saving['product_name'], "bank_name": saving['bank_name'],"term": saving['term'], "max_interest_rate": saving['max_interest_rate']} for saving in savings
         ]
         return {
             "income_analysis": income_analysis,
@@ -858,6 +1127,7 @@ def recommend_view(request, user_id):
 @csrf_exempt
 def input_form_view(request):
     if request.method == 'POST':
+        
         data = {
             "gender": request.POST.get('gender'),
             "age": request.POST.get('age'),

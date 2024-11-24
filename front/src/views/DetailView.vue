@@ -12,6 +12,7 @@
         </p>
       </p>
       <router-link to="/HomePage">← 돌아가기</router-link>
+      <p>{{article}}</p>
     </div>
     <div v-else>
       <p>데이터를 불러오는 중입니다...</p>
@@ -44,12 +45,16 @@ const canWrite = ref(false)
 
 // 현재 커뮤니티 인덱스와 store.communities.community.id 비교
 const check = function () {
-  if (communityId === store.communities.community?.id) {
-    canWrite.value = true 
+  if (communityId == 1 && [1, 2, 3, 4].includes(store.communities.community?.id)) {
+    canWrite.value = true;
+  } else if (communityId == 2 && [5, 6, 7, 8].includes(store.communities.community?.id)) {
+    canWrite.value = true;
+  } else if (communityId == 3 && [9, 10].includes(store.communities.community?.id)) {
+    canWrite.value = true;
   } else {
-    canWrite.value = false
+    canWrite.value = false;
   }
-}
+};
 
 
 // DetailView가 마운트되기전에 DRF로 단일 게시글 조회를 요청 후 응답데이터를 저장

@@ -71,7 +71,7 @@ export const useCounterStore = defineStore('counter', () => {
 
     axios({
       method: 'post',
-      url: `${API_URL}/accounts/signup/`,
+      url: `${API_URL}/dj-rest-auth/registration/`,
       data: {
         username, name, password1, password2, age, income, job, gender, grade, main_bank, region, consume, desire_period, financial_product
       }
@@ -92,7 +92,6 @@ export const useCounterStore = defineStore('counter', () => {
     // const username = payload.username
     // const password1 = payload.password
     const { username, password } = payload
-
     axios({
       method: 'post',
       url: `${API_URL}/accounts/login/`,
@@ -105,7 +104,7 @@ export const useCounterStore = defineStore('counter', () => {
     })
       .then((res) => {
         token.value = res.data.key
-        router.push({ name: 'ArticleView' })
+        router.push({ name: 'HomePage' })
         // console.log(res.data)
         // console.log('로그인 성공')
       })
@@ -123,7 +122,7 @@ export const useCounterStore = defineStore('counter', () => {
       .then((res) => {
         console.log(res.data)
         token.value = null
-        router.push({ name: 'ArticleView' })
+        router.push({ name: 'HomePage' })
       })
       .catch((err) => {
         console.log(err)

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- 대화형 메시지 -->
-    <p class="message">{{ displayedText }}</p>
+    <p v-if="!showReport" class="message">{{ displayedText }}</p>
 
     <!-- 닉네임, 아이디, 비밀번호 입력 -->
     <div v-if="showNicknameInput">
@@ -58,8 +58,15 @@
       <input v-model.number="numericInput" type="number" :placeholder="currentPlaceholder" class="input" />
     </div>
 
+    <!-- 예적금여부 선택 -->
+   <div v-if="showDepositTrueFalse">
+      <button @click="saveProductsYesNo(1)" class="next-button">예</button>
+      <button @click="saveProductsYesNo(0)" class="next-button">아니오</button>
+    </div>
+
+
     <!-- 확인 버튼 -->
-    <button v-if="isTypingComplete && !submitted && !showGenderSelection" @click="saveAllResponses" class="next-button">
+    <button v-if="isTypingComplete && !submitted && !showDepositTrueFalse && !showGenderSelection" @click="saveAllResponses" class="next-button">
       확인
     </button>
 
@@ -73,6 +80,7 @@
     <p>지역: {{ userData.region }}</p>
     <p>주거래은행: {{ userData.main_bank }}</p>
     <p>예적금 기간: {{ userData.desire_period }}</p>
+    <p>예적금 여부: {{ yesno }}</p>
     <p>나이: {{ userData.age }}</p>
     <p>월소득: {{ userData.income }}</p>
     <p>월소비: {{ userData.consume }}</p>
@@ -130,8 +138,9 @@ const messages = [
   "나이, 지역, 주거래 은행을 입력해주세요.",
   "월소득과 월소비를 입력해주세요.",
   "최종 학력과 직업을 선택해주세요.",
-  "희망 예적금 기간을 입력해주세요.",
-  "감사합니다! {{userData.nickname}}님이 입력해주신 자료를 바탕으로 리포트를 만들고 있어요!",
+  "예적금을 현재 넣고 계신가요?",
+  "추가로 넣게 된다면 희망 예적금 기간을 입력해주세요.",
+  "",
 ];
 
 // 사용자 데이터 상태
@@ -170,11 +179,20 @@ const showMultiInputs = ref(false); // 나이, 지역, 은행
 const showNumericInputs = ref(false); // 월소득, 월소비
 const showDropdownInputs = ref(false); // 학력, 직업
 const showNumericInput = ref(false); // 예적금 기간
-
-
+const showDepositTrueFalse = ref(false) // 예적금 넣고있는지 여부
+const yesno = ref("")
 // 숫자 입력 상태
 const numericInput = ref(null);
 const currentPlaceholder = ref("숫자를 입력하세요");
+
+const change = function () {
+  if (showDepositTrueFalse.value == true) {
+    yesno.value = "X"
+  } else {
+    yesno.value = "O"
+  }
+}
+
 
 
 // 메시지 출력
@@ -182,6 +200,10 @@ function typeMessage(message) {
   displayedText.value = "";
   isTypingComplete.value = false;
   resetInputFields();
+
+  if (currentIndex.value === messages.length - 1) {
+    message = `감사합니다! ${userData.value.nickname}님이 입력해주신 자료를 바탕으로 리포트를 만들고 있어요!`;
+  }
 
   let index = 0;
   const typingInterval = setInterval(() => {
@@ -205,6 +227,7 @@ function resetInputFields() {
   showNumericInputs.value = false;
   showDropdownInputs.value = false;
   showNumericInput.value = false;
+  showDepositTrueFalse.value = false
 }
 
 // 입력 필드 표시 관리
@@ -215,11 +238,12 @@ function handleInputFields() {
     showNameInput.value = true;
     showPasswordInput.value = true;
   }
+  if (currentMessage.includes('예적금을 현재')) showDepositTrueFalse.value = true
   if (currentMessage.includes("성별")) showGenderSelection.value = true;
   if (currentMessage.includes("나이")) showMultiInputs.value = true;
   if (currentMessage.includes("월소득")) showNumericInputs.value = true;
   if (currentMessage.includes("학력")) showDropdownInputs.value = true;
-  if (currentMessage.includes("예적금")) {
+  if (currentMessage.includes("예적금 기간")) {
     showNumericInput.value = true;
     currentPlaceholder.value = "기간을 입력하세요(달)";
   }
@@ -231,7 +255,11 @@ function setGender(gender) {
   nextMessage(); // 다음 메시지로 이동
 }
 
-
+function saveProductsYesNo(a) {
+  userData.value.financial_products = a; // 성별 저장
+  resetInputFields(); // 현재 입력 필드 초기화
+  nextMessage(); // 다음 메시지로 이동
+}
 
 // 모든 답변이 입력되었는지 확인
 function validateInputs() {
@@ -277,6 +305,7 @@ function validateInputs() {
 
 // 모든 답변 저장 및 진행
 function saveAllResponses() {
+  change()
   if (!validateInputs()) return;
 
   // 저장 후 다음으로 진행
@@ -330,6 +359,7 @@ async function registerUser() {
         grade: userData.value.grade,
         job: userData.value.job,
         desire_period: userData.value.desire_period,
+        financial_products : userData.value.financial_products,
       }),
     });
 
