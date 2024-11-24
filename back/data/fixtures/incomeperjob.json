@@ -1,0 +1,98 @@
+[
+{
+    "model": "data.incomeperjob",
+    "pk": 1,
+    "fields": {
+        "job": "전체",
+        "avgincome": 2912000.0
+    }
+},
+{
+    "model": "data.incomeperjob",
+    "pk": 2,
+    "fields": {
+        "job": "경영·사무·금융·보험직",
+        "avgincome": 3003000.0
+    }
+},
+{
+    "model": "data.incomeperjob",
+    "pk": 3,
+    "fields": {
+        "job": "연구직 및 공학 기술직",
+        "avgincome": 3605500.0
+    }
+},
+{
+    "model": "data.incomeperjob",
+    "pk": 4,
+    "fields": {
+        "job": "교육·법률·사회복지·경찰·소방직 및 군인",
+        "avgincome": 2562500.0
+    }
+},
+{
+    "model": "data.incomeperjob",
+    "pk": 5,
+    "fields": {
+        "job": "보건·의료직",
+        "avgincome": 2910000.0
+    }
+},
+{
+    "model": "data.incomeperjob",
+    "pk": 6,
+    "fields": {
+        "job": "예술·디자인·방송·스포츠직",
+        "avgincome": 2581500.0
+    }
+},
+{
+    "model": "data.incomeperjob",
+    "pk": 7,
+    "fields": {
+        "job": "미용·여행·숙박·음식·경비·청소직",
+        "avgincome": 2325000.0
+    }
+},
+{
+    "model": "data.incomeperjob",
+    "pk": 8,
+    "fields": {
+        "job": "영업·판매·운전·운송직",
+        "avgincome": 2795500.0
+    }
+},
+{
+    "model": "data.incomeperjob",
+    "pk": 9,
+    "fields": {
+        "job": "건설·채굴직",
+        "avgincome": 2962500.0
+    }
+},
+{
+    "model": "data.incomeperjob",
+    "pk": 10,
+    "fields": {
+        "job": "설치·정비·생산직",
+        "avgincome": 2882500.0
+    }
+},
+{
+    "model": "data.incomeperjob",
+    "pk": 11,
+    "fields": {
+        "job": "농림어업직",
+        "avgincome": 2800500.0
+    }
+},
+{
+    "model": "data.incomeperjob",
+    "pk": 12,
+    "fields": {
+        "job": "미분류",
+        "avgincome": 2517000.0
+    }
+}
+]

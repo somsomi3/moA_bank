@@ -5,6 +5,7 @@
       <nav>
         <!-- 상단 네비게이션 -->
         <div>
+          <!-- 이하 내용 여기서 작성하지 않고, 각각에서 작성해줘야 2번나오는 일이 없음. -->
           <!-- <RouterLink :to="{ name: 'SignUpView' }">시작하기</RouterLink> | -->
           <!-- <RouterLink :to="{ name: 'HomePage' }">홈페이지 바로가기</RouterLink> -->
         </div>

@@ -5,6 +5,7 @@ from .views import (
     follow_user, user_recommendation,
     user_info,
     # custom_register,
+    save_profile_data,
 )
 from .views import CustomRegisterView  # 방금 생성한 CustomRegisterView 가져오기
 
@@ -33,4 +34,7 @@ urlpatterns = [
 
     # 사용자 목록 조회 및 추가 (GET/POST)
     path('userinfo/', user_info,),
+
+    # 리포터 저장을 위한 url
+    path('save_profile/', save_profile_data, name='save_profile_data'),
 ]
