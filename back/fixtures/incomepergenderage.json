@@ -1,0 +1,200 @@
+[
+  {
+    "id": 1,
+    "gender": "전체",
+    "agerange": "계",
+    "avgallincome": 4178500.0
+  },
+  {
+    "id": 2,
+    "gender": "전체",
+    "agerange": "19세이하",
+    "avgallincome": 1770500.0
+  },
+  {
+    "id": 3,
+    "gender": "전체",
+    "agerange": "20~24세",
+    "avgallincome": 2520000.0
+  },
+  {
+    "id": 4,
+    "gender": "전체",
+    "agerange": "25~29세",
+    "avgallincome": 3213000.0
+  },
+  {
+    "id": 5,
+    "gender": "전체",
+    "agerange": "30~34세",
+    "avgallincome": 3836500.0
+  },
+  {
+    "id": 6,
+    "gender": "전체",
+    "agerange": "35~39세",
+    "avgallincome": 4525500.0
+  },
+  {
+    "id": 7,
+    "gender": "전체",
+    "agerange": "40~44세",
+    "avgallincome": 4865000.0
+  },
+  {
+    "id": 8,
+    "gender": "전체",
+    "agerange": "45~49세",
+    "avgallincome": 4951500.0
+  },
+  {
+    "id": 9,
+    "gender": "전체",
+    "agerange": "50~54세",
+    "avgallincome": 4900500.0
+  },
+  {
+    "id": 10,
+    "gender": "전체",
+    "agerange": "55~59세",
+    "avgallincome": 4438500.0
+  },
+  {
+    "id": 11,
+    "gender": "전체",
+    "agerange": "60세이상",
+    "avgallincome": 3161500.0
+  },
+  {
+    "id": 12,
+    "gender": "여자",
+    "agerange": "계",
+    "avgallincome": 3200500.0
+  },
+  {
+    "id": 13,
+    "gender": "여자",
+    "agerange": "19세이하",
+    "avgallincome": 1565000.0
+  },
+  {
+    "id": 14,
+    "gender": "여자",
+    "agerange": "20~24세",
+    "avgallincome": 2448500.0
+  },
+  {
+    "id": 15,
+    "gender": "여자",
+    "agerange": "25~29세",
+    "avgallincome": 3077500.0
+  },
+  {
+    "id": 16,
+    "gender": "여자",
+    "agerange": "30~34세",
+    "avgallincome": 3522500.0
+  },
+  {
+    "id": 17,
+    "gender": "여자",
+    "agerange": "35~39세",
+    "avgallincome": 3895500.0
+  },
+  {
+    "id": 18,
+    "gender": "여자",
+    "agerange": "40~44세",
+    "avgallincome": 3822000.0
+  },
+  {
+    "id": 19,
+    "gender": "여자",
+    "agerange": "45~49세",
+    "avgallincome": 3544000.0
+  },
+  {
+    "id": 20,
+    "gender": "여자",
+    "agerange": "50~54세",
+    "avgallincome": 3212500.0
+  },
+  {
+    "id": 21,
+    "gender": "여자",
+    "agerange": "55~59세",
+    "avgallincome": 2777500.0
+  },
+  {
+    "id": 22,
+    "gender": "여자",
+    "agerange": "60세이상",
+    "avgallincome": 2120000.0
+  },
+  {
+    "id": 23,
+    "gender": "남자",
+    "agerange": "계",
+    "avgallincome": 4828500.0
+  },
+  {
+    "id": 24,
+    "gender": "남자",
+    "agerange": "19세이하",
+    "avgallincome": 1995500.0
+  },
+  {
+    "id": 25,
+    "gender": "남자",
+    "agerange": "20~24세",
+    "avgallincome": 2626000.0
+  },
+  {
+    "id": 26,
+    "gender": "남자",
+    "agerange": "25~29세",
+    "avgallincome": 3341000.0
+  },
+  {
+    "id": 27,
+    "gender": "남자",
+    "agerange": "30~34세",
+    "avgallincome": 4054000.0
+  },
+  {
+    "id": 28,
+    "gender": "남자",
+    "agerange": "35~39세",
+    "avgallincome": 4875000.0
+  },
+  {
+    "id": 29,
+    "gender": "남자",
+    "agerange": "40~44세",
+    "avgallincome": 5431500.0
+  },
+  {
+    "id": 30,
+    "gender": "남자",
+    "agerange": "45~49세",
+    "avgallincome": 5798500.0
+  },
+  {
+    "id": 31,
+    "gender": "남자",
+    "agerange": "50~54세",
+    "avgallincome": 5955000.0
+  },
+  {
+    "id": 32,
+    "gender": "남자",
+    "agerange": "55~59세",
+    "avgallincome": 5521500.0
+  },
+  {
+    "id": 33,
+    "gender": "남자",
+    "agerange": "60세이상",
+    "avgallincome": 3799000.0
+  }
+]
