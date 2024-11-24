@@ -1,0 +1,101 @@
+[
+{
+    "model": "data.decile_consume",
+    "pk": 1,
+    "fields": {
+        "per_range": "전체  평균가계지출",
+        "worker": 4300001.75,
+        "not_worker": 3013113.125
+    }
+},
+{
+    "model": "data.decile_consume",
+    "pk": 2,
+    "fields": {
+        "per_range": "１분위가계지출",
+        "worker": 1454868.75,
+        "not_worker": 1394514.125
+    }
+},
+{
+    "model": "data.decile_consume",
+    "pk": 3,
+    "fields": {
+        "per_range": "２분위가계지출",
+        "worker": 2044930.25,
+        "not_worker": 1240748.875
+    }
+},
+{
+    "model": "data.decile_consume",
+    "pk": 4,
+    "fields": {
+        "per_range": "３분위가계지출",
+        "worker": 2499471.5,
+        "not_worker": 1574428.75
+    }
+},
+{
+    "model": "data.decile_consume",
+    "pk": 5,
+    "fields": {
+        "per_range": "４분위가계지출",
+        "worker": 2953099.625,
+        "not_worker": 1984646.75
+    }
+},
+{
+    "model": "data.decile_consume",
+    "pk": 6,
+    "fields": {
+        "per_range": "５분위가계지출",
+        "worker": 3516782.625,
+        "not_worker": 2398974.875
+    }
+},
+{
+    "model": "data.decile_consume",
+    "pk": 7,
+    "fields": {
+        "per_range": "６분위가계지출",
+        "worker": 4185866.625,
+        "not_worker": 2852389.875
+    }
+},
+{
+    "model": "data.decile_consume",
+    "pk": 8,
+    "fields": {
+        "per_range": "７분위가계지출",
+        "worker": 4827789.375,
+        "not_worker": 3299675.875
+    }
+},
+{
+    "model": "data.decile_consume",
+    "pk": 9,
+    "fields": {
+        "per_range": "８분위가계지출",
+        "worker": 5590108.625,
+        "not_worker": 4069558.25
+    }
+},
+{
+    "model": "data.decile_consume",
+    "pk": 10,
+    "fields": {
+        "per_range": "９분위가계지출",
+        "worker": 6419264.625,
+        "not_worker": 4690350.125
+    }
+},
+{
+    "model": "data.decile_consume",
+    "pk": 11,
+    "fields": {
+        "per_range": "10분위가계지출",
+        "worker": 9490726.75,
+        "not_worker": 6608121.5
+    }
+}
+]
