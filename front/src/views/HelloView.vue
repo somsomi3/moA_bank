@@ -119,7 +119,10 @@
           {{ saving.name }} - {{ saving.rate }}% ({{ saving.term }})
         </li>
       </ul>
+      <!-- 리포트 저장 버튼 -->
+      <button @click="saveReport" class="save-button">리포트 저장하기</button>
     </div>
+    {{ recommendations }}jhjhjhjh
   </div>
   
 
@@ -391,7 +394,36 @@ async function registerUser() {
     alert("회원가입 요청 중 오류가 발생했습니다.");
   }
 }
+// 리포터 저장함수
+async function saveReport() {
+  const url = "http://127.0.0.1:8000/api/v1/save_profile/";
+  const token = localStorage.getItem("userToken");
 
+  if (!token) {
+    alert("로그인이 필요합니다.");
+    return;
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${token}`, // 인증 토큰 사용
+      },
+      body: JSON.stringify(recommendations.value), // Vue의 recommendations 데이터 전송
+    });
+
+    if (response.ok) {
+      alert("리포트가 성공적으로 저장되었습니다!");
+    } else {
+      const errorData = await response.json();
+      console.error("리포트 저장 실패:", errorData);
+    }
+  } catch (error) {
+    console.error("리포트 저장 요청 중 오류 발생:", error);
+  }
+}
 // 추천 결과 API 호출
 async function fetchRecommendations(userId) {
   const url = `http://127.0.0.1:8000/data/recommend_view/${userId}/`;
@@ -401,6 +433,13 @@ async function fetchRecommendations(userId) {
     if (response.ok) {
       const result = await response.json();
       recommendations.value = result; // 추천 결과 저장
+
+
+      // db와 연결해서 report저장
+      // 리포트 저장 호출
+      await saveReport();
+      print(saveReport)
+
       showReport.value = true; // 리포트 표시
     } else {
       console.error("추천 API 오류:", await response.json());
