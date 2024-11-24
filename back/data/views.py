@@ -891,11 +891,11 @@ def recommend_savings_and_deposits(use_bank, save_trm, has_savings_or_deposits):
             recommend_savings.pop(0)
     # print(sorted_Deposit_rate_datas)
     if len(recommend_deposits) == 0:
-        recommend_deposits.append(sorted_Deposit_rate_datas[-2:]['product'])
+        recommend_deposits.append(sorted_Deposit_rate_datas[-1]['product'])
     if len(recommend_deposits) == 1:
         recommend_deposits.append(sorted_Deposit_rate_datas[-1]['product'])
     if len(recommend_savings) == 0:
-        recommend_savings.append(sorted_Saving_rate_datas[-2:]['product2'])
+        recommend_savings.append(sorted_Saving_rate_datas[-1]['product2'])
     if len(recommend_savings) == 1:
         recommend_savings.append(sorted_Saving_rate_datas[-1]['product2'])
     # print(recommend_deposits)
@@ -908,25 +908,6 @@ def recommend_savings_and_deposits(use_bank, save_trm, has_savings_or_deposits):
         recommend_saving['save_trm'] = setted_Deposit_Options.data[recommend_deposit['id']-1]['save_trm']
     # print(recommend_deposits, 123123123123)
     return recommend_deposits, recommend_savings
-# def recommend_savings_and_deposits(use_bank, save_trm, has_savings_or_deposits):
-#     savingproducts = SavingProducts.objects.all()
-#     print(savingproducts[0]['product_name'])
-def recommend_savings_and_deposits(main_bank, desire_period, financial_products):
-    savingproducts = SavingProducts.objects.filter(bank=main_bank, period=desire_period)
-    
-    # QuerySet에서 첫 번째 객체 가져오기
-    if savingproducts.exists():
-        savingproduct = savingproducts.first()
-        print(savingproduct.product_name)  # 모델 필드에 접근
-    else:
-        print("No matching savings products found.")
-
-
-    # if has_savings_or_deposits ==1:
-    #     if use_bank[:2] == 
-    # else:
-    #     print(use_bank)
-    #     print(save_trm)
 
 
 

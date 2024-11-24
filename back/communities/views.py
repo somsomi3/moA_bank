@@ -171,10 +171,13 @@ def article_detail_comment(request, article_id):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+from django.views.decorators.csrf import csrf_exempt
+
 
 # 게시글 좋아요 추가/삭제
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
+@csrf_exempt
 def like_article(request, article_id):
     try:
         article = Article.objects.get(pk=article_id)

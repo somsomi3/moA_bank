@@ -162,12 +162,13 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             return 9
         return 10  # 상위 소득
     
+from django.conf import settings
 
 # 1. HelloView에서 생성된 리포트를 db와 연결하여, 리포트를 저장하고, 
 # 2. 마이페이지에서 출력하게끔 만드는 첫순서
 # 1-1 모델 만들기
 class Report(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="report")  # 사용자와 연결
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
     income_analysis = models.TextField()
     income_decile = models.CharField(max_length=50)
     spending_analysis = models.TextField()

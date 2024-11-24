@@ -123,7 +123,7 @@
       <!-- 리포트 저장 버튼 -->
       <button @click="saveReport" class="save-button">리포트 저장하기</button>
     </div>
-    {{ recommendations2 }}
+    {{ recommendations }}
   </div>
   
 
@@ -133,6 +133,7 @@
 <script setup>
 import { ref } from "vue";
 import { useCounterStore } from "@/stores/counter";
+
 const store = useCounterStore()
 // 메시지 리스트
 const messages = [
@@ -395,24 +396,18 @@ async function registerUser() {
     alert("회원가입 요청 중 오류가 발생했습니다.");
   }
 }
-// 리포터 저장함수
-async function saveReport() {
+/// 리포트 저장 함수
+async function saveReport(token, result) {
   const url = "http://127.0.0.1:8000/api/v1/save_profile/";
-  const token = localStorage.getItem("userToken");
-
-  if (!token) {
-    alert("로그인이 필요합니다.");
-    return;
-  }
 
   try {
     const response = await fetch(url, {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Token ${token}`, // 인증 토큰 사용
+        "Authorization": `Token ${token}`, // 저장된 토큰 사용
       },
-      body: JSON.stringify(recommendations.value), // Vue의 recommendations 데이터 전송
+      body: JSON.stringify(recommendations.value),
     });
 
     if (response.ok) {
@@ -425,22 +420,23 @@ async function saveReport() {
     console.error("리포트 저장 요청 중 오류 발생:", error);
   }
 }
+
 // 추천 결과 API 호출
 async function fetchRecommendations(userId) {
-  const url = `http://127.0.0.1:8000/data/recommend_view/${userId}/`;
+  const token = localStorage.getItem("userToken");
+  if (!token) {
+    alert("로그인이 필요합니다.");
+    return;
+  }
 
+  const url = `http://127.0.0.1:8000/data/recommend_view/${userId}/`;
   try {
     const response = await fetch(url);
     if (response.ok) {
       const result = await response.json();
       recommendations.value = result; // 추천 결과 저장
 
-
-      // db와 연결해서 report저장
-      // 리포트 저장 호출
-      await saveReport();
-      print(saveReport)
-
+      await saveReport(token,result); // 리포트 저장 호출
       showReport.value = true; // 리포트 표시
     } else {
       console.error("추천 API 오류:", await response.json());
@@ -449,6 +445,7 @@ async function fetchRecommendations(userId) {
     console.error("추천 API 호출 중 오류 발생:", error);
   }
 }
+
 
 
 

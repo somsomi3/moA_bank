@@ -85,7 +85,7 @@ const report = ref(null);
 
 // 마이페이지 데이터 가져오기
 async function fetchMyPageData() {
-  const url = "http://127.0.0.1:8000/api/v1/save_profile/"; // 백엔드 마이페이지 API 엔드포인트
+  const url = "http://127.0.0.1:8000/save_profile/"; // 백엔드 마이페이지 API 엔드포인트
   const token = localStorage.getItem("userToken");
 
   if (!token) {
