@@ -1,0 +1,582 @@
+[
+  {
+    "id": 1,
+    "product2_id": 1,
+    "fin_prdt_cd": "WR0001F",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.8,
+    "intr_rate2": 4.2,
+    "save_trm": 12
+  },
+  {
+    "id": 2,
+    "product2_id": 2,
+    "fin_prdt_cd": "WR0001L",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.7,
+    "intr_rate2": 3.9,
+    "save_trm": 12
+  },
+  {
+    "id": 3,
+    "product2_id": 3,
+    "fin_prdt_cd": "00266451",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.25,
+    "intr_rate2": 3.25,
+    "save_trm": 36
+  },
+  {
+    "id": 4,
+    "product2_id": 4,
+    "fin_prdt_cd": "10521001000846001",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.31,
+    "intr_rate2": 3.86,
+    "save_trm": 12
+  },
+  {
+    "id": 5,
+    "product2_id": 5,
+    "fin_prdt_cd": "10527001000925000",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.51,
+    "intr_rate2": 4.06,
+    "save_trm": 12
+  },
+  {
+    "id": 6,
+    "product2_id": 6,
+    "fin_prdt_cd": "10527001001272000",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.95,
+    "intr_rate2": 3.75,
+    "save_trm": 6
+  },
+  {
+    "id": 7,
+    "product2_id": 7,
+    "fin_prdt_cd": "10527001001278000",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.25,
+    "intr_rate2": 3.7,
+    "save_trm": 36
+  },
+  {
+    "id": 8,
+    "product2_id": 8,
+    "fin_prdt_cd": "01020400490002",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.7,
+    "intr_rate2": 3.25,
+    "save_trm": 6
+  },
+  {
+    "id": 9,
+    "product2_id": 9,
+    "fin_prdt_cd": "01020400510001",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.9,
+    "intr_rate2": 3.3,
+    "save_trm": 6
+  },
+  {
+    "id": 10,
+    "product2_id": 10,
+    "fin_prdt_cd": "01020400530001",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.5,
+    "intr_rate2": 2.7,
+    "save_trm": 36
+  },
+  {
+    "id": 11,
+    "product2_id": 11,
+    "fin_prdt_cd": "01020400660001",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.8,
+    "intr_rate2": 4.8,
+    "save_trm": 1
+  },
+  {
+    "id": 12,
+    "product2_id": 12,
+    "fin_prdt_cd": "1020400640001",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.0,
+    "intr_rate2": 8.0,
+    "save_trm": 12
+  },
+  {
+    "id": 13,
+    "product2_id": 13,
+    "fin_prdt_cd": "TD11330029000",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.0,
+    "intr_rate2": 4.2,
+    "save_trm": 36
+  },
+  {
+    "id": 14,
+    "product2_id": 14,
+    "fin_prdt_cd": "TD11330030000",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.8,
+    "intr_rate2": 4.7,
+    "save_trm": 12
+  },
+  {
+    "id": 15,
+    "product2_id": 15,
+    "fin_prdt_cd": "TD11330031000",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.3,
+    "intr_rate2": 3.8,
+    "save_trm": 12
+  },
+  {
+    "id": 16,
+    "product2_id": 16,
+    "fin_prdt_cd": "220002101",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.25,
+    "intr_rate2": 5.35,
+    "save_trm": 12
+  },
+  {
+    "id": 17,
+    "product2_id": 17,
+    "fin_prdt_cd": "220002501",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.6,
+    "intr_rate2": 5.1,
+    "save_trm": 12
+  },
+  {
+    "id": 18,
+    "product2_id": 18,
+    "fin_prdt_cd": "220002701",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.1,
+    "intr_rate2": 4.8,
+    "save_trm": 6
+  },
+  {
+    "id": 19,
+    "product2_id": 19,
+    "fin_prdt_cd": "10-01-30-031-0018-0000",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.35,
+    "intr_rate2": 3.45,
+    "save_trm": 12
+  },
+  {
+    "id": 20,
+    "product2_id": 20,
+    "fin_prdt_cd": "10-01-30-031-0036",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.45,
+    "intr_rate2": 3.55,
+    "save_trm": 12
+  },
+  {
+    "id": 21,
+    "product2_id": 21,
+    "fin_prdt_cd": "10-01-30-031-0049-0000",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.0,
+    "intr_rate2": 6.0,
+    "save_trm": 6
+  },
+  {
+    "id": 22,
+    "product2_id": 22,
+    "fin_prdt_cd": "21000111",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.15,
+    "intr_rate2": 4.15,
+    "save_trm": 12
+  },
+  {
+    "id": 23,
+    "product2_id": 23,
+    "fin_prdt_cd": "21001116",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.35,
+    "intr_rate2": 4.05,
+    "save_trm": 6
+  },
+  {
+    "id": 24,
+    "product2_id": 24,
+    "fin_prdt_cd": "21001199",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.55,
+    "intr_rate2": 5.05,
+    "save_trm": 36
+  },
+  {
+    "id": 25,
+    "product2_id": 25,
+    "fin_prdt_cd": "21001236",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.3,
+    "intr_rate2": 4.9,
+    "save_trm": 12
+  },
+  {
+    "id": 26,
+    "product2_id": 26,
+    "fin_prdt_cd": "21001259",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.45,
+    "intr_rate2": 5.2,
+    "save_trm": 1
+  },
+  {
+    "id": 27,
+    "product2_id": 27,
+    "fin_prdt_cd": "21001268",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.2,
+    "intr_rate2": 7.7,
+    "save_trm": 1
+  },
+  {
+    "id": 28,
+    "product2_id": 28,
+    "fin_prdt_cd": "01211210113",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.3,
+    "intr_rate2": 4.8,
+    "save_trm": 12
+  },
+  {
+    "id": 29,
+    "product2_id": 29,
+    "fin_prdt_cd": "01211210121",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.5,
+    "intr_rate2": 4.5,
+    "save_trm": 12
+  },
+  {
+    "id": 30,
+    "product2_id": 30,
+    "fin_prdt_cd": "01211210122",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.5,
+    "intr_rate2": 5.7,
+    "save_trm": 12
+  },
+  {
+    "id": 31,
+    "product2_id": 31,
+    "fin_prdt_cd": "03101",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.54,
+    "intr_rate2": 2.54,
+    "save_trm": 6
+  },
+  {
+    "id": 32,
+    "product2_id": 32,
+    "fin_prdt_cd": "03700",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.74,
+    "intr_rate2": 2.74,
+    "save_trm": 36
+  },
+  {
+    "id": 33,
+    "product2_id": 33,
+    "fin_prdt_cd": "010200100051",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.5,
+    "intr_rate2": 3.4,
+    "save_trm": 12
+  },
+  {
+    "id": 34,
+    "product2_id": 34,
+    "fin_prdt_cd": "010200100084",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.55,
+    "intr_rate2": 3.35,
+    "save_trm": 12
+  },
+  {
+    "id": 35,
+    "product2_id": 35,
+    "fin_prdt_cd": "010200100092",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.25,
+    "intr_rate2": 4.75,
+    "save_trm": 36
+  },
+  {
+    "id": 36,
+    "product2_id": 36,
+    "fin_prdt_cd": "010200100104",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.0,
+    "intr_rate2": 6.0,
+    "save_trm": 1
+  },
+  {
+    "id": 37,
+    "product2_id": 37,
+    "fin_prdt_cd": "010200100109",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.5,
+    "intr_rate2": 8.0,
+    "save_trm": 12
+  },
+  {
+    "id": 38,
+    "product2_id": 38,
+    "fin_prdt_cd": "230-0119-85",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.9,
+    "intr_rate2": 4.2,
+    "save_trm": 12
+  },
+  {
+    "id": 39,
+    "product2_id": 39,
+    "fin_prdt_cd": "10-047-1360-0002",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.75,
+    "intr_rate2": 4.45,
+    "save_trm": 6
+  },
+  {
+    "id": 40,
+    "product2_id": 40,
+    "fin_prdt_cd": "10-047-1365-0001",
+    "intr_rate_type_nm": "복리",
+    "rsrv_type": "1",
+    "intr_rate": 2.75,
+    "intr_rate2": 6.25,
+    "save_trm": 6
+  },
+  {
+    "id": 41,
+    "product2_id": 41,
+    "fin_prdt_cd": "10-047-1381-0001",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.85,
+    "intr_rate2": 3.85,
+    "save_trm": 12
+  },
+  {
+    "id": 42,
+    "product2_id": 42,
+    "fin_prdt_cd": "10-047-1387-0001",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.15,
+    "intr_rate2": 4.15,
+    "save_trm": 12
+  },
+  {
+    "id": 43,
+    "product2_id": 43,
+    "fin_prdt_cd": "10-059-1264-0001",
+    "intr_rate_type_nm": "복리",
+    "rsrv_type": "1",
+    "intr_rate": 3.12,
+    "intr_rate2": 3.92,
+    "save_trm": 36
+  },
+  {
+    "id": 44,
+    "product2_id": 44,
+    "fin_prdt_cd": "52",
+    "intr_rate_type_nm": "복리",
+    "rsrv_type": "1",
+    "intr_rate": 3.3,
+    "intr_rate2": 4.3,
+    "save_trm": 12
+  },
+  {
+    "id": 45,
+    "product2_id": 45,
+    "fin_prdt_cd": "53",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.5,
+    "intr_rate2": 3.0,
+    "save_trm": 36
+  },
+  {
+    "id": 46,
+    "product2_id": 46,
+    "fin_prdt_cd": "01012000200000000003",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.2,
+    "intr_rate2": 3.2,
+    "save_trm": 1
+  },
+  {
+    "id": 47,
+    "product2_id": 47,
+    "fin_prdt_cd": "01012000200000000004",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 1.5,
+    "intr_rate2": 7.5,
+    "save_trm": 1
+  },
+  {
+    "id": 48,
+    "product2_id": 48,
+    "fin_prdt_cd": "01012000210000000000",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.8,
+    "intr_rate2": 4.4,
+    "save_trm": 36
+  },
+  {
+    "id": 49,
+    "product2_id": 49,
+    "fin_prdt_cd": "10140114300011",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.5,
+    "intr_rate2": 4.0,
+    "save_trm": 12
+  },
+  {
+    "id": 50,
+    "product2_id": 50,
+    "fin_prdt_cd": "10141109800021",
+    "intr_rate_type_nm": "복리",
+    "rsrv_type": "1",
+    "intr_rate": 2.2,
+    "intr_rate2": 2.9,
+    "save_trm": 12
+  },
+  {
+    "id": 51,
+    "product2_id": 51,
+    "fin_prdt_cd": "10141114300011",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.15,
+    "intr_rate2": 3.65,
+    "save_trm": 12
+  },
+  {
+    "id": 52,
+    "product2_id": 52,
+    "fin_prdt_cd": "10-01-30-355-0002",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.5,
+    "intr_rate2": 3.7,
+    "save_trm": 36
+  },
+  {
+    "id": 53,
+    "product2_id": 53,
+    "fin_prdt_cd": "10-01-30-355-0005",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.5,
+    "intr_rate2": 5.5,
+    "save_trm": 6
+  },
+  {
+    "id": 54,
+    "product2_id": 54,
+    "fin_prdt_cd": "10-01-30-355-0006",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 1.5,
+    "intr_rate2": 7.0,
+    "save_trm": 1
+  },
+  {
+    "id": 55,
+    "product2_id": 55,
+    "fin_prdt_cd": "1001303001001",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.0,
+    "intr_rate2": 4.0,
+    "save_trm": 6
+  },
+  {
+    "id": 56,
+    "product2_id": 56,
+    "fin_prdt_cd": "1001303001003",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 2.0,
+    "intr_rate2": 4.5,
+    "save_trm": 6
+  },
+  {
+    "id": 57,
+    "product2_id": 57,
+    "fin_prdt_cd": "1001303001004",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 1.5,
+    "intr_rate2": 2.0,
+    "save_trm": 3
+  },
+  {
+    "id": 58,
+    "product2_id": 58,
+    "fin_prdt_cd": "1001303001005",
+    "intr_rate_type_nm": "단리",
+    "rsrv_type": "1",
+    "intr_rate": 3.0,
+    "intr_rate2": 5.5,
+    "save_trm": 12
+  }
+]

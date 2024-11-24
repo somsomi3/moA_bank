@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "per_range": "전체  평균소득",
+    "worker": 5719115.5,
+    "not_worker": 3787479.5
+  },
+  {
+    "id": 2,
+    "per_range": "전체  평균가계지출",
+    "worker": 4300001.75,
+    "not_worker": 3013113.125
+  },
+  {
+    "id": 3,
+    "per_range": "１분위소득",
+    "worker": 1392830.375,
+    "not_worker": 405571.375
+  },
+  {
+    "id": 4,
+    "per_range": "１분위가계지출",
+    "worker": 1454868.75,
+    "not_worker": 1394514.125
+  },
+  {
+    "id": 5,
+    "per_range": "２분위소득",
+    "worker": 2433469.5,
+    "not_worker": 924335.875
+  },
+  {
+    "id": 6,
+    "per_range": "２분위가계지출",
+    "worker": 2044930.25,
+    "not_worker": 1240748.875
+  },
+  {
+    "id": 7,
+    "per_range": "３분위소득",
+    "worker": 3104528.25,
+    "not_worker": 1334649.0
+  },
+  {
+    "id": 8,
+    "per_range": "３분위가계지출",
+    "worker": 2499471.5,
+    "not_worker": 1574428.75
+  },
+  {
+    "id": 9,
+    "per_range": "４분위소득",
+    "worker": 3776786.875,
+    "not_worker": 1891559.125
+  },
+  {
+    "id": 10,
+    "per_range": "４분위가계지출",
+    "worker": 2953099.625,
+    "not_worker": 1984646.75
+  },
+  {
+    "id": 11,
+    "per_range": "５분위소득",
+    "worker": 4494899.0,
+    "not_worker": 2554940.0
+  },
+  {
+    "id": 12,
+    "per_range": "５분위가계지출",
+    "worker": 3516782.625,
+    "not_worker": 2398974.875
+  },
+  {
+    "id": 13,
+    "per_range": "６분위소득",
+    "worker": 5296783.5,
+    "not_worker": 3293031.625
+  },
+  {
+    "id": 14,
+    "per_range": "６분위가계지출",
+    "worker": 4185866.625,
+    "not_worker": 2852389.875
+  },
+  {
+    "id": 15,
+    "per_range": "７분위소득",
+    "worker": 6215137.625,
+    "not_worker": 4126753.25
+  },
+  {
+    "id": 16,
+    "per_range": "７분위가계지출",
+    "worker": 4827789.375,
+    "not_worker": 3299675.875
+  },
+  {
+    "id": 17,
+    "per_range": "８분위소득",
+    "worker": 7355015.5,
+    "not_worker": 5205399.125
+  },
+  {
+    "id": 18,
+    "per_range": "８분위가계지출",
+    "worker": 5590108.625,
+    "not_worker": 4069558.25
+  },
+  {
+    "id": 19,
+    "per_range": "９분위소득",
+    "worker": 9051067.0,
+    "not_worker": 6777828.75
+  },
+  {
+    "id": 20,
+    "per_range": "９분위가계지출",
+    "worker": 6419264.625,
+    "not_worker": 4690350.125
+  },
+  {
+    "id": 21,
+    "per_range": "10분위소득",
+    "worker": 14043179.75,
+    "not_worker": 11325075.88
+  },
+  {
+    "id": 22,
+    "per_range": "10분위가계지출",
+    "worker": 9490726.75,
+    "not_worker": 6608121.5
+  }
+]
