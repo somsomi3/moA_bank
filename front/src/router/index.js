@@ -94,7 +94,7 @@ router.beforeEach((to, from) => {
   // 메인 페이지로 보냄
   else if ((to.name === 'SignUpView' || to.name === 'LogInView') && (store.isLogin)) {
     window.alert('이미 로그인 되어있습니다.')
-    return { name: 'ArticleView' }
+    return { name: 'HomePage' }
   }
 })
 
