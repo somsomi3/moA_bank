@@ -21,7 +21,8 @@
      <p>
       <router-link v-if="canWrite" to="/create">글 작성하기</router-link>
      </p>
-    
+     <!-- <p>{{store.communities}}</p> -->
+     <p>{{store}}</p>
   </div>
 
 
@@ -45,11 +46,18 @@ const canWrite = ref(false)
 
 // 현재 커뮤니티 인덱스와 store.communities.community.id 비교
 const check = function () {
-  if (communityId == 1 && [1, 2, 3, 4].includes(store.communities.community?.id)) {
+  const community = store.communities?.community; // store.communities에서 community 키 확인
+  if (!community) {
+    console.warn("No community data available in store.communities");
+    canWrite.value = false;
+    return;
+  }
+
+  if (communityId == 1 && [1, 2, 3, 4].includes(store.communities.community?.decile)) {
     canWrite.value = true;
-  } else if (communityId == 2 && [5, 6, 7, 8].includes(store.communities.community?.id)) {
+  } else if (communityId == 2 && [5, 6, 7, 8].includes(store.communities.community?.decile)) {
     canWrite.value = true;
-  } else if (communityId == 3 && [9, 10].includes(store.communities.community?.id)) {
+  } else if (communityId == 3 && [9, 10].includes(store.communities.community?.decile)) {
     canWrite.value = true;
   } else {
     canWrite.value = false;
@@ -59,7 +67,7 @@ const check = function () {
 
 // DetailView가 마운트되기전에 DRF로 단일 게시글 조회를 요청 후 응답데이터를 저장
 onMounted(() => {
-  
+  console.log(communityId)
   axios({
     method: 'get',
     url: `${store.API_URL}/communities/${communityId}/articles/list/`,

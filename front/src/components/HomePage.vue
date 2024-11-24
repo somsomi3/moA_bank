@@ -23,6 +23,7 @@
       <button v-if="store.isLogin" class="nav-item logout-btn" @click="logOut">로그아웃</button>
     </nav>
   </header>
+  <p>{{ store }}</p>
 </template>
 
 <script setup>

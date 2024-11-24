@@ -121,9 +121,9 @@
         </li>
       </ul>
       <!-- 리포트 저장 버튼 -->
-      <button @click="saveReport" class="save-button">리포트 저장하기</button>
+      <button @click="saveReport(user_id)" class="save-button">리포트 저장하기</button>
     </div>
-    {{ recommendations2 }}
+    {{ recommendations }}
   </div>
   
 
@@ -382,6 +382,7 @@ async function registerUser() {
       if (userInfoResponse.ok) {
         const userInfo = await userInfoResponse.json();
         const userId = userInfo.pk; // 사용자 ID 가져오기
+        console.log(userId)
         fetchRecommendations(userId); // 추천 API 호출
       } else {
         alert("사용자 정보를 가져오는 데 실패했습니다.");
@@ -396,16 +397,26 @@ async function registerUser() {
   }
 }
 // 리포터 저장함수
-async function saveReport() {
-  const url = "http://127.0.0.1:8000/api/v1/save_profile/";
-  const token = localStorage.getItem("userToken");
+async function saveReport(userId) {
+  const url = `http://127.0.0.1:8000/api/v1/save_profile/${userId}`;
 
+  const counter = localStorage.getItem("counter");
+  console.log(counter)
+  if (!counter) {
+    alert("로그인이 필요합니다.");
+    return;
+  }
+
+  const counterData = JSON.parse(counter);
+  const token = counterData?.token;
   if (!token) {
     alert("로그인이 필요합니다.");
     return;
   }
 
+
   try {
+    console.log(token)
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -431,6 +442,7 @@ async function fetchRecommendations(userId) {
 
   try {
     const response = await fetch(url);
+    console.log(userId)
     if (response.ok) {
       const result = await response.json();
       recommendations.value = result; // 추천 결과 저장
@@ -438,7 +450,7 @@ async function fetchRecommendations(userId) {
 
       // db와 연결해서 report저장
       // 리포트 저장 호출
-      await saveReport();
+      await saveReport(userId);
       print(saveReport)
 
       showReport.value = true; // 리포트 표시

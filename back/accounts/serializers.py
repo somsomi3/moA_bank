@@ -187,7 +187,7 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('profile_img', 'id', 'username', 'nickname', 'email', 'age', 'income', 'job', 'community_id')
+        fields = '__all__'
         read_only_fields = ('id', 'username', 'nickname', 'email', 'following')
 
 # 3. 사용자 전체 정보 조회 (UserInfoSerializer)

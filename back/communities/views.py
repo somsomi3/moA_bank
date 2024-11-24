@@ -33,6 +33,7 @@ class ArticleViewSet(ModelViewSet):
 def community_list(request):
     communities = get_list_or_404(Community)
     serializer = CommunitySerializer(communities, many=True)
+    
     return Response(serializer.data)
 
 

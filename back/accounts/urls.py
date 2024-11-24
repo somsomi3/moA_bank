@@ -36,5 +36,5 @@ urlpatterns = [
     path('userinfo/', user_info,),
 
     # 리포터 저장을 위한 url
-    path('save_profile/', save_profile_data, name='save_profile_data'),
+    path('save_profile/<int:user_id>', save_profile_data, name='save_profile_data'),
 ]
