@@ -96,6 +96,7 @@
       <p><strong>소득 분석:</strong> {{ recommendations.income_analysis }}</p>
       <p><strong>소득 분위:</strong> {{ recommendations.income_decile }}</p>
       <p><strong>소비 분석:</strong> {{ recommendations.spending_analysis }}</p>
+      <p><strong>예상 세금:</strong> {{ recommendations.tax_refund_estimation.annual_income_tax }}</p>
       <p><strong>세금 환급 예상:</strong> {{ recommendations.tax_refund_estimation.refund_estimation }}</p>
       <p><strong>동일 직업 소비 수준 분석:</strong> {{ recommendations.job_analysis }}</p>
       <p><strong>동일 학력 소비 수준 분석:</strong> {{ recommendations.grade_analysis }}</p>
@@ -109,17 +110,18 @@
       <h3>추천 예금 상품</h3>
       <ul>
         <li v-for="(deposit, index) in recommendations.deposit_recommendations" :key="index">
-          {{ deposit.name }} - {{ deposit.rate }}% ({{ deposit.term }})
+          {{ deposit.name }} - {{ deposit.max_interest_rate }}% ({{ deposit.term }}) - {{ deposit.bank_name }}
         </li>
       </ul>
 
       <h3>추천 적금 상품</h3>
       <ul>
         <li v-for="(saving, index) in recommendations.saving_recommendations" :key="index">
-          {{ saving.name }} - {{ saving.rate }}% ({{ saving.term }})
+          {{ saving.name }} - {{ saving.max_interest_rate }}% ({{ saving.term }}) - {{saving.bank_name}}
         </li>
       </ul>
     </div>
+    {{ recommendations2 }}
   </div>
   
 

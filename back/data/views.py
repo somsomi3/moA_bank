@@ -846,17 +846,68 @@ def fetch_cards():
 from django.http import JsonResponse
 from .models import SavingOptions, DepositOptions
 from .models import DepositProducts, SavingProducts
+from .serializers import DepositOptionSerializer, SavingOptionSerializer, SavingProductSerializer, DepositProductSerializer
+from pprint import pprint
 def recommend_savings_and_deposits(use_bank, save_trm, has_savings_or_deposits):
-    savingproducts = SavingProducts.objects.all()
-    print(savingproducts[0]['product_name'])
+    deposit_products = DepositProducts.objects.all()
+    saving_products = SavingProducts.objects.all()
+    deposit_options = DepositOptions.objects.all()
+    saving_options = SavingOptions.objects.all()
 
+    setted_deposit_products = DepositProductSerializer(deposit_products, many = True)
+    setted_saving_products = SavingProductSerializer(saving_products, many = True)
+    setted_Deposit_Options = DepositOptionSerializer(deposit_options, many = True)
+    setted_Saving_Options = SavingOptionSerializer(saving_options, many = True)
+    sorted_Deposit_rate_datas = sorted(setted_Deposit_Options.data, key=lambda x: x["intr_rate2"])
+    sorted_Saving_rate_datas = sorted(setted_Saving_Options.data, key=lambda x: x["intr_rate2"])
+    
+    recommend_deposits = []
+    recommend_savings = []
+    for deposit_product in setted_deposit_products.data:
+        if use_bank[:2] == deposit_product['kor_co_nm'][:2] and save_trm == setted_Deposit_Options.data[deposit_product['id']]['save_trm']:
+            recommend_deposits.append(deposit_product)
+        elif use_bank[:2] == deposit_product['kor_co_nm'][:2] and deposit_product not in recommend_deposits:
+            recommend_deposits.append(deposit_product)
+    for saving_product in setted_saving_products.data:
+        if use_bank[:2] == saving_product['kor_co_nm'][:2] and save_trm == setted_Saving_Options.data[saving_product['id']]['save_trm']:
+            recommend_savings.append(saving_product)
+        elif use_bank[:2] == saving_product['kor_co_nm'][:2] and saving_product not in recommend_savings:
+            recommend_savings.append(saving_product)
 
-    # if has_savings_or_deposits ==1:
-    #     if use_bank[:2] == 
-    # else:
-    #     print(use_bank)
-    #     print(save_trm)
-
+    if len(recommend_deposits) >= 2:
+        for j in range(len(recommend_deposits)):
+            for i in range(len(recommend_deposits)-1):
+                if setted_Deposit_Options.data[recommend_deposits[i]['id']-1]['intr_rate2'] >= setted_Deposit_Options.data[recommend_deposits[i+1]['id']-1]['intr_rate2']:
+                    recommend_deposits[i],recommend_deposits[i+1] = recommend_deposits[i+1],recommend_deposits[i]
+        while len(recommend_deposits) > 2:
+            recommend_deposits.pop(0)
+    
+    if len(recommend_savings) >= 2:
+        for j in range(len(recommend_savings)):
+            for i in range(len(recommend_savings)-1):
+                if setted_Saving_Options.data[recommend_savings[i]['id']-1]['intr_rate2'] >= setted_Saving_Options.data[recommend_savings[i+1]['id']-1]['intr_rate2']:
+                    recommend_savings[i],recommend_savings[i+1] = recommend_savings[i+1],recommend_savings[i]
+        while len(recommend_savings) > 2:
+            recommend_savings.pop(0)
+    # print(sorted_Deposit_rate_datas)
+    if len(recommend_deposits) == 0:
+        recommend_deposits.append(sorted_Deposit_rate_datas[-2:]['product'])
+    if len(recommend_deposits) == 1:
+        recommend_deposits.append(sorted_Deposit_rate_datas[-1]['product'])
+    if len(recommend_savings) == 0:
+        recommend_savings.append(sorted_Saving_rate_datas[-2:]['product2'])
+    if len(recommend_savings) == 1:
+        recommend_savings.append(sorted_Saving_rate_datas[-1]['product2'])
+    # print(recommend_deposits)
+    for recommend_deposit in recommend_deposits:
+        recommend_deposit['intr_rate2'] = setted_Deposit_Options.data[recommend_deposit['id']-1]['intr_rate2']
+        recommend_deposit['save_trm'] = setted_Deposit_Options.data[recommend_deposit['id']-1]['save_trm']
+    # print(recommend_savings)
+    for recommend_saving in recommend_savings:
+        recommend_saving['intr_rate2'] = setted_Saving_Options.data[recommend_saving['id']-1]['intr_rate2']
+        recommend_saving['save_trm'] = setted_Deposit_Options.data[recommend_deposit['id']-1]['save_trm']
+    # print(recommend_deposits, 123123123123)
+    return recommend_deposits, recommend_savings
 
 
 # 소득 및 소비 분석 함수
@@ -1088,19 +1139,14 @@ def get_recommendations(user_id):
     # 예적금 추천
 
     
-        deposits, savings = recommend_savings_and_deposits(profile.main_bank, profile.desire_period, profile.financial_products)
-    # deposit_recommendations = [
-    #     (deposit[0], deposit[1], deposit[2]) for deposit in deposits
-    # ]
+        depositjj, savings = recommend_savings_and_deposits(profile.main_bank, profile.desire_period, profile.financial_products)
+        deposits = reversed(depositjj)
 
-    # saving_recommendations = [
-    #     (saving[0], saving[1], saving[2]) for saving in savings
-    # ]
         deposit_recommendations = [
-            {"name": deposit['product_name'], "bank_name": deposit['bank_name'],"term": deposit['term'], "max_interest_rate": deposit['max_interest_rate']} for deposit in deposits
+            {"name": deposit['fin_prdt_nm'], "bank_name": deposit['kor_co_nm'],"term": deposit['save_trm'], "max_interest_rate": deposit['intr_rate2']} for deposit in deposits
         ]
         saving_recommendations = [
-            {"name": saving['product_name'], "bank_name": saving['bank_name'],"term": saving['term'], "max_interest_rate": saving['max_interest_rate']} for saving in savings
+            {"name": saving['fin_prdt_nm'], "bank_name": saving['kor_co_nm'],"term": saving['save_trm'], "max_interest_rate": saving['intr_rate2']} for saving in savings
         ]
         return {
             "income_analysis": income_analysis,
@@ -1140,12 +1186,11 @@ def input_form_view(request):
             "save_trm": request.POST.get('save_trm'),
         }
         recommendations = get_recommendations(data)
-        recommendations2 = analyze_income_and_spending(data)
+        
         
         return render(request, 'input_form.html', {
             'recommendations': recommendations,
             'jobs': Incomeperjob.objects.values_list('job', flat=True),
-            'recommendations2': recommendations2,
         })
     return render(request, 'input_form.html', {
         'jobs': Incomeperjob.objects.values_list('job', flat=True),
