@@ -192,6 +192,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             return 9
         return 10  # 상위 소득
     
+from django.conf import settings
 
 # 1. HelloView에서 생성된 리포트를 db와 연결하여, 리포트를 저장하고, 
 # 2. 마이페이지에서 출력하게끔 만드는 첫순서
