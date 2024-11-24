@@ -194,101 +194,42 @@ import json
 
 #     except Exception as e:
 #         print(f"Error saving profile data: {e}")
-# from rest_framework.decorators import api_view
-# from rest_framework.response import Response
 
-# @api_view(['GET','POST'])
-# def save_profile_data(request):
-#     try:
-#         data = request.data  # DRF의 request.data 사용
-#         print("Received data:", data)
-
-#         # 사용자 데이터 저장
-#         user = request.user
-#         with transaction.atomic():
-#             user.nickname = data.get("nickname", "")
-#             user.gender = data.get("gender", "")
-#             user.age = int(data.get("age", 0))
-#             user.region = data.get("region", "")
-#             user.main_bank = data.get("main_bank", "")
-#             user.income = float(data.get("income", 0))
-#             user.consume = float(data.get("consume", 0))
-#             user.grade = data.get("grade", "")
-#             user.job = data.get("job", "")
-#             user.desire_period = int(data.get("desire_period", 0))
-#             user.save()
-
-#         return Response({"message": "Profile saved successfully!"}, status=201)
-#     except Exception as e:
-#         return Response({"error": str(e)}, status=400)
-    
-
-
-# @api_view(['GET','POST'])
+@api_view(['GET', 'POST'])
 # @permission_classes([IsAuthenticated])
-# def save_profile_data(request):
-    
-#     # 요청 데이터에서 사용자 정보를 가져옵니다.
-#     user = request.user
-#     data = request.data
-
-#     # 기존 리포트가 있는지 확인합니다.
-#     report, created = Report.objects.get_or_create(user=user)
-    
-#     # 리포트 데이터를 업데이트합니다.
-#     serializer = ReportSerializer(instance=report, data=data, partial=True)
-#     if serializer.is_valid():
-#         serializer.save()
-#         return Response({
-#             "message": "리포트가 성공적으로 저장되었습니다.",
-#             "report": serializer.data
-#         }, status=201)
-#     else:
-#         return Response(serializer.errors, status=400)
-
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from django.db import transaction
-from .models import Report
-from .serializers import ReportSerializer
-
-
-@api_view(['GET','POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def save_profile_data(request):
+def save_profile_data(request, user_id):
     try:
-        data = request.data
-        user = request.user
+        if request.method == 'GET':
+            # GET 요청 처리: 리포트 데이터 반환
+            try:
+                report = Report.objects.get(user_id=user_id)
+                userdata = User.objects.get(id=user_id)
+                serializer = ReportSerializer(report)
+                serializer2 = UserProfileSerializer(userdata)
+                return Response({
+                                   "report": serializer.data,
+        "user_data": serializer2.data
+                                }, status=200)
+            except Report.DoesNotExist:
+                return Response({"error": "해당 사용자에 대한 리포트가 없습니다."}, status=404)
 
-        # 트랜잭션 블록으로 묶어서 데이터 저장
-        with transaction.atomic():
-            # 사용자 데이터 업데이트
-            user.nickname = data.get("nickname", user.nickname)
-            user.gender = data.get("gender", user.gender)
-            user.age = int(data.get("age", user.age or 0))
-            user.region = data.get("region", user.region)
-            user.main_bank = data.get("main_bank", user.main_bank)
-            user.income = float(data.get("income", user.income or 0))
-            user.consume = float(data.get("consume", user.consume or 0))
-            user.grade = data.get("grade", user.grade)
-            user.job = data.get("job", user.job)
-            user.desire_period = int(data.get("desire_period", user.desire_period or 0))
-            user.save()
+        elif request.method == 'POST':
+            data = request.data
 
-            # 리포트 데이터 업데이트 또는 생성
-            report, created = Report.objects.get_or_create(user=user)
-            serializer = ReportSerializer(instance=report, data=data, partial=True)
-            if serializer.is_valid():
-                serializer.save()
-            else:
-                return Response(serializer.errors, status=400)
+            # 트랜잭션 블록으로 데이터 저장
+            with transaction.atomic():
+                # 리포트 데이터 업데이트 또는 생성
+                report, created = Report.objects.get_or_create(user_id=user_id)
+                serializer = ReportSerializer(instance=report, data=data, partial=True)
 
-        return Response({
-            "message": "프로필과 리포트가 성공적으로 저장되었습니다.",
-            "report": serializer.data
-        }, status=201)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({
+                        "message": "프로필과 리포트가 성공적으로 저장되었습니다.",
+                        "report": serializer.data
+                    }, status=201)
+                else:
+                    return Response(serializer.errors, status=400)
 
     except Exception as e:
         return Response({"error": str(e)}, status=400)

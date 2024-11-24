@@ -29,7 +29,7 @@ export const useCounterStore = defineStore('counter', () => {
         },
       });
       
-      communityid.value = res.data.community_id; // 커뮤니티 ID 업데이트
+      communityid.value = res.data.community; // 커뮤니티 ID 업데이트
       return communityid.value; // 업데이트된 community_id 반환
     } catch (err) {
       console.error('Error fetching community ID:', err);
@@ -42,6 +42,7 @@ export const useCounterStore = defineStore('counter', () => {
   const getArticles = async function () {
     try {
       usercommunity.value = await getcommunityid(); // 비동기 커뮤니티 ID 가져오기
+      console.log("User's community ID:", usercommunity.value); // 디버깅 로그
       if (usercommunity.value !== 0) {
         const res = await axios({
           method: 'get',

@@ -5,6 +5,7 @@
  db에 저장해야 할 거같은데? -->
 
  <template>
+  
   <div class="container">
     <h1>마이페이지</h1>
     <div class="content">
@@ -59,8 +60,10 @@
         </div>
         <p v-else>저장된 리포트가 없습니다.</p>
       </div>
+      
     </div>
   </div>
+
 </template>
 
 <script setup>
@@ -83,18 +86,49 @@ const userData = ref({
 });
 const report = ref(null);
 
-// 마이페이지 데이터 가져오기
-async function fetchMyPageData() {
-  const url = "http://127.0.0.1:8000/save_profile/"; // 백엔드 마이페이지 API 엔드포인트
-  const token = localStorage.getItem("userToken");
+// // 마이페이지 데이터 가져오기
+// async function fetchMyPageData() {
 
-  if (!token) {
-    alert("로그인이 필요합니다.");
-    return;
-  }
+  
 
+//   const url = `http://127.0.0.1:8000/api/v1/save_profile/${user_id}`; // 백엔드 마이페이지 API 엔드포인트
+//   const token = localStorage.getItem("userToken");
+
+//   if (!token) {
+//     alert("로그인이 필요합니다.");
+//     return;
+//   }
+
+//   try {
+//     const response = await fetch(url, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         "Authorization": `Token ${token}`, // 인증 토큰 사용
+//       },
+//     });
+
+//     if (response.ok) {
+//       const result = await response.json();
+//       userData.value = result.user_data; // 사용자 정보 저장
+//       report.value = result.report; // 리포트 데이터 저장
+//     } else {
+//       console.error("마이페이지 데이터 가져오기 실패:", await response.json());
+//     }
+//   } catch (error) {
+//     console.error("마이페이지 요청 중 오류 발생:", error);
+//   }
+// }
+
+// // 컴포넌트 로드 시 데이터 가져오기
+// onMounted(() => {
+//   fetchMyPageData();
+// });
+
+
+async function fetchUserIdFromServer(token) {
   try {
-    const response = await fetch(url, {
+    const response = await fetch("http://127.0.0.1:8000/api/v1/profile/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -103,20 +137,117 @@ async function fetchMyPageData() {
     });
 
     if (response.ok) {
+      const userData = await response.json();
+      return userData.id; // 서버에서 반환된 user_id
+    } else {
+      console.error("서버에서 user_id를 가져오지 못했습니다:", await response.json());
+      return null;
+    }
+  } catch (error) {
+    console.error("서버 요청 중 오류 발생:", error);
+    return null;
+  }
+}
+
+// async function fetchMyPageData() {
+//   const counter = localStorage.getItem("counter");
+//   if (!counter) {
+//     alert("로그인이 필요합니다.");
+//     return;
+//   }
+
+//   const counterData = JSON.parse(counter);
+//   const token = counterData?.token;
+//   if (!token) {
+//     alert("로그인이 필요합니다.");
+//     return;
+//   }
+
+//   const user_id = await fetchUserIdFromServer(token);
+//   if (!user_id) {
+//     alert("사용자 정보를 불러오는 데 실패했습니다.");
+//     return;
+//   }
+  
+//   const url = `http://127.0.0.1:8000/api/v1/save_profile/${user_id}`;
+
+//   try {
+//     const response = await fetch(url, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         "Authorization": `Token ${token}`,
+//       },
+   
+//     });
+
+//     if (response.ok) {
+//       const result = await response.json();
+//       console.log("사용자 데이터:", result.user_data);
+//       console.log("리포트 데이터:", result.report);
+//     } else {
+//       alert("마이페이지 데이터를 불러오는 중 오류가 발생했습니다.");
+//       console.error("마이페이지 데이터 가져오기 실패:", await response.json());
+//     }
+//   } catch (error) {
+//     console.error("마이페이지 요청 중 오류 발생:", error);
+//   }
+// }
+
+
+// onMounted(async () => {
+//   await fetchMyPageData();
+// });
+
+async function fetchMyPageData() {
+  const counter = localStorage.getItem("counter");
+  if (!counter) {
+    alert("로그인이 필요합니다.");
+    return;
+  }
+
+  const counterData = JSON.parse(counter);
+  const token = counterData?.token;
+  if (!token) {
+    alert("로그인이 필요합니다.");
+    return;
+  }
+
+  // 사용자 ID 가져오기
+  const user_id = await fetchUserIdFromServer(token);
+  if (!user_id) {
+    alert("사용자 정보를 불러오는 데 실패했습니다.");
+    return;
+  }
+
+  const url = `http://127.0.0.1:8000/api/v1/save_profile/${user_id}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${token}`,
+      },
+    });
+
+    if (response.ok) {
       const result = await response.json();
+      
       userData.value = result.user_data; // 사용자 정보 저장
       report.value = result.report; // 리포트 데이터 저장
+      // console.log("사용자 데이터:", userData.value);
+      // console.log("리포트 데이터:", report.value);
     } else {
-      console.error("마이페이지 데이터 가져오기 실패:", await response.json());
+      const errorData = await response.json();
+      console.error("마이페이지 데이터 가져오기 실패:", errorData);
     }
   } catch (error) {
     console.error("마이페이지 요청 중 오류 발생:", error);
   }
 }
-
-// 컴포넌트 로드 시 데이터 가져오기
-onMounted(() => {
-  fetchMyPageData();
+onMounted(async () => {
+  await fetchMyPageData();
 });
 </script>
 

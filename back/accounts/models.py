@@ -118,20 +118,50 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         # 소득 기반 커뮤니티 할당
         self.assign_user_to_community(user)
         return user
+    # def assign_user_to_community(self, user):
+    #     """소득 분위에 따라 커뮤니티를 할당"""
+    #     try:
+    #         income_decile = self.calculate_income_decile(user.income)
+    #         community, created = Community.objects.get_or_create(
+    #             decile=income_decile,
+    #             defaults={
+    #                 'name': f"Community {income_decile}",
+    #                 'description': f"Community for decile {income_decile}"
+    #             }
+    #         )
+    #         user.community = community  # ForeignKey 필드 설정
+    #         user.save()
+    #         user.communities.add(community)  # ManyToMany 관계 추가
+    #     except Exception as e:
+    #         print(f"Error in assigning community: {e}")
     def assign_user_to_community(self, user):
         """소득 분위에 따라 커뮤니티를 할당"""
         try:
+            # 사용자 소득 분위 계산
             income_decile = self.calculate_income_decile(user.income)
-            community, created = Community.objects.get_or_create(
-                decile=income_decile,
-                defaults={
-                    'name': f"Community {income_decile}",
-                    'description': f"Community for decile {income_decile}"
-                }
-            )
-            user.community = community  # ForeignKey 필드 설정
+            print(f"Calculated decile: {income_decile} for user: {user.id}")
+
+            # decile에 따라 커뮤니티 ID 결정
+            if 1 <= income_decile <= 4:
+                community_id = 1
+            elif 5 <= income_decile <= 8:
+                community_id = 2
+            elif 9 <= income_decile <= 10:
+                community_id = 3
+            else:
+                print("Invalid decile. Assigning to default community.")
+                community_id = None  # 기본 커뮤니티 ID가 없다면 None 처리
+
+            # 커뮤니티 가져오기
+            community = Community.objects.get(id=community_id)
+            print(f"Assigning user {user.id} to community {community.name}")
+
+            # ForeignKey 또는 ManyToMany 관계 설정
+            user.community = community  # ForeignKey 관계일 경우
             user.save()
-            user.communities.add(community)  # ManyToMany 관계 추가
+        except Community.DoesNotExist:
+            print(f"Community with ID {community_id} does not exist.")
+            # 필요한 경우, 기본 커뮤니티로 설정
         except Exception as e:
             print(f"Error in assigning community: {e}")
 
@@ -168,18 +198,20 @@ from django.conf import settings
 # 2. 마이페이지에서 출력하게끔 만드는 첫순서
 # 1-1 모델 만들기
 class Report(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="report")  # 사용자와 연결
     income_analysis = models.TextField()
     income_decile = models.CharField(max_length=50)
     spending_analysis = models.TextField()
-    tax_refund_estimation = models.JSONField()
     job_analysis = models.TextField()
     grade_analysis = models.TextField()
-    card_recommendations = models.JSONField()
-    deposit_recommendations = models.JSONField()
-    saving_recommendations = models.JSONField()
+    card_recommendations = models.JSONField(default=list, null=True, blank=True)  # 배열 저장
+    deposit_recommendations = models.JSONField(default=list, null=True, blank=True)  # 배열 저장
+    saving_recommendations = models.JSONField(default=list, null=True, blank=True)  # 배열 저장
+    tax_refund_estimation = models.JSONField(default=list, null=True, blank=True)  # 배열 저장
     created_at = models.DateTimeField(auto_now_add=True)
     bank = models.TextField()
+    
+    
     def __str__(self):
         return f"{self.user.username}'s Report"
     

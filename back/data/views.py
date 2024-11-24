@@ -893,11 +893,11 @@ def recommend_savings_and_deposits(use_bank, save_trm, has_savings_or_deposits):
     if len(recommend_deposits) == 0:
         recommend_deposits.append(sorted_Deposit_rate_datas[-1]['product'])
     if len(recommend_deposits) == 1:
-        recommend_deposits.append(sorted_Deposit_rate_datas[-1]['product'])
+        recommend_deposits.append(sorted_Deposit_rate_datas[-2]['product'])
     if len(recommend_savings) == 0:
         recommend_savings.append(sorted_Saving_rate_datas[-1]['product2'])
     if len(recommend_savings) == 1:
-        recommend_savings.append(sorted_Saving_rate_datas[-1]['product2'])
+        recommend_savings.append(sorted_Saving_rate_datas[-2]['product2'])
     # print(recommend_deposits)
     for recommend_deposit in recommend_deposits:
         recommend_deposit['intr_rate2'] = setted_Deposit_Options.data[recommend_deposit['id']-1]['intr_rate2']

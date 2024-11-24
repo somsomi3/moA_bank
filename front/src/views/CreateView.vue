@@ -44,7 +44,10 @@ const createArticle = function () {
   })
     .then((res) => {
       // console.log('게시글 작성 성공!')
-      router.push({ name: 'ArticleView' })
+      router.push({ 
+                    name: 'DetailView', 
+                    params: { id: store.communities.community.id } // id를 객체로 전달
+                  });
     })
     .catch((err) => {
       console.log(err)
