@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, get_list_or_404
-from .models import User
+from .models import User,Report
 from .serializers import (
     # CustomRegisterSerializer,
     UserProfileSerializer,
@@ -14,6 +14,7 @@ from .serializers import (
     UserInfoChangeSerializer,
     MyPageSerializer,
     UserRecommendationSerializer,
+    ReportSerializer
 )
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication, BasicAuthentication
@@ -220,3 +221,26 @@ def save_profile_data(request):
         return Response({"message": "Profile saved successfully!"}, status=201)
     except Exception as e:
         return Response({"error": str(e)}, status=400)
+    
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def save_profile_data(request):
+    # 요청 데이터에서 사용자 정보를 가져옵니다.
+    user = request.user
+    data = request.data
+
+    # 기존 리포트가 있는지 확인합니다.
+    report, created = Report.objects.get_or_create(user=user)
+
+    # 리포트 데이터를 업데이트합니다.
+    serializer = ReportSerializer(instance=report, data=data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({
+            "message": "리포트가 성공적으로 저장되었습니다.",
+            "report": serializer.data
+        }, status=201)
+    else:
+        return Response(serializer.errors, status=400)
