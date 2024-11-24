@@ -2,7 +2,7 @@
  # accounts/serializers.py
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
-from .models import User
+from .models import User, Report
 
 class CustomRegisterSerializer(RegisterSerializer):    
     # def create(self, validated_data):
@@ -228,3 +228,9 @@ class UserRecommendationSerializer(serializers.ModelSerializer):
         ]
 
 
+# 레포트 관련 Serializer: 위의 마이페이지에 레포트를 저장하는 
+# 것이 목적임
+class ReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Report
+        fields = '__all__'
