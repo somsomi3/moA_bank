@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'cards',
     'searches',
     
-    'suggests',
+    # 'suggests',
 
     # DRF
     'rest_framework',

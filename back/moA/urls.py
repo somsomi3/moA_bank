@@ -32,7 +32,7 @@ urlpatterns = [
     path('api/v1/', include('searches.urls')),
 
 
-    path('api/v1/', include('suggests.urls')),
+    # path('api/v1/', include('suggests.urls')),
 
 
     # path('accounts/', include('dj_rest_auth.urls')),
