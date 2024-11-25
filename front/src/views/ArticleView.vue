@@ -2,11 +2,9 @@
   <div>
     <h1>자유게시판</h1>
     <RouterLink :to="{ name: 'CreateView' }">Create</RouterLink>
-    <h3>{{ store.communities.community }}</h3>
-    <h3>커뮤니티 기본 인덱스 번호 : {{ store.communities.community?.id }}</h3>
-    <h3>{{ store.communities.community?.name }} 커뮤니티</h3>
+   
     <ArticleList />
-    <p>{{ store }}</p>
+  
   </div>
 </template>
 

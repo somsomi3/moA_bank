@@ -6,7 +6,7 @@
       :key="article.id"
       :article="article"
     />
-
+    <p>{{ store.communities }}</p>
   </div>
 </template>
 

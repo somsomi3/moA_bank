@@ -121,7 +121,7 @@
         </li>
       </ul>
       <!-- 리포트 저장 버튼 -->
-      <button @click="saveReport(user_id)" class="save-button">리포트 저장하기</button>
+      <button @click="saveReport(tempuserId)" class="save-button">리포트 저장하기</button>
     </div>
     {{ recommendations }}
   </div>
@@ -198,7 +198,8 @@ const change = function () {
   }
 }
 
-
+// userId 임시저장
+let tempuserId = null
 
 // 메시지 출력
 function typeMessage(message) {
@@ -374,6 +375,10 @@ async function registerUser() {
       console.log(result);
       const token = result.key;
 
+      const username = userData.value.username;
+      const password = userData.value.password1; // 사용자가 입력한 비밀번호
+      await store.logIn2({ username, password }); // Pinia 스토어의 logIn 함수 호출
+
       const userInfoResponse = await fetch("http://127.0.0.1:8000/dj-rest-auth/user/", {
         method: "GET",
         headers: {
@@ -383,7 +388,8 @@ async function registerUser() {
       if (userInfoResponse.ok) {
         const userInfo = await userInfoResponse.json();
         const userId = userInfo.pk; // 사용자 ID 가져오기
-        console.log(userId)
+        tempuserId = userId
+        console.log(userId,'dskfj')
         fetchRecommendations(userId); // 추천 API 호출
       } else {
         alert("사용자 정보를 가져오는 데 실패했습니다.");
@@ -397,10 +403,11 @@ async function registerUser() {
     alert("회원가입 요청 중 오류가 발생했습니다.");
   }
 }
+
 // 리포터 저장함수
 async function saveReport(userId) {
-  const url = `http://127.0.0.1:8000/api/v1/save_profile/${userId}`;
-
+  const url = `http://127.0.0.1:8000/api/v1/save_profile/${userId}/`;
+  console.log(userId, '12345')
   const counter = localStorage.getItem("counter");
   console.log(counter)
   if (!counter) {
@@ -439,14 +446,10 @@ async function saveReport(userId) {
 }
 
 // 추천 결과 API 호출
-async function fetchRecommendations(userId) {
-  const token = localStorage.getItem("userToken");
-  if (!token) {
-    alert("로그인이 필요합니다.");
-    return;
-  }
 
+async function fetchRecommendations(userId) {
   const url = `http://127.0.0.1:8000/data/recommend_view/${userId}/`;
+ 
   try {
     const response = await fetch(url);
     console.log(userId)
@@ -457,8 +460,8 @@ async function fetchRecommendations(userId) {
 
       // db와 연결해서 report저장
       // 리포트 저장 호출
-      await saveReport(userId);
-      print(saveReport)
+      // await saveReport(userId);
+      // print(saveReport)
 
       showReport.value = true; // 리포트 표시
     } else {
