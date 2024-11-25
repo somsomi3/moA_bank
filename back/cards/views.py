@@ -35,16 +35,17 @@ def card_design_detail(request, card_design_id):
         card_design.delete()
         return Response({"message": "Card design deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
 
-
+from django.views.decorators.csrf import csrf_exempt
 # ============================
 # GPU를 활용한 Stable Diffusion으로 카드 생성
+@csrf_exempt
 def generate_card(request):
     # Stable Diffusion 설정
     pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", torch_dtype=torch.float16)
     pipe = pipe.to("cuda")
 
     # 사용자로부터 Prompt를 받음
-    prompt = request.GET.get("prompt", "A realistic image of an airplane flying in the sky")
+    prompt = request.GET.get("prompt")
     
     # 이미지 생성
     background_image = pipe(prompt).images[0]
@@ -61,7 +62,7 @@ def generate_card(request):
 
     # 텍스트 추가
     draw = ImageDraw.Draw(card)
-    text = "Happy Journey!"
+    text = request.GET.get("text")
     draw.text((50, 500), text, font=font, fill="black")
 
     # 카드 저장
