@@ -476,45 +476,161 @@ async function fetchRecommendations(userId) {
 
 </script>
 
-
 <style scoped>
+/* 전체 컨테이너 스타일 */
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 메시지 박스 */
+.message {
+  font-size: 18px;
+  color: #333;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  min-height: 50px;
+}
+
+/* 입력 필드 */
+.input {
+  width: calc(100% - 40px);
+  max-width: 600px;
+  padding: 12px 10px;
+  margin: 10px auto;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  box-sizing: border-box;
+  display: block;
+}
+
+/* 버튼 스타일 */
+.next-button,
+.save-button {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 5px;
+  text-align: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.next-button:hover,
+.save-button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.next-button:active,
+.save-button:active {
+  background-color: #00408d;
+  transform: scale(0.98);
+}
+
+/* 드롭다운 */
+select.input {
+  appearance: none;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23333" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center;
+  background-color: #fff;
+  background-size: 12px 12px;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+/* 카드 및 리스트 */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  background-color: #ffffff;
+  margin: 10px auto;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+/* 추천 카드 섹션 */
+h3 {
+  font-size: 20px;
+  margin: 15px 0;
+  color: #333;
+}
+
+/* 저장 버튼 */
+.save-button {
+  background-color: #4caf50;
+}
+
+.save-button:hover {
+  background-color: #3e8c41;
+}
+
+/* 리포트 섹션 */
+.report-container {
+  text-align: left;
+  padding: 15px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.report-container h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.report-container p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.report-container ul {
+  margin: 10px 0 0;
+  padding: 0 15px;
+}
+
+.report-container ul li {
+  margin: 5px 0;
+}
+
+/* 반응형 */
+@media screen and (max-width: 768px) {
   .container {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-    font-family: Arial, sans-serif;
+    padding: 15px;
   }
-  
-  .message {
-    font-size: 18px;
-    margin-bottom: 20px;
-    line-height: 1.6;
-    min-height: 50px; /* 메시지 출력 영역 고정 */
-  }
-  
+
   .input {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+    width: calc(100% - 30px);
   }
-  
-  .next-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    margin: 5px;
+
+  .next-button,
+  .save-button {
+    padding: 10px 15px;
+    font-size: 14px;
   }
-  
-  .next-button:hover {
-    background-color: #0056b3;
-  }
-  </style>
-  
+}
+</style>
+

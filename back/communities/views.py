@@ -189,3 +189,5 @@ def like_article(request, article_id):
         return Response({"message": "Like removed."}, status=status.HTTP_200_OK)
 
     return Response({"message": "Article liked."}, status=status.HTTP_201_CREATED)
+
+

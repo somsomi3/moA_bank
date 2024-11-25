@@ -1230,3 +1230,20 @@ def compare_income_by_job_and_grade(income, job, grade):
     return job_analysis, grade_analysis
 
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import DepositProducts
+import random
+
+class RandomDepositProductsTitlesAPIView(APIView):
+    """
+    예금 상품의 제목(fin_prdt_nm)을 랜덤으로 5개 반환합니다.
+    """
+    def get(self, request):
+        # 예금 상품 제목을 랜덤으로 5개 가져오기
+        titles = list(
+            DepositProducts.objects.values_list('fin_prdt_nm', flat=True)
+        )
+        random_titles = random.sample(titles, min(len(titles), 5))  # 5개 또는 전체 개수 중 작은 값 사용
+        return Response(random_titles, status=status.HTTP_200_OK)

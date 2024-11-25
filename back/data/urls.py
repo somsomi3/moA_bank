@@ -31,6 +31,7 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
+from .views import RandomDepositProductsTitlesAPIView
 
 app_name = 'articles'
 
@@ -49,7 +50,7 @@ urlpatterns = [
     path('form/', views.input_form_view, name='input_form'),  # Added URL pattern
     # path('recommend/', views.get_recommendations, name='recommend'),
     path('recommend_view/<int:user_id>/', views.recommend_view, name='recommend_view'),
-
+    path('random-titles/', RandomDepositProductsTitlesAPIView.as_view(), name='random-deposit-products-titles'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
