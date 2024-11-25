@@ -46,6 +46,7 @@ const canWrite = ref(false)
 
 // 현재 커뮤니티 인덱스와 store.communities.community.id 비교
 const check = function () {
+  store.getArticles()
   const community = store.communities?.community; // store.communities에서 community 키 확인
   if (!community) {
     console.warn("No community data available in store.communities");

@@ -89,30 +89,66 @@ export const useCounterStore = defineStore('counter', () => {
   }
 
   // 로그인 요청 액션
-  const logIn = function (payload) {
-    // const username = payload.username
-    // const password1 = payload.password
-    const { username, password } = payload
-    axios({
-      method: 'post',
-      url: `${API_URL}/accounts/login/`,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: {
-        username, password
-      }
-    })
-      .then((res) => {
-        token.value = res.data.key
-        router.push({ name: 'HomePage' })
-        // console.log(res.data)
-        // console.log('로그인 성공')
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+  // const logIn = function (payload) {
+  //   // const username = payload.username
+  //   // const password1 = payload.password
+  //   const { username, password } = payload
+  //   axios({
+  //     method: 'post',
+  //     url: `${API_URL}/accounts/login/`,
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     data: {
+  //       username, password
+  //     }
+  //   })
+  //     .then((res) => {
+  //       token.value = res.data.key
+  //       router.push({ name: 'HomePage' })
+  //       // console.log(res.data)
+  //       // console.log('로그인 성공')
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }
+
+
+  const syncUserData = async function () {
+    try {
+      usercommunity.value = await getcommunityid(); // 사용자 커뮤니티 ID 동기화
+      console.log("사용자 커뮤니티 ID 동기화 완료:", usercommunity.value);
+    } catch (err) {
+      console.error("사용자 정보 동기화 중 오류 발생:", err);
+    }
+  };
+
+  
+  const logIn = async function (payload) {
+    const { username, password } = payload;
+    try {
+      const res = await axios({
+        method: "post",
+        url: `${API_URL}/accounts/login/`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          username,
+          password,
+        },
+      });
+      token.value = res.data.key; // 토큰 저장
+  
+      // 로그인 후 사용자 정보 동기화
+      await syncUserData();
+  
+      router.push({ name: "HomePage" }); // 홈 페이지로 이동
+    } catch (err) {
+      console.error("로그인 실패:", err);
+    }
+  };
   
   // [추가기능] 로그아웃
   const logOut = function () {

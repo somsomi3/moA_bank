@@ -75,7 +75,7 @@ const selectCommunity = function (community) {
   dropdownOpen.value = false; // 드롭다운 닫기
   router.push({ name: 'DetailView', params: { id: community.id } })
 } else {
-  router.push({ name: 'ArticleView', params: { id: community.id } })
+  router.push({ name: 'ArticleView' })
 };
 }
 

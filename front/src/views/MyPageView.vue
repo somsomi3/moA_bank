@@ -138,6 +138,7 @@ async function fetchUserIdFromServer(token) {
 
     if (response.ok) {
       const userData = await response.json();
+      console.log(userData.id)
       return userData.id; // 서버에서 반환된 user_id
     } else {
       console.error("서버에서 user_id를 가져오지 못했습니다:", await response.json());
@@ -221,7 +222,7 @@ async function fetchMyPageData() {
   }
 
   const url = `http://127.0.0.1:8000/api/v1/save_profile/${user_id}`;
-
+  
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -233,7 +234,7 @@ async function fetchMyPageData() {
 
     if (response.ok) {
       const result = await response.json();
-      
+      console.log(result)
       userData.value = result.user_data; // 사용자 정보 저장
       report.value = result.report; // 리포트 데이터 저장
       // console.log("사용자 데이터:", userData.value);
