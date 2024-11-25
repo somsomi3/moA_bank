@@ -133,7 +133,6 @@
 <script setup>
 import { ref } from "vue";
 import { useCounterStore } from "@/stores/counter";
-
 const store = useCounterStore()
 // 메시지 리스트
 const messages = [
@@ -426,12 +425,12 @@ async function saveReport(userId) {
   try {
     console.log(token)
     const response = await fetch(url, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Token ${token}`, // 저장된 토큰 사용
+        "Authorization": `Token ${token}`, // 인증 토큰 사용
       },
-      body: JSON.stringify(recommendations.value),
+      body: JSON.stringify(recommendations.value), // Vue의 recommendations 데이터 전송
     });
 
     if (response.ok) {
@@ -444,7 +443,6 @@ async function saveReport(userId) {
     console.error("리포트 저장 요청 중 오류 발생:", error);
   }
 }
-
 // 추천 결과 API 호출
 
 async function fetchRecommendations(userId) {
@@ -471,7 +469,6 @@ async function fetchRecommendations(userId) {
     console.error("추천 API 호출 중 오류 발생:", error);
   }
 }
-
 
 
 

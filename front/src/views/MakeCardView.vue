@@ -30,16 +30,18 @@ import axios from "axios";
 export default {
   data() {
     return {
-      prompt: "",
-      text: "",
-      fontFile: null,
-      generatedCard: null,
+      prompt: "", // 사용자 입력 프롬프트
+      text: "", // 사용자 입력 카드 텍스트
+      fontFile: null, // 업로드된 폰트 파일
+      generatedCard: null, // 생성된 카드 이미지 URL
     };
   },
   methods: {
+    // 폰트 파일 업로드 처리
     handleFontUpload(event) {
       this.fontFile = event.target.files[0];
     },
+    // 카드 생성 API 호출
     async generateCard() {
       if (!this.prompt || !this.text || !this.fontFile) {
         alert("Please provide a prompt, text, and upload a font file.");
@@ -47,20 +49,23 @@ export default {
       }
 
       try {
+        // FormData 생성 및 데이터 추가
         const formData = new FormData();
         formData.append("prompt", this.prompt);
         formData.append("text", this.text);
         formData.append("font", this.fontFile);
 
+        // API 요청
         const response = await axios.post(
           "http://127.0.0.1:8000/api/v1/card-designs/generate_card/",
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
-            responseType: "blob", // 이미지 응답 처리
+            responseType: "blob", // 이미지 데이터 처리
           }
         );
 
+        // Blob URL 생성 및 저장
         this.generatedCard = URL.createObjectURL(response.data);
       } catch (error) {
         console.error("Error generating card:", error);
@@ -70,3 +75,42 @@ export default {
   },
 };
 </script>
+
+<style>
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+label {
+  font-weight: bold;
+}
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0056b3;
+}
+img {
+  margin-top: 20px;
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+}
+</style>

@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+        <!-- 공통 네비게이션 바 -->
+    <NavBar />
     <!-- 헤더 -->
     <header>
       <nav>
@@ -21,6 +23,7 @@
 </template>
 
 <script setup>
+import NavBar from "@/components/NavBar.vue";
 import { RouterView, RouterLink } from 'vue-router'; // Vue Router 컴포넌트
 import SearchProduct from "./views/SearchProductView.vue"; // 검색 컴포넌트
 import SearchProductView from './views/SearchProductView.vue';

@@ -7,6 +7,7 @@
       :article="article"
     />
     <p>{{ store.communities }}</p>
+    <p></p>
   </div>
 </template>
 

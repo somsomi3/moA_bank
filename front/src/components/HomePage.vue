@@ -103,6 +103,32 @@ const selectCommunity = function (community) {
   transition: color 0.3s;
 }
 
+/* 오른쪽 상단 버튼 */
+.top-right-buttons {
+  position: absolute;
+  top: 2vh;
+  right: 2vw;
+  display: flex;
+  gap: 1vw; /* 버튼 간격 */
+}
+
+/* 버튼 스타일 */
+.button-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10vw; /* 버튼 크기 조정 */
+  height: 5vw;
+  font-size: 1.8vw;
+  font-weight: bold;
+  background-color: #ffffff; /* 흰색 배경 */
+  border-radius: 1vw;
+  box-shadow: 0px 1vh 2vh rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #e0e0e0; /* 테두리 */
+}
+
 .nav-item:hover {
   color: #007BFF;
 }
