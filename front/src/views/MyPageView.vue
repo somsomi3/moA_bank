@@ -221,7 +221,7 @@ async function fetchMyPageData() {
     return;
   }
 
-  const url = `http://127.0.0.1:8000/api/v1/save_profile/${user_id}`;
+  const url = `http://127.0.0.1:8000/api/v1/save_profile/${user_id}/`;
   
   try {
     const response = await fetch(url, {

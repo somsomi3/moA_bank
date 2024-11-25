@@ -374,6 +374,10 @@ async function registerUser() {
       console.log(result);
       const token = result.key;
 
+      const username = userData.value.username;
+      const password = userData.value.password1; // 사용자가 입력한 비밀번호
+      await store.logIn2({ username, password }); // Pinia 스토어의 logIn 함수 호출
+
       const userInfoResponse = await fetch("http://127.0.0.1:8000/dj-rest-auth/user/", {
         method: "GET",
         headers: {
@@ -401,7 +405,7 @@ async function registerUser() {
 
 // 리포터 저장함수
 async function saveReport(userId) {
-  const url = `http://127.0.0.1:8000/api/v1/save_profile/${userId}`;
+  const url = `http://127.0.0.1:8000/api/v1/save_profile/${userId}/`;
   console.log(userId, '12345')
   const counter = localStorage.getItem("counter");
   console.log(counter)
@@ -443,7 +447,7 @@ async function saveReport(userId) {
 
 async function fetchRecommendations(userId) {
   const url = `http://127.0.0.1:8000/data/recommend_view/${userId}/`;
-
+ 
   try {
     const response = await fetch(url);
     console.log(userId)

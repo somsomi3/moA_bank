@@ -31,7 +31,7 @@ class User(AbstractUser):
     region = models.CharField(max_length=10, blank=True, null=True)
     consume = models.IntegerField(default=0)
     desire_period = models.IntegerField(default=0)
-
+    user_decile = models.IntegerField(default=0)
     # 사용자 팔로잉
     following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
 
@@ -157,6 +157,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             print(f"Assigning user {user.id} to community {community.name}")
 
             # ForeignKey 또는 ManyToMany 관계 설정
+            user.user_decile = income_decile
             user.community = community  # ForeignKey 관계일 경우
             user.save()
         except Community.DoesNotExist:

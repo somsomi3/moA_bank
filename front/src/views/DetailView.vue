@@ -12,7 +12,7 @@
         </p>
       </p>
       <router-link to="/HomePage">← 돌아가기</router-link>
-      <p>{{article}}</p>
+      
     </div>
     <div v-else>
       <p>데이터를 불러오는 중입니다...</p>
@@ -22,69 +22,70 @@
       <router-link v-if="canWrite" to="/create">글 작성하기</router-link>
      </p>
      <!-- <p>{{store.communities}}</p> -->
-     <p>{{store}}</p>
   </div>
 
 
 </template>
 
 <script setup>
-import axios from 'axios'
-import { onMounted, ref } from 'vue'
-import { useCounterStore } from '@/stores/counter'
-import { useRoute, useRouter } from 'vue-router'
-import { errorMessages } from 'vue/compiler-sfc';
-import CreateView from './CreateView.vue';
-import { computed } from 'vue';
 
-// 라우터에서 커뮤니티 ID 가져오기
-const route = useRoute()
+import axios from "axios";
+import { onMounted, ref } from "vue";
+import { useCounterStore } from "@/stores/counter";
+import { useRoute } from "vue-router";
+
+// Pinia 스토어 및 라우터 설정
+const store = useCounterStore();
+const route = useRoute();
 const communityId = parseInt(route.params.id);
-const store = useCounterStore()
-const article = ref(null)
-const canWrite = ref(false)
+let tempdecile
+// 로컬 상태
+const article = ref(null); // 게시글 데이터
+const canWrite = ref(false); // 작성 권한
 
-// 현재 커뮤니티 인덱스와 store.communities.community.id 비교
-const check = function () {
-  store.getArticles()
-  const community = store.communities?.community; // store.communities에서 community 키 확인
-  if (!community) {
-    console.warn("No community data available in store.communities");
+// 작성 권한 체크 함수
+const checkWritePermission = () => {
+  const userDecile = store.userDecile; // 사용자 decile 값
+  tempdecile = userDecile
+  if (!userDecile) {
+    console.warn("사용자 decile 정보가 없습니다.");
     canWrite.value = false;
     return;
   }
 
-  if (communityId == 1 && [1, 2, 3, 4].includes(store.communities.community?.decile)) {
-    canWrite.value = true;
-  } else if (communityId == 2 && [5, 6, 7, 8].includes(store.communities.community?.decile)) {
-    canWrite.value = true;
-  } else if (communityId == 3 && [9, 10].includes(store.communities.community?.decile)) {
+  // communityId와 decile 값을 기반으로 작성 권한 확인
+  if (
+    (communityId === 1 && [1, 2, 3, 4].includes(userDecile)) ||
+    (communityId === 2 && [5, 6, 7, 8].includes(userDecile)) ||
+    (communityId === 3 && [9, 10].includes(userDecile))
+  ) {
     canWrite.value = true;
   } else {
     canWrite.value = false;
   }
 };
 
-
-// DetailView가 마운트되기전에 DRF로 단일 게시글 조회를 요청 후 응답데이터를 저장
-onMounted(() => {
-  console.log(communityId)
-  axios({
-    method: 'get',
-    url: `${store.API_URL}/communities/${communityId}/articles/list/`,
-    headers: {
-        Authorization: `Token ${store.token}`
+// 게시글 데이터 가져오기
+const fetchArticle = async () => {
+  try {
+    const response = await axios.get(`${store.API_URL}/communities/${communityId}/articles/list/`, {
+      headers: {
+        Authorization: `Token ${store.token}`,
       },
-  })
-    .then((res) => {
-      console.log(res.data)
-      article.value = res.data
-      check()
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-})
+    });
+    article.value = response.data; // 게시글 데이터 저장
+    console.log("게시글 데이터:", article.value);
+    checkWritePermission(); // 작성 권한 체크
+  } catch (err) {
+    console.error("게시글 데이터 가져오기 실패:", err);
+  }
+};
+
+// 컴포넌트 마운트 시 실행
+onMounted(async () => {
+  await store.fetchUserDecile(); // 사용자 decile 정보 가져오기
+  fetchArticle(); // 게시글 데이터 가져오기
+});
 
 </script>
 

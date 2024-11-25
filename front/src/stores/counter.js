@@ -28,8 +28,9 @@ export const useCounterStore = defineStore('counter', () => {
           Authorization: `Token ${token.value}`,
         },
       });
-      
+      console.log(res.data,'62362')
       communityid.value = res.data.community; // 커뮤니티 ID 업데이트
+      console.log(communityid.value, '234')
       return communityid.value; // 업데이트된 community_id 반환
     } catch (err) {
       console.error('Error fetching community ID:', err);
@@ -54,6 +55,7 @@ export const useCounterStore = defineStore('counter', () => {
         });
         
         communities.value = res.data; // 게시글 저장
+
         
       } else {
         console.warn('커뮤니티 ID를 가져올 수 없습니다.');
@@ -81,6 +83,7 @@ export const useCounterStore = defineStore('counter', () => {
         // console.log('response_data:',  res.data)
         // console.log('회원가입 성공')
         const password = password1
+        
         logIn({ username, password })
       })
       .catch((err) => {
@@ -150,6 +153,30 @@ export const useCounterStore = defineStore('counter', () => {
     }
   };
   
+  const logIn2 = async function (payload) {
+    const { username, password } = payload;
+    try {
+      const res = await axios({
+        method: "post",
+        url: `${API_URL}/accounts/login/`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          username,
+          password,
+        },
+      });
+      token.value = res.data.key; // 토큰 저장
+  
+      // 로그인 후 사용자 정보 동기화
+      await syncUserData();
+  
+       // 홈 페이지로 이동
+    } catch (err) {
+      console.error("로그인 실패:", err);
+    }
+  };
   // [추가기능] 로그아웃
   const logOut = function () {
     axios({
@@ -165,7 +192,28 @@ export const useCounterStore = defineStore('counter', () => {
         console.log(err)
       })
   }
-  return { communities, API_URL, getArticles, signUp, logIn, token, isLogin, logOut, getcommunityid }
+
+
+  const userDecile = ref(null); // 사용자 decile 값 저장
+
+// 사용자 정보를 가져오는 메서드 추가
+const fetchUserDecile = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/v1/profile/`, {
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+    });
+    userDecile.value = response.data.user_decile; // 사용자 decile 값 저장
+    console.log("사용자 decile:", userDecile.value);
+  } catch (err) {
+    console.error("사용자 decile 가져오기 실패:", err);
+    userDecile.value = null; // 실패 시 기본값 설정
+  }
+};
+
+
+  return { communities, API_URL, getArticles, signUp, logIn, token, isLogin, logOut, getcommunityid, userDecile, fetchUserDecile, logIn2 }
 }, { persist: true })
 
 export const useLayoutStore = defineStore('layout', {
