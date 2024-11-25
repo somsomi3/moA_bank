@@ -1,204 +1,292 @@
 <template>
+  <div class="container">
+    <!-- 페이지 헤더 -->
+    <header class="page-header">
+      <h1>Deposit Saving Card Search</h1>
+      <div class="snowman-icon" @click="promptSignUp">☃</div>
+    </header>
 
-
-  
-  <div>
-    <h1>상품 검색</h1>
-
-    <!-- 카테고리 선택 버튼 -->
-    <div>
-      <button @click="setCategory('deposit')">예금</button>
-      <button @click="setCategory('saving')">적금</button>
-      <button @click="setCategory('card')">카드</button>
+    <!-- 카테고리 박스 -->
+    <div class="category-container">
+      <div class="category-box" @click="setCategory('deposit')">
+        <h2>예금</h2>
+      </div>
+      <div class="category-box" @click="setCategory('saving')">
+        <h2>적금</h2>
+      </div>
+      <div class="category-box" @click="setCategory('card')">
+        <h2>카드</h2>
+      </div>
     </div>
 
-    <!-- 검색 입력창 -->
-    <div v-if="selectedCategory">
+    <!-- 검색 섹션 -->
+    <div v-if="selectedCategory" class="search-section">
       <h2>{{ categoryLabel }} 상품 검색</h2>
-      <form @submit.prevent="fetchProducts">
-        <label for="search">Search:</label>
+      <form @submit.prevent="fetchProducts" class="search-form">
         <input
           type="text"
-          id="search"
           v-model="query"
-          placeholder="Enter product name"
+          placeholder="상품 이름을 입력하세요"
+          class="rounded-input"
         />
-        <button type="submit">Search</button>
+        <button type="submit" class="custom-button">검색</button>
       </form>
     </div>
 
-    <!-- 로딩 상태 -->
-    <div v-if="loading">Loading...</div>
+    <!-- 출력 공간 -->
+    <div class="output-space">
+      <!-- 검색 결과가 없을 때 -->
+      <div v-if="products.length === 0" class="empty-content">
+        <p>결과가 없습니다. 추천 상품을 확인해보세요!</p>
+        <div class="recommended-products">
+          <h4>추천 상품</h4>
+          <ul>
+            <li
+              v-for="(product, index) in randomProducts"
+              :key="index"
+              class="product-item"
+            >
+              <h3>{{ product.fin_prdt_nm || product.card_name }}</h3>
+              <p v-if="product.kor_co_nm">Bank: {{ product.kor_co_nm }}</p>
+              <p v-if="product.bank">Bank: {{ product.bank }}</p>
+              <p>{{ product.etc_note || product.merit_summary }}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
 
-    <!-- 검색 결과 -->
-    <h1 v-if="products.length">검색 결과</h1>
-    <ul v-if="products.length">
-      <li v-for="(product, index) in products" :key="index">
-        <!-- 상품 기본 정보 -->
-        <h3>{{ product.fin_prdt_nm || product.card_name }}</h3>
-        <p v-if="product.kor_co_nm">Bank: {{ product.kor_co_nm }}</p>
-        <p v-if="product.bank">Bank: {{ product.bank }}</p>
-        <p>상세정보:</p>
-        <p class="description">{{ product.etc_note || product.merit_summary }}</p>
-        <p v-if="product.max_limit">최고 가입한도: {{ product.max_limit }}</p>
+      <!-- 검색 결과가 있을 때 -->
+      <ul v-else>
+        <li v-for="(product, index) in products" :key="index" class="product-item">
+          <button class="product-button" @click="viewProduct(product)">
+            <h3>{{ product.fin_prdt_nm || product.card_name }}</h3>
+            <p v-if="product.kor_co_nm">Bank: {{ product.kor_co_nm }}</p>
+            <p v-if="product.bank">Bank: {{ product.bank }}</p>
+            <p class="description">{{ product.etc_note || product.merit_summary }}</p>
+            <p v-if="product.max_limit">최고 가입한도: {{ product.max_limit }}</p>
+          </button>
+        </li>
+      </ul>
+    </div>
 
-        <!-- 옵션 보기 (예금/적금 전용) -->
-        <button v-if="selectedCategory !== 'card'" @click="toggleOptions(index)">
-          {{ expandedIndexes.includes(index) ? '옵션 접기' : '옵션 보기' }}
-        </button>
-
-        <!-- 상품 옵션 반복 -->
-        <ul v-if="selectedCategory !== 'card' && expandedIndexes.includes(index)">
-          <li v-for="(option, idx) in product.options" :key="idx">
-            <p>저축금리유형: {{ option.intr_rate_type_nm }}</p>
-            <p>기본금리: {{ option.intr_rate }}%</p>
-            <p>최고우대금리: {{ option.intr_rate2 }}%</p>
-            <p>저축기간: {{ option.save_trm }}개월</p>
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <p v-else-if="!loading && !products.length">No results found.</p>
+    <!-- 카드 모달 -->
+    <div v-if="isProductModalOpen" class="modal-overlay" @click="closeProductModal">
+      <div class="modal-content" @click.stop>
+        <button class="close-modal" @click="closeProductModal">X</button>
+        <h3>{{ selectedProduct?.card_name }}</h3>
+        <p v-if="selectedProduct?.bank">Bank: {{ selectedProduct.bank }}</p>
+        <p>{{ selectedProduct?.merit_summary }}</p>
+        <p v-if="selectedProduct?.max_limit">최고 가입한도: {{ selectedProduct.max_limit }}</p>
+        <a
+          v-if="selectedProduct?.link"
+          :href="selectedProduct.link"
+          target="_blank"
+          class="modal-link"
+        >
+          상품 상세 보기
+        </a>
+      </div>
+    </div>
   </div>
-  <!-- 메인으로 가기 버튼 -->
-  <button @click="goToMain" class="main-button">메인으로 가기</button>
 </template>
 
----
-
-### Script
-
-```vue
 <script setup>
 import axios from "axios";
 import { ref, computed } from "vue";
 
-import { useRouter } from "vue-router"; // 라우터 임포트
+const query = ref("");
+const products = ref([]);
+const selectedCategory = ref("");
+const isProductModalOpen = ref(false);
+const selectedProduct = ref(null);
 
-const router = useRouter(); // 라우터 인스턴스 가져오기
-
-const goToMain = () => {
-  router.push({ path: "/" }); // 메인 페이지로 이동
-};
-
-
-// 상태 관리
-const query = ref(""); // 검색어
-const products = ref([]); // 검색 결과
-const loading = ref(false); // 로딩 상태
-const expandedIndexes = ref([]); // 옵션 표시 상태를 관리하는 배열
-const selectedCategory = ref(""); // 선택된 카테고리
-
-// 카테고리별 API URL
 const apiUrls = {
   deposit: "http://127.0.0.1:8000/api/v1/deposits?search=",
   saving: "http://127.0.0.1:8000/api/v1/savings?search=",
   card: "http://127.0.0.1:8000/api/v1/search/cards?search=",
 };
 
-// 카테고리별 라벨
+const setCategory = (category) => {
+  selectedCategory.value = category;
+  query.value = "";
+  products.value = [];
+};
+
+const fetchProducts = async () => {
+  if (!query.value.trim()) {
+    alert("Please enter a search term.");
+    return;
+  }
+  const response = await axios.get(
+    `${apiUrls[selectedCategory.value]}${encodeURIComponent(query.value)}`
+  );
+  products.value = response.data;
+};
+
+const viewProduct = (product) => {
+  selectedProduct.value = product;
+  isProductModalOpen.value = true;
+};
+
+const closeProductModal = () => {
+  isProductModalOpen.value = false;
+  selectedProduct.value = null;
+};
+
+const promptSignUp = () => {
+  alert("회원가입을 해보세요!");
+};
+
+const dummyProducts = [
+  { fin_prdt_nm: "우리은행 정기예금", kor_co_nm: "우리은행", etc_note: "최대 금리 3.5%" },
+  { fin_prdt_nm: "국민은행 장기적금", kor_co_nm: "국민은행", etc_note: "최대 금리 4.0%" },
+  { fin_prdt_nm: "삼성카드 Platinum", bank: "삼성카드", merit_summary: "여행 혜택 제공" },
+  { fin_prdt_nm: "신한은행 청년저축", kor_co_nm: "신한은행", etc_note: "최대 금리 4.2%" },
+  { fin_prdt_nm: "농협 적금 상품", kor_co_nm: "농협", etc_note: "최대 금리 3.8%" },
+];
+
+const randomProducts = computed(() => {
+  const shuffled = [...dummyProducts].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, 3);
+});
+
 const categoryLabels = {
   deposit: "예금",
   saving: "적금",
   card: "카드",
 };
 
-// 선택된 카테고리의 라벨
 const categoryLabel = computed(() => categoryLabels[selectedCategory.value] || "");
-
-// 카테고리 설정
-const setCategory = (category) => {
-  selectedCategory.value = category;
-  query.value = ""; // 검색어 초기화
-  products.value = []; // 검색 결과 초기화
-  expandedIndexes.value = []; // 옵션 초기화
-};
-
-// API 호출 함수
-const fetchProducts = async () => {
-  if (!query.value.trim()) {
-    alert("Please enter a search term.");
-    return;
-  }
-
-  loading.value = true; // 로딩 시작
-  try {
-    // 선택된 카테고리에 따라 API 호출
-    const response = await axios.get(`${apiUrls[selectedCategory.value]}${encodeURIComponent(query.value)}`);
-    products.value = response.data; // 결과 저장
-    expandedIndexes.value = []; // 검색 시 모든 옵션 초기화
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    alert("An error occurred while fetching the data.");
-  } finally {
-    loading.value = false; // 로딩 종료
-  }
-};
-
-// 옵션 접기/펼치기 토글 함수
-const toggleOptions = (index) => {
-  if (expandedIndexes.value.includes(index)) {
-    // 이미 열려 있으면 닫음
-    expandedIndexes.value = expandedIndexes.value.filter((i) => i !== index);
-  } else {
-    // 닫혀 있으면 열음
-    expandedIndexes.value.push(index);
-  }
-};
 </script>
+
 <style scoped>
-/* 검색 폼 스타일 */
-form {
+.container {
+  padding: 20px 40px;
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+/* 페이지 헤더 */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f8ff;
+  padding: 10px;
+  border-radius: 10px;
   margin-bottom: 20px;
 }
 
-input {
-  padding: 8px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  padding: 8px 16px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 4px;
+/* 눈사람 아이콘 */
+.snowman-icon {
+  font-size: 30px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #0056b3;
+/* 카테고리 박스 */
+.category-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-/* 검색 결과 스타일 */
-ul {
+.category-box {
+  flex: 1;
+  height: 150px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-box:hover {
+  background-color: #e0f7ff;
+}
+
+.search-section {
+  margin-top: 20px;
+}
+
+/* 검색 섹션 */
+.rounded-input {
+  width: 70%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.custom-button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.output-space {
+  margin-top: 20px;
+  border: 1px dashed #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  min-height: 200px; /* 항상 일정한 높이 유지 */
+  background-color: #f9f9f9;
+}
+
+/* 랜덤 추천 상품 */
+.recommended-products {
+  margin-top: 20px;
+}
+
+.recommended-products h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.recommended-products ul {
   list-style: none;
   padding: 0;
 }
 
-li {
+.recommended-products li {
   border: 1px solid #ddd;
-  padding: 15px;
+  padding: 10px;
   margin-bottom: 10px;
-  border-radius: 4px;
+  background-color: #fff;
 }
 
-.description {
-  white-space: pre-line;
-}
-.main-button {
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #d3d3d3; /* 연회색 */
-  color: #333; /* 버튼 글자색 */
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+/* 모달 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.main-button:hover {
-  background-color: #b0b0b0; /* 조금 더 어두운 연회색 */
+.modal-content {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 500px;
+  text-align: center;
+}
+
+.modal-link {
+  display: block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: underline;
 }
 </style>
