@@ -17,6 +17,7 @@ import App from '@/App.vue'
 import CreateView2 from '@/views/CreateView2.vue'
 import CommentView from '@/views/CommentView.vue'
 import ArticleEdit from '@/views/ArticleEdit.vue'
+import MakeCardView from '@/views/MakeCardView.vue'
 
 
 const router = createRouter({
@@ -106,7 +107,12 @@ const router = createRouter({
       name: 'CommentView',
       component : CommentView,
       props: true,
-    }
+    },
+    {
+      path: '/MakeCardView',
+      name: 'MakeCardView',
+      component: MakeCardView,
+    },
 
   ]
 })

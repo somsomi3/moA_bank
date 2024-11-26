@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Card, CardDesign
+from .models import UserMakingCard, CardDesign
 
 class CardDesignSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,7 +11,7 @@ class CardSerializer(serializers.ModelSerializer):
     card_design = CardDesignSerializer()
 
     class Meta:
-        model = Card
+        model = UserMakingCard
         fields = [
             'id', 
             'card_name', 
