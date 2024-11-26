@@ -189,7 +189,7 @@ import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router"; // 라우터 임포트
 import { useCounterStore } from "@/stores/counter";
 const store = useCounterStore()
-const API_URL =  "http://192.168.0.4:8000"
+
 // 상태 관리
 const categoryLabel = ref("")
 const query = ref(""); // 검색어

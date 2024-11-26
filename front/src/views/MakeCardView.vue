@@ -1,15 +1,6 @@
 <template>
   <div class="container">
     <!-- 왼쪽 카테고리 -->
-    <aside class="sidebar">
-      <h2>카테고리</h2>
-      <ul>
-        <li><button>예금 리스트 보기</button></li>
-        <li><button>적금 리스트 보기</button></li>
-        <li><button>카드 리스트 보기</button></li>
-      </ul>
-    </aside>
-
     <!-- 오른쪽 콘텐츠 -->
     <main class="content">
       <h1>카드 생성하기</h1>
@@ -182,7 +173,7 @@ function handleFontUpload(event) {
 
 .card-form button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #4c8a81;
   color: white;
   border: none;
   border-radius: 5px;

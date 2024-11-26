@@ -26,7 +26,7 @@
       <!-- 제출 버튼 -->
       <button type="submit" class="submit-button">게시글 작성</button>
     </form>
-    
+    <p>{{ store.userDecile }}</p>
   </div>
 </template>
 
@@ -36,15 +36,31 @@ import { useCounterStore } from "@/stores/counter";
 import axios from "axios";
 import { useRouter } from "vue-router";
 
+
 const title = ref("");
 const content = ref("");
 const store = useCounterStore();
 const router = useRouter();
 
+const num = ref(0)
+
+const getnum = function () {
+  if (store.userDecile ==1 ||store.userDecile ==2||store.userDecile ==3||store.userDecile ==4) {
+    num.value = 1
+  } else if (store.userDecile ==5 ||store.userDecile ==6 ||store.userDecile ==7 ||store.userDecile ==8) {
+    num.value = 2
+  } else {
+    num.value = 3
+  }
+}
+
+
+
 const createArticle = function () {
+  getnum()
   axios({
     method: "post",
-    url: `${store.API_URL}/communities/${store.communities.community.id}/articles/create/`,
+    url: `${store.API_URL}/communities/${num.value}/articles/create/`,
     data: {
       title: title.value,
       content: content.value,
@@ -57,7 +73,7 @@ const createArticle = function () {
     .then(() => {
       router.push({
         name: "DetailView",
-        params: { id: store.communities.community.id },
+        params: { id: num.value },
       });
     })
     .catch((err) => {
