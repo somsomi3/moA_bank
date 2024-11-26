@@ -54,13 +54,13 @@ export default {
         formData.append("prompt", this.prompt);
         formData.append("text", this.text);
         formData.append("font", this.fontFile);
-
+        console.log(this.text, '123')
         // API 요청
         const response = await axios.post(
           "http://127.0.0.1:8000/api/v1/card-designs/generate_card/",
           formData,
           {
-            headers: { "Content-Type": "multipart/form-data" },
+            // headers: { "Content-Type": "multipart/form-data" },
             responseType: "blob", // 이미지 데이터 처리
           }
         );

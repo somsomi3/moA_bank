@@ -35,17 +35,19 @@
 #         card_design.delete()
 #         return Response({"message": "Card design deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
 
-# from django.views.decorators.csrf import csrf_exempt
-# # ============================
-# # GPU를 활용한 Stable Diffusion으로 카드 생성
-# @csrf_exempt
-# def generate_card(request):
-#     # Stable Diffusion 설정
-#     pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", torch_dtype=torch.float16)
-#     pipe = pipe.to("cuda")
+from django.views.decorators.csrf import csrf_exempt
+# ============================
+# GPU를 활용한 Stable Diffusion으로 카드 생성
+@csrf_exempt
+def generate_card(request):
+    print(request.GET)
+    # Stable Diffusion 설정
+    pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", torch_dtype=torch.float16)
+    pipe = pipe.to("cuda")
 
-#     # 사용자로부터 Prompt를 받음
-#     prompt = request.GET.get("prompt")
+    # 사용자로부터 Prompt를 받음
+    prompt = request.POST.get("prompt", "A realistic image of an airplane flying in the sky")
+    print(prompt,44334) 
     
 #     # 이미지 생성
 #     background_image = pipe(prompt).images[0]
@@ -60,10 +62,11 @@
 #     card = Image.new("RGB", (800, 600), "white")
 #     card.paste(background_image.resize((800, 400)), (0, 0))
 
-#     # 텍스트 추가
-#     draw = ImageDraw.Draw(card)
-#     text = request.GET.get("text")
-#     draw.text((50, 500), text, font=font, fill="black")
+    # 텍스트 추가
+    draw = ImageDraw.Draw(card)
+    text = request.POST.get("text")
+    print(text, 12233)
+    draw.text((50, 500), text, font=font, fill="black")
 
 #     # 카드 저장
 #     output_path = os.path.join(settings.BASE_DIR, "cards/static/generated_card.png")
