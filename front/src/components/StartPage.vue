@@ -1,31 +1,12 @@
 <template>
   <div class="main-container">
-    <!-- 종이 흩뿌리는 효과 -->
-    <div class="scatter-effect">
-      <div
-        class="paper"
-        v-for="(paper, index) in papers"
-        :key="index"
-        :style="getPaperStyle(paper)"
-      ></div>
-    </div>
+    <!-- 오른쪽 상단 눈사람 아이콘 -->
+    <div class="snowman-icon" @click="toggleMenu">☃</div>
 
-    <!-- 초록색 줄 위의 회색 박스 -->
-    <div class="gray-box">
-      <div class="box-item" @click="navigateTo('report')">리포트</div>
-      <div class="box-item" @click="navigateTo('fund')">펀드</div>
-      <div class="box-item" @click="navigateTo('card-making')">카드메이킹</div>
-      <div class="box-item" @click="navigateTo('youth-policy')">청년 정책</div>
-    </div>
-
-    <!-- 오른쪽 상단 버튼을 감싸는 박스 -->
-    <div class="top-right-buttons-container">
-      <div class="top-right-buttons green-box">
-        <div class="button-box start-button" @click="navigate('start')">시작하기</div>
-      </div>
-      <div class="top-right-buttons blue-box">
-        <div class="button-box settings-button" @click="navigate('settings')">홈페이지</div>
-      </div>
+    <!-- 가운데 영역 -->
+    <div class="center-content">
+      <div class="start-button" @click="navigate('start')">시작하기</div>
+      <div class="settings-button" @click="navigate('settings')">홈페이지</div>
     </div>
 
     <!-- 하단 검색 버튼 -->
@@ -34,8 +15,6 @@
     </div>
   </div>
 </template>
-
-
 
 <script>
 export default {
@@ -52,17 +31,6 @@ export default {
         this.$router.push({ name: "SearchProductView" }); // "검색하기" 버튼 클릭 시
       }
     },
-    navigateTo(target) {
-      if (target === "report") {
-        this.$router.push({ name: "ReportView" }); // 리포트 페이지로 이동
-      } else if (target === "fund") {
-        this.$router.push({ name: "FundView" }); // 펀드 페이지로 이동
-      } else if (target === "card-making") {
-        this.$router.push({ name: "CardMakingView" }); // 카드메이킹 페이지로 이동
-      } else if (target === "youth-policy") {
-        this.$router.push({ name: "YouthPolicyView" }); // 청년 정책 페이지로 이동
-      }
-    },
   },
 };
 </script>
@@ -74,107 +42,93 @@ export default {
   justify-content: space-between;
   align-items: center;
   height: 100vh;
-  padding: 2vh;
+  padding: 20px;
+  background-color: #f1f4f8; /* 연한 배경색 */
   position: relative;
 }
 
-/* 흩뿌리는 효과 텍스트 */
-.scatter-effect {
+/* 눈사람 아이콘 */
+.snowman-icon {
   position: absolute;
-  top: 2vh;
-  left: 2vw;
-  font-size: 2vw;
+  top: 20px;
+  right: 20px;
+  font-size: 32px; /* 크기 확대 */
+  cursor: pointer;
+  color: #6c757d; /* 중간 톤 회색 */
+}
+
+.snowman-icon:hover {
+  color: #343a40; /* 어두운 회색 */
+}
+
+/* 가운데 버튼 섹션 */
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  flex-grow: 1;
+}
+
+/* 가운데 버튼 스타일 */
+.start-button,
+.settings-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  font-size: 20px;
   font-weight: bold;
-  color: #007bff;
-  animation: scatter 3s infinite;
-  opacity: 0;
+  background-color: #ffffff; /* 흰색 배경 */
+  border-radius: 20px; /* 둥근 모서리 */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+  cursor: pointer;
+  transition: all 0.3s ease; /* 부드러운 애니메이션 */
 }
 
-/* 흩뿌리는 효과 애니메이션 */
-@keyframes scatter {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translate(-20px, -30px) scale(1.5);
-    opacity: 0.5;
-  }
-  100% {
-    transform: translate(-50px, -60px) scale(0);
-    opacity: 0;
-  }
+.start-button:hover,
+.settings-button:hover {
+  background-color: #f8f9fa; /* 약간 어두운 흰색 */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* 더 강조된 그림자 */
 }
 
-/* 초록색 줄 */
-.main-container::after {
-  content: "";
-  position: absolute;
-  top: 60%; /* 위로부터 60% */
-  left: 0;
+.start-button {
+  color: #007bff; /* 파란 텍스트 */
+}
+
+.settings-button {
+  color: #28a745; /* 초록 텍스트 */
+}
+
+/* 하단 바 */
+.bottom-bar {
   width: 100%;
-  height: 2px; /* 줄 두께 */
-  background-color: #28a745; /* 초록색 */
-}
-
-/* 회색 박스 */
-.gray-box {
-  position: absolute;
-  top: 55%; /* 초록색 줄 바로 위 */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%; /* 박스 너비 */
-  background-color: #e9ecef; /* 연한 회색 */
-  border-radius: 1vw; /* 둥근 모서리 */
-  box-shadow: 0px 1vh 2vh rgba(0, 0, 0, 0.1); /* 그림자 */
-  display: flex;
-  justify-content: space-around; /* 아이템 간격 */
-  align-items: center;
-  padding: 2vh 0;
-}
-
-/* 오른쪽 상단 버튼을 감싸는 가로 박스 컨테이너 */
-.top-right-buttons-container {
-  position: absolute;
-  top: 2vh;
-  right: 2vw;
-  display: flex;
-  gap: 1vw; /* 버튼 간격 */
-}
-
-/* 초록색 박스 */
-.green-box {
-  background-color: #d4f4dd; /* 연초록색 */
-  padding: 1vh;
-  border-radius: 1vw; /* 둥근 모서리 */
-  box-shadow: 0px 1vh 2vh rgba(0, 0, 0, 0.1); /* 그림자 */
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding: 20px 0;
 }
 
-/* 파란색 박스 */
-.blue-box {
-  background-color: #d9ecff; /* 연파란색 */
-  padding: 1vh;
-  border-radius: 1vw; /* 둥근 모서리 */
-  box-shadow: 0px 1vh 2vh rgba(0, 0, 0, 0.1); /* 그림자 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* 박스 안의 아이템 */
-.box-item {
-  font-size: 2vw; /* 글자 크기 */
+.search-button {
+  width: 33.3%; /* 버튼 가로 길이를 화면의 1/3로 설정 */
+  height: 15%; /* 버튼 높이를 화면의 15%로 설정 */
+  font-size: 24px;
   font-weight: bold;
-  color: #495057; /* 중간 회색 텍스트 */
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.box-item:hover {
-  color: #343a40; /* 어두운 회색 */
-  text-decoration: underline; /* 강조 효과 */
+.search-button:hover {
+  background-color: #0056b3;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.search-button:active {
+  background-color: #003f7f;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>자유게시판</h1>
-    <RouterLink :to="{ name: 'CreateView' }">Create</RouterLink>
+    <RouterLink :to="{ name: 'CreateView2' }">Create</RouterLink>
    
     <ArticleList />
   

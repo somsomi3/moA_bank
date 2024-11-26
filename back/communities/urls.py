@@ -39,7 +39,7 @@ from .views import (
     article_create,
     article_detail_comment,
     like_article,
-
+    delete_comment
 )
 
 urlpatterns = [
@@ -50,5 +50,9 @@ urlpatterns = [
     path('<int:community_id>/articles/create/', article_create,),
     path('<int:community_id>/articles/<int:article_id>/', article_detail_comment,),
     path('<int:community_id>/articles/<int:article_id>/like/', like_article, ),
-
+     path(
+        'communities/<int:community_id>/articles/<int:article_id>/comments/<int:comment_id>/',
+        delete_comment,
+        name='delete_comment'
+    ),
 ]
