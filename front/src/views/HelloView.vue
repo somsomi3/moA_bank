@@ -1,4 +1,5 @@
 <template>
+  <div class="container2"></div>
   <div class="container">
     <!-- 대화형 메시지 -->
     <p v-if="!showReport" class="message">{{ displayedText }}</p>
@@ -100,6 +101,33 @@
       <p><strong>세금 환급 예상:</strong> {{ recommendations.tax_refund_estimation.refund_estimation }}</p>
       <p><strong>동일 직업 소비 수준 분석:</strong> {{ recommendations.job_analysis }}</p>
       <p><strong>동일 학력 소비 수준 분석:</strong> {{ recommendations.grade_analysis }}</p>
+
+          <div>
+        <h3>성별/연령대 소득 비교</h3>
+        <Bar
+          v-if="genderAgeChartData.datasets.length"
+          :chart-data="genderAgeChartData"
+          :options="chartOptions"
+        />
+
+        <h3>직군 소득 비교</h3>
+        <Bar
+          v-if="jobChartData.datasets.length"
+          :chart-data="jobChartData"
+          :options="chartOptions"
+        />
+
+
+        <h3>학력별 소득 비교</h3>
+        <Bar
+          v-if="gradeChartData.datasets.length"
+          :chart-data="gradeChartData"
+          :options="chartOptions"
+        />
+      </div>
+
+
+
       <h3>추천 카드</h3>
       <ul>
         <li v-for="(card, index) in recommendations.card_recommendations" :key="index">
@@ -123,17 +151,27 @@
       <!-- 리포트 저장 버튼 -->
       <button @click="saveReport(tempuserId)" class="save-button">리포트 저장하기</button>
     </div>
-    {{ recommendations }}
+    
   </div>
-  
+   <!-- 메인으로 가기 버튼 -->
+      <button @click="goToMain" class="main-button">메인으로 가기</button>
 
   
 </template>
 
 <script setup>
+import {  useRouter } from 'vue-router';
+import { onMounted } from 'vue'
 import { ref } from "vue";
 import { useCounterStore } from "@/stores/counter";
 const store = useCounterStore()
+const router = useRouter(); // 라우터 인스턴스 가져오기
+const goToMain = () => {
+  router.push({ path: "/" }); // 메인 페이지로 이동
+};
+
+
+
 // 메시지 리스트
 const messages = [
   "안녕하세요! 저는 당신의 경제 생활 매니저 모아에요!",
@@ -207,7 +245,7 @@ function typeMessage(message) {
   resetInputFields();
 
   if (currentIndex.value === messages.length - 1) {
-    message = `감사합니다! ${userData.value.nickname}님이 입력해주신 자료를 바탕으로 리포트를 만들고 있어요!`;
+    message =  `감사합니다! ${userData.value.nickname}님이 입력해주신 자료를 바탕으로 리포트를 만들고 있어요!`;
   }
 
   let index = 0;
@@ -341,7 +379,7 @@ typeMessage(messages[currentIndex.value]);
 
 // 회원가입 요청 함수
 async function registerUser() {
-  const url = "http://127.0.0.1:8000/dj-rest-auth/registration/"; // Django의 회원가입 API URL
+  const url = `${store.API_URL}/dj-rest-auth/registration/`; // Django의 회원가입 API URL
 
   // 사용자 데이터를 POST 요청으로 전송
  try {
@@ -378,7 +416,7 @@ async function registerUser() {
       const password = userData.value.password1; // 사용자가 입력한 비밀번호
       await store.logIn2({ username, password }); // Pinia 스토어의 logIn 함수 호출
 
-      const userInfoResponse = await fetch("http://127.0.0.1:8000/dj-rest-auth/user/", {
+      const userInfoResponse = await fetch(`${store.API_URL}/dj-rest-auth/user/`, {
         method: "GET",
         headers: {
           "Authorization": `Token ${token}`,
@@ -405,7 +443,7 @@ async function registerUser() {
 
 // 리포터 저장함수
 async function saveReport(userId) {
-  const url = `http://127.0.0.1:8000/api/v1/save_profile/${userId}/`;
+  const url = `${store.API_URL}/api/v1/save_profile/${userId}/`;
   console.log(userId, '12345')
   const counter = localStorage.getItem("counter");
   console.log(counter)
@@ -446,7 +484,7 @@ async function saveReport(userId) {
 // 추천 결과 API 호출
 
 async function fetchRecommendations(userId) {
-  const url = `http://127.0.0.1:8000/data/recommend_view/${userId}/`;
+  const url = `${store.API_URL}/data/recommend_view/${userId}/`;
  
   try {
     const response = await fetch(url);
@@ -471,6 +509,132 @@ async function fetchRecommendations(userId) {
 }
 
 
+import { watch } from 'vue';
+
+watch(recommendations, (newRecommendations) => {
+  if (newRecommendations) {
+    // 그래프 데이터를 설정하는 로직
+    updateGraphs(newRecommendations);
+  }
+});
+
+
+
+
+import { Bar } from "vue-chartjs";
+
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from "chart.js";
+import { useRoute } from 'vue-router';
+
+// Chart.js 컴포넌트 등록
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
+
+
+// 그래프 데이터
+const genderAgeChartData = ref({ labels: [], datasets: [] });
+const jobChartData = ref({ labels: [], datasets: [] });
+const gradeChartData = ref({ labels: [], datasets: [] });
+const chartOptions = {
+  responsive: true,
+  plugins: {
+    legend: { position: "top" },
+    title: { display: true, text: "소득 비교" },
+  },
+};
+
+// 비교 로직
+function adjustHeight(comparisonText = "비슷합니다") {
+  if (comparisonText.includes("높습니다")) return 3; // 높으면 높게 표시
+  if (comparisonText.includes("낮습니다")) return 1; // 낮으면 낮게 표시
+  return 2; // 비슷하면 중간 높이
+}
+
+// 리포트 데이터 로드
+
+  
+// 그래프 데이터 업데이트 함수
+function updateGraphs(recommendations) {
+  const genderHeight = adjustHeight(recommendations.income_analysis || "비슷합니다");
+  const gradeHeight = adjustHeight(recommendations.grade_analysis || "비슷합니다");
+  const jobHeight = adjustHeight(recommendations.job_analysis || "비슷합니다");
+
+    // 성별/연령별 그래프 데이터
+    genderAgeChartData.value = {
+    labels: ["성별 평균"],
+    datasets: [
+      {
+        label: "사용자 소득 (상대적 높이)",
+        data: [genderHeight],
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+      {
+        label: "평균 소득 (실제 값)",
+        data: [2],
+        backgroundColor: "rgba(255, 99, 132, 0.6)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  gradeChartData.value = {
+    labels: ["학력별 평균"],
+    datasets: [
+      {
+        label: "사용자 소득 (상대적 높이)",
+        data: [gradeHeight],
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+      {
+        label: "평균 소득 (실제 값)",
+        data: [2],
+        backgroundColor: "rgba(255, 99, 132, 0.6)",
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  // 직군별 그래프 데이터
+  jobChartData.value = {
+    labels: ["직군 평균"],
+    datasets: [
+      {
+        label: "사용자 소득 (상대적 높이)",
+        data: [jobHeight],
+        backgroundColor: "rgba(54, 162, 235, 0.6)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+      },
+      {
+        label: "평균 소득 (실제 값)",
+        data: [2],
+        backgroundColor: "rgba(255, 205, 86, 0.6)",
+        borderColor: "rgba(255, 205, 86, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+}
+
+// Watch로 recommendations 변화 감지
+watch(recommendations, (newRecommendations) => {
+  if (newRecommendations && Object.keys(newRecommendations).length) {
+    updateGraphs(newRecommendations);
+  }
+});
 
 
 
@@ -478,43 +642,141 @@ async function fetchRecommendations(userId) {
 
 
 <style scoped>
-  .container {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-    font-family: Arial, sans-serif;
-  }
-  
-  .message {
-    font-size: 18px;
-    margin-bottom: 20px;
-    line-height: 1.6;
-    min-height: 50px; /* 메시지 출력 영역 고정 */
-  }
-  
-  .input {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  .next-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    margin: 5px;
-  }
-  
-  .next-button:hover {
-    background-color: #0056b3;
-  }
+/* 컨테이너 */
+
+/* 전체 컨테이너 */
+.container2 {
+  padding: 50px;
+ 
+}
+
+/* 내부 컨테이너 */
+.container {
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  justify-content: flex-start; /* 위에서 아래로 배치 */
+  align-items: center; /* 가로 중앙 정렬 */
+  padding: 20px;
+  gap: 20px; /* 요소 간 간격 */
+}
+
+/* 메시지 */
+.message {
+  font-family: 'Noto Sans KR', Arial, Helvetica, sans-serif; /* 깔끔한 폰트 */
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* 입력 필드 */
+.input {
+  width: 90%; /* 적당히 좁은 너비 */
+  max-width: 400px; /* 최대 너비 제한 */
+  padding: 10px 15px; /* 내부 여백 */
+  margin: 10px 0; /* 요소 간 간격 */
+  font-size: 15px; /* 글씨 크기 조정 */
+  border: 1px solid #ddd; /* 테두리 색상 */
+  border-radius: 8px; /* 둥근 테두리 */
+  background-color: #ffffff; /* 흰색 배경 */
+  display: block;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* 안쪽 그림자 */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+} 
+
+.input:focus {
+  border-color: #4a90e2; /* 포커스 시 테두리 강조 */
+  box-shadow: 0 0 4px rgba(74, 144, 226, 0.5); /* 포커스 시 외곽 그림자 */
+  background-color: #fff; /* 포커스 시 배경색 */
+  outline: none;
+}
+
+/* 기본 버튼 스타일 */
+.next-button,
+.main-button {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #4a90e2; /* 밝은 블루 */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* 버튼 호버 효과 */
+.next-button:hover,
+.main-button:hover {
+  background-color: #357abd; /* 어두운 블루 */
+  transform: scale(1.05); /* 살짝 커짐 */
+}
+
+/* 버튼 클릭 효과 */
+.next-button:active,
+.main-button:active {
+  background-color: #2a5c91; /* 더 어두운 블루 */
+  transform: scale(0.98); /* 살짝 눌림 */
+}
+
+/* 메인 버튼 고정 스타일 */
+.main-button {
+  position: fixed; /* 고정 위치 */
+  bottom: 20px;
+  right: 20px;
+  background-color: #4a90e2;
+  color: #ffffff;
+  padding: 15px 25px;
+  border-radius: 12px; /* 둥근 테두리 */
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
+}
+
+.main-button:hover {
+  background-color: #357abd;
+  transform: scale(1.1); /* 커짐 효과 */
+}
+
+/* 리스트 스타일 */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+ul li {
+  font-size: 15px; /* 약간 작게 조정 */
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #ffffff; /* 흰색 배경 */
+  border-radius: 8px; /* 둥근 테두리 */
+  border: 1px solid #e0e0e0; /* 옅은 테두리 */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* 약간의 그림자 */
+  transition: background-color 0.2s ease;
+}
+
+ul li:hover {
+  background-color: #f1f3f5; /* 호버 시 약간 밝아짐 */
+}
+
+/* 헤더 스타일 */
+h2 {
+  font-size: 20px; /* 약간 작게 조정 */
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #4a90e2;
+  margin-bottom: 15px;
+}
+
   </style>
   

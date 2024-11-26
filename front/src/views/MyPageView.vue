@@ -5,11 +5,10 @@
  db에 저장해야 할 거같은데? -->
 
  <template>
-  
   <div class="container">
     <h1>마이페이지</h1>
     <div class="content">
-      <!-- 왼쪽: 입력한 개인정보 -->
+      <!-- 개인정보 섹션 -->
       <div class="user-info">
         <h2>개인정보</h2>
         <p><strong>닉네임:</strong> {{ userData.nickname }}</p>
@@ -26,7 +25,7 @@
         <p><strong>희망 예적금 기간:</strong> {{ userData.desire_period }}개월</p>
       </div>
 
-      <!-- 오른쪽: 리포트 -->
+      <!-- 리포트 섹션 -->
       <div class="report-info">
         <h2>저장된 리포트</h2>
         <div v-if="report">
@@ -60,15 +59,15 @@
         </div>
         <p v-else>저장된 리포트가 없습니다.</p>
       </div>
-      
     </div>
   </div>
-
 </template>
+
 
 <script setup>
 import { ref, onMounted } from "vue";
-
+import { useCounterStore } from "@/stores/counter";
+const store = useCounterStore()
 // 상태 변수
 const userData = ref({
   nickname: "",
@@ -86,49 +85,9 @@ const userData = ref({
 });
 const report = ref(null);
 
-// // 마이페이지 데이터 가져오기
-// async function fetchMyPageData() {
-
-  
-
-//   const url = `http://127.0.0.1:8000/api/v1/save_profile/${user_id}`; // 백엔드 마이페이지 API 엔드포인트
-//   const token = localStorage.getItem("userToken");
-
-//   if (!token) {
-//     alert("로그인이 필요합니다.");
-//     return;
-//   }
-
-//   try {
-//     const response = await fetch(url, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         "Authorization": `Token ${token}`, // 인증 토큰 사용
-//       },
-//     });
-
-//     if (response.ok) {
-//       const result = await response.json();
-//       userData.value = result.user_data; // 사용자 정보 저장
-//       report.value = result.report; // 리포트 데이터 저장
-//     } else {
-//       console.error("마이페이지 데이터 가져오기 실패:", await response.json());
-//     }
-//   } catch (error) {
-//     console.error("마이페이지 요청 중 오류 발생:", error);
-//   }
-// }
-
-// // 컴포넌트 로드 시 데이터 가져오기
-// onMounted(() => {
-//   fetchMyPageData();
-// });
-
-
 async function fetchUserIdFromServer(token) {
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/v1/profile/", {
+    const response = await fetch(`${store.API_URL}/api/v1/profile/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -149,56 +108,6 @@ async function fetchUserIdFromServer(token) {
     return null;
   }
 }
-
-// async function fetchMyPageData() {
-//   const counter = localStorage.getItem("counter");
-//   if (!counter) {
-//     alert("로그인이 필요합니다.");
-//     return;
-//   }
-
-//   const counterData = JSON.parse(counter);
-//   const token = counterData?.token;
-//   if (!token) {
-//     alert("로그인이 필요합니다.");
-//     return;
-//   }
-
-//   const user_id = await fetchUserIdFromServer(token);
-//   if (!user_id) {
-//     alert("사용자 정보를 불러오는 데 실패했습니다.");
-//     return;
-//   }
-  
-//   const url = `http://127.0.0.1:8000/api/v1/save_profile/${user_id}`;
-
-//   try {
-//     const response = await fetch(url, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         "Authorization": `Token ${token}`,
-//       },
-   
-//     });
-
-//     if (response.ok) {
-//       const result = await response.json();
-//       console.log("사용자 데이터:", result.user_data);
-//       console.log("리포트 데이터:", result.report);
-//     } else {
-//       alert("마이페이지 데이터를 불러오는 중 오류가 발생했습니다.");
-//       console.error("마이페이지 데이터 가져오기 실패:", await response.json());
-//     }
-//   } catch (error) {
-//     console.error("마이페이지 요청 중 오류 발생:", error);
-//   }
-// }
-
-
-// onMounted(async () => {
-//   await fetchMyPageData();
-// });
 
 async function fetchMyPageData() {
   const counter = localStorage.getItem("counter");
@@ -221,7 +130,7 @@ async function fetchMyPageData() {
     return;
   }
 
-  const url = `http://127.0.0.1:8000/api/v1/save_profile/${user_id}/`;
+  const url = `${store.API_URL}/api/v1/save_profile/${user_id}/`;
   
   try {
     const response = await fetch(url, {
@@ -254,10 +163,21 @@ onMounted(async () => {
 
 <style scoped>
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1000px;
+  margin: 50px auto;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', 'Noto Sans KR', Arial, sans-serif;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
 }
 
 .content {
@@ -269,31 +189,51 @@ onMounted(async () => {
 .report-info {
   flex: 1;
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
   background-color: #f9f9f9;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 h2 {
-  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  color: #0056b3;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 p {
-  margin: 5px 0;
+  font-size: 16px;
   color: #555;
+  margin: 10px 0;
+  line-height: 1.5;
 }
 
 ul {
   list-style: none;
   padding: 0;
+  margin: 10px 0;
 }
 
 li {
+  font-size: 15px;
   margin: 5px 0;
+  padding: 8px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
+
+li:hover {
+  background-color: #f1f3f5;
+}
+
 </style>

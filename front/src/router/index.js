@@ -18,6 +18,7 @@ import CreateView2 from '@/views/CreateView2.vue'
 import CommentView from '@/views/CommentView.vue'
 import ArticleEdit from '@/views/ArticleEdit.vue'
 import MakeCardView from '@/views/MakeCardView.vue'
+import Temp from '@/views/temp.vue'
 
 
 const router = createRouter({
@@ -43,8 +44,8 @@ const router = createRouter({
     },
     {
       path: '/',
-      name: 'StartPage',
-      component: StartPage
+      name: 'HomePage',
+      component: HomePage
     },
     {
       path: '/articles/:id',
@@ -67,11 +68,6 @@ const router = createRouter({
       name: 'LogInView',
       component: LoginView
     },    
-    {
-      path: '/HomePage',
-      name: 'HomePage',
-      component: HomePage
-    },
     {
       path: '/articles',
       name: 'ArticleView', // 라우트 이름 정의
@@ -112,6 +108,11 @@ const router = createRouter({
       path: '/MakeCardView',
       name: 'MakeCardView',
       component: MakeCardView,
+    },
+    {
+      path: '/temp',
+      name: 'Temp',
+      component: Temp,
     },
 
   ]

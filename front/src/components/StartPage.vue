@@ -10,9 +10,9 @@
     </div>
 
     <!-- 하단 검색 버튼 -->
-    <div class="bottom-bar">
+    <!-- <div class="bottom-bar">
       <button class="search-button" @click="navigate('search')">검색하기</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -36,99 +36,169 @@ export default {
 </script>
 
 <style scoped>
+/* 공통 컨테이너 스타일 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Noto Sans KR', Arial, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 스타일 */
+.button {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #4c8a81;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background-color: #3e7066;
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+/* 텍스트 강조 */
+.text-highlight {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* 공통 네비게이션 바 스타일 */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #4c4c4c;
+  margin: 0 10px;
+  transition: color 0.3s;
+}
+
+.nav-item:hover {
+  color: #007bff;
+}
+
+/* 드롭다운 스타일 */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-label {
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #4c4c4c;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.dropdown-item {
+  padding: 10px;
+  font-size: 14px;
+  color: #4c4c4c;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f3f5;
+}
+
+
 .main-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   height: 100vh;
-  padding: 20px;
-  background-color: #f1f4f8; /* 연한 배경색 */
-  position: relative;
+  background-color: #f1f4f8;
+  text-align: center;
 }
 
-/* 눈사람 아이콘 */
-.snowman-icon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 32px; /* 크기 확대 */
-  cursor: pointer;
-  color: #6c757d; /* 중간 톤 회색 */
-}
-
-.snowman-icon:hover {
-  color: #343a40; /* 어두운 회색 */
-}
-
-/* 가운데 버튼 섹션 */
+/* 중앙 버튼 */
 .center-content {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-  flex-grow: 1;
+  gap: 20px;
+  flex-direction: column;
 }
 
-/* 가운데 버튼 스타일 */
 .start-button,
 .settings-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 150px;
-  height: 150px;
-  font-size: 20px;
+  width: 200px;
+  height: 50px;
+  font-size: 18px;
   font-weight: bold;
-  background-color: #ffffff; /* 흰색 배경 */
-  border-radius: 20px; /* 둥근 모서리 */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-  cursor: pointer;
-  transition: all 0.3s ease; /* 부드러운 애니메이션 */
-}
-
-.start-button:hover,
-.settings-button:hover {
-  background-color: #f8f9fa; /* 약간 어두운 흰색 */
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* 더 강조된 그림자 */
-}
-
-.start-button {
-  color: #007bff; /* 파란 텍스트 */
-}
-
-.settings-button {
-  color: #28a745; /* 초록 텍스트 */
-}
-
-/* 하단 바 */
-.bottom-bar {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 20px 0;
-}
-
-.search-button {
-  width: 33.3%; /* 버튼 가로 길이를 화면의 1/3로 설정 */
-  height: 15%; /* 버튼 높이를 화면의 15%로 설정 */
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  color: #4c8a81;
+  border: 2px solid #4c8a81;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.search-button:hover {
-  background-color: #0056b3;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+.start-button:hover,
+.settings-button:hover {
+  background-color: #4c8a81;
+  color: white;
 }
 
-.search-button:active {
-  background-color: #003f7f;
+/* 하단 버튼 */
+.bottom-bar {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
+
+.search-button {
+  width: 80%;
+  max-width: 400px;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #4c8a81;
+  color: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #3e7066;
+}
+
+
 </style>

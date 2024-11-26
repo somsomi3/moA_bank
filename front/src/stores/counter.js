@@ -5,8 +5,9 @@ import { useRouter } from 'vue-router'
 import DetailView from '@/views/DetailView.vue'
 export const useCounterStore = defineStore('counter', () => {
   const communities = ref([])
-  const API_URL = 'http://127.0.0.1:8000'
+  const API_URL = "http://192.168.0.4:8000"
   const token = ref(null)
+
   const isLogin = computed(() => {
     if (token.value === null) {
       return false
@@ -23,7 +24,7 @@ export const useCounterStore = defineStore('counter', () => {
     try {
       const res = await axios({
         method: 'get',
-        url: `http://127.0.0.1:8000/api/v1/profile/`,
+        url: `${API_URL}/api/v1/profile/`,
         headers: {
           Authorization: `Token ${token.value}`,
         },

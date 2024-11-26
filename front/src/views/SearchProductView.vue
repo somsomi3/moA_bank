@@ -187,7 +187,9 @@
 import axios from "axios";
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router"; // 라우터 임포트
-
+import { useCounterStore } from "@/stores/counter";
+const store = useCounterStore()
+const API_URL =  "http://192.168.0.4:8000"
 // 상태 관리
 const categoryLabel = ref("")
 const query = ref(""); // 검색어
@@ -224,16 +226,16 @@ const totalCategoryPages = computed(() => {
 
 // 카테고리별 API URL
 const apiUrls = {
-  deposit: "http://127.0.0.1:8000/api/v1/deposits",
-  saving: "http://127.0.0.1:8000/api/v1/savings",
-  card: "http://127.0.0.1:8000/api/v1/search/cards",
+  deposit: `${store.API_URL}/api/v1/deposits/`,
+  saving: `${store.API_URL}/api/v1/savings/`,
+  card: `${store.API_URL}/api/v1/search/cards/`,
 };
 
 // 검색 API URL
 const searchApiUrls = {
-  deposit: "http://127.0.0.1:8000/api/v1/deposits?search=",
-  saving: "http://127.0.0.1:8000/api/v1/savings?search=",
-  card: "http://127.0.0.1:8000/api/v1/search/cards?search=",
+  deposit: `${store.API_URL}/api/v1/deposits?search=`,
+  saving: `${store.API_URL}/api/v1/savings?search=`,
+  card: `${store.API_URL}/api/v1/search/cards?search=`,
 };
 
 // 카테고리별 라벨

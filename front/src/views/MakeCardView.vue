@@ -48,7 +48,7 @@ const token = store.token;
 const tempuserId = ref(0);
 
 async function getuserId() {
-  const userInfoResponse = await fetch("http://127.0.0.1:8000/dj-rest-auth/user/", {
+  const userInfoResponse = await fetch(`${store.API_URL}/dj-rest-auth/user/`, {
     method: "GET",
     headers: {
       "Authorization": `Token ${token}`,
@@ -76,7 +76,7 @@ async function generateCard() {
     formData.append("user_id", tempuserId.value);
 
     const response = await axios.post(
-      "http://127.0.0.1:8000/api/v1/card-designs/generate_card/",
+      `${store.API_URL}/api/v1/card-designs/generate_card/`,
       formData,
       {
         headers: {
