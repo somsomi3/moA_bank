@@ -22,12 +22,21 @@ class ArticleSerializer(serializers.ModelSerializer):
         read_only_fields = ('user', 'created_at', 'updated_at', 'viewscount')  # 읽기 전용 필드
 
 
+# class CommentSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Comment
+#         fields = '__all__'
+#         read_only_fields = ('user', 'created_at', 'updated_at')  # 작성자와 생성/수정 날짜는 읽기 전용
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = '__all__'
-        read_only_fields = ('user', 'created_at', 'updated_at')  # 작성자와 생성/수정 날짜는 읽기 전용
+        fields = ['id', 'content', 'user', 'article', 'like', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'user', 'article', 'like', 'created_at', 'updated_at']
 
+    def validate_content(self, value):
+        if not value.strip():
+            raise serializers.ValidationError("댓글 내용은 비어 있을 수 없습니다.")
+        return value
 
 class ArticleLikeSerializer(serializers.ModelSerializer):
     class Meta:

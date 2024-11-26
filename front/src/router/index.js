@@ -11,10 +11,14 @@ import { useLayoutStore } from '@/stores/counter'
 import HelloView from '@/views/HelloView.vue'
 import MyPageView from '@/views/MyPageView.vue'
 import SearchProductView from '@/views/SearchProductView.vue'
-import MakeCardView from '@/views/MakeCardView.vue'
-
-
+import ArticleListItem from '@/components/ArticleListItem.vue'
+import ArticleListItem2 from '@/components/ArticleListItem2.vue'
 import App from '@/App.vue'
+import CreateView2 from '@/views/CreateView2.vue'
+import CommentView from '@/views/CommentView.vue'
+import ArticleEdit from '@/views/ArticleEdit.vue'
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -24,7 +28,18 @@ const router = createRouter({
       component: DetailView,
       props: true, // URL 매개변수를 컴포넌트에 props로 전달
     },
-
+    {
+      path: '/articlelistitem/:id',
+      name: 'ArticleListItem',
+      component: ArticleListItem,
+      props: true, // URL 매개변수를 컴포넌트에 props로 전달
+    },
+    {
+      path: '/articlelistitem/:id',
+      name: 'ArticleListItem2',
+      component: ArticleListItem2,
+      props: true, // URL 매개변수를 컴포넌트에 props로 전달
+    },
     {
       path: '/',
       name: 'StartPage',
@@ -33,7 +48,8 @@ const router = createRouter({
     {
       path: '/articles/:id',
       name: 'DetailView',
-      component: DetailView
+      component: DetailView,
+      props: true,
     },
     {
       path: '/create',
@@ -61,6 +77,11 @@ const router = createRouter({
       component: ArticleView, // 관련 컴포넌트 연결
     },
     {
+      path: '/create2',
+      name: 'CreateView2', // 라우트 이름 정의
+      component: CreateView2, // 관련 컴포넌트 연결
+    },
+    {
       path: '/HelloView',
       name: 'HelloView', // 라우트 이름 정의
       component: HelloView, // 관련 컴포넌트 연결
@@ -76,10 +97,17 @@ const router = createRouter({
       component: SearchProductView, // 관련 컴포넌트 연결
     },
     {
-      path: '/MakeCardView',
-      name: 'MakeCardView', // 라우트 이름 정의
-      component: MakeCardView, // 관련 컴포넌트 연결
+      path: '/articles/:id/edit',
+      name: 'ArticleEdit',
+      component: ArticleEdit
     },
+    {
+      path: '/communities/:community_id/articles/:id/comments/:comment_id/',
+      name: 'CommentView',
+      component : CommentView,
+      props: true,
+    }
+
   ]
 })
 

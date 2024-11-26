@@ -115,7 +115,7 @@ def article_create(request, community_id):
     user = request.user
     print(request.user)
     # 사용자가 속한 커뮤니티와 요청된 커뮤니티 비교
-    if user.community.id != community_id:
+    if community_id != 4 and user.community.id != community_id:
         return Response(
             {"error": "You are not authorized to post in this community."},
             status=status.HTTP_403_FORBIDDEN,
@@ -145,12 +145,45 @@ def article_create(request, community_id):
 
 
 
-# 특정 게시글 보기 및 댓글 작성/보기
-@api_view(['GET', 'POST'])
+# # 특정 게시글 보기 및 댓글 작성/보기
+# @api_view(['GET', 'POST'])
+# @permission_classes([IsAuthenticated])
+# def article_detail_comment(request, community_id, article_id):
+#     try:
+#         article = Article.objects.get(pk=article_id, community_id=community_id)
+#         article.viewscount += 1
+#         article.save()
+#     except Article.DoesNotExist:
+#         return Response({"error": "Article not found."}, status=status.HTTP_404_NOT_FOUND)
+
+#     if request.method == 'GET':
+#         # 게시글 상세보기
+#         article_serializer = ArticleSerializer(article)
+#         comments = Comment.objects.filter(article=article)
+#         comment_serializer = CommentSerializer(comments, many=True)
+#         return Response({
+#             "article": article_serializer.data,
+#             "comments": comment_serializer.data,
+#         })
+
+#     elif request.method == 'POST':
+#         # 댓글 작성
+#         serializer = CommentSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save(user=request.user, article=article)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     elif request.method == 'DELETE':
+        
+
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
-def article_detail_comment(request, article_id):
+def article_detail_comment(request, community_id, article_id,):
     try:
-        article = Article.objects.get(pk=article_id)
+        article = Article.objects.get(pk=article_id, community_id=community_id)
+        if request.method in ['GET', 'POST']:
+            article.viewscount += 1
+            article.save()
     except Article.DoesNotExist:
         return Response({"error": "Article not found."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -172,6 +205,41 @@ def article_detail_comment(request, article_id):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    elif request.method == 'PUT':
+        # 댓글 수정
+        comment_id = request.data.get('id')
+        if not comment_id:
+            return Response({"error": "Comment ID is required for update."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            comment = Comment.objects.get(pk=comment_id, article=article, user=request.user)
+        except Comment.DoesNotExist:
+            return Response({"error": "Comment not found or you do not have permission to edit."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CommentSerializer(comment, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_comment(request, community_id, article_id, comment_id):
+    try:
+        comment = Comment.objects.get(
+            pk=comment_id,
+            article__id=article_id,
+            article__community_id=community_id,
+            user=request.user
+        )
+        comment.delete()
+        return Response({"message": "Comment deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+    except Comment.DoesNotExist:
+        return Response({"error": "Comment not found or you do not have permission to delete it."}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+
 
 # 게시글 좋아요 추가/삭제
 @api_view(['POST'])
@@ -189,5 +257,3 @@ def like_article(request, article_id):
         return Response({"message": "Like removed."}, status=status.HTTP_200_OK)
 
     return Response({"message": "Article liked."}, status=status.HTTP_201_CREATED)
-
-
