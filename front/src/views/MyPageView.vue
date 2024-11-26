@@ -1,16 +1,11 @@
-
-
-<!-- 헬로 뷰에 있는 레포드
- 레포드를 마이페이지에 저장해야함.. 아마 "백엔드 ""모델로""" 연결"해서
- db에 저장해야 할 거같은데? -->
-
- <template>
+<template>
   <div class="container">
-    <h1>마이페이지</h1>
-    <div class="content">
-      <!-- 개인정보 섹션 -->
-      <div class="user-info">
-        <h2>개인정보</h2>
+    <h1 class="mypage-title">마이페이지</h1>
+
+    <!-- 개인정보 섹션 -->
+    <div class="section">
+      <h2>개인정보</h2>
+      <div class="section-content">
         <p><strong>닉네임:</strong> {{ userData.nickname }}</p>
         <p><strong>아이디:</strong> {{ userData.username }}</p>
         <p><strong>성별:</strong> {{ userData.gender }}</p>
@@ -24,10 +19,12 @@
         <p><strong>예적금 여부:</strong> {{ userData.financial_products ? '예' : '아니오' }}</p>
         <p><strong>희망 예적금 기간:</strong> {{ userData.desire_period }}개월</p>
       </div>
+    </div>
 
-      <!-- 리포트 섹션 -->
-      <div class="report-info">
-        <h2>저장된 리포트</h2>
+    <!-- 리포트 섹션 -->
+    <div class="section">
+      <h2>저장된 리포트</h2>
+      <div class="section-content">
         <div v-if="report">
           <p><strong>소득 분석:</strong> {{ report.income_analysis }}</p>
           <p><strong>소득 분위:</strong> {{ report.income_decile }}</p>
@@ -37,21 +34,21 @@
           <p><strong>동일 학력 소비 수준 분석:</strong> {{ report.grade_analysis }}</p>
 
           <h3>추천 카드</h3>
-          <ul>
+          <ul class="recommendation-list">
             <li v-for="(card, index) in report.card_recommendations" :key="index">
               {{ card.card_name }} - {{ card.merit_summary }}
             </li>
           </ul>
 
           <h3>추천 예금 상품</h3>
-          <ul>
+          <ul class="recommendation-list">
             <li v-for="(deposit, index) in report.deposit_recommendations" :key="index">
               {{ deposit.name }} - {{ deposit.rate }}% ({{ deposit.term }})
             </li>
           </ul>
 
           <h3>추천 적금 상품</h3>
-          <ul>
+          <ul class="recommendation-list">
             <li v-for="(saving, index) in report.saving_recommendations" :key="index">
               {{ saving.name }} - {{ saving.rate }}% ({{ saving.term }})
             </li>
@@ -62,6 +59,7 @@
     </div>
   </div>
 </template>
+
 
 
 <script setup>
@@ -162,78 +160,62 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.container {
-  max-width: 1000px;
-  margin: 50px auto;
-  padding: 20px;
-  font-family: 'Inter', 'Noto Sans KR', Arial, sans-serif;
+/* 스타일 업데이트 */
+.section-content {
+  overflow: auto; /* 스크롤을 추가하여 잘리지 않도록 함 */
+  word-wrap: break-word; /* 긴 텍스트 줄 바꿈 */
+  max-width: 100%; /* 콘텐츠가 섹션 박스를 초과하지 않도록 제한 */
+}
+
+.recommendation-list li {
+  margin: 8px 0;
+  padding: 8px; /* 패딩을 줄여서 내용 표시 영역 확대 */
+  border: 1px solid #ddd;
+  border-radius: 8px;
   background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  font-size: 14px; /* 글씨 크기를 줄여서 더 많은 내용 표시 */
+  overflow: hidden;
 }
 
-h1 {
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
-  color: #333;
+.recommendation-list li:hover {
+  background-color: #f1f3f5;
+}
+
+.section-content > div {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.section {
   margin-bottom: 30px;
-}
-
-.content {
-  display: flex;
-  gap: 20px;
-}
-
-.user-info,
-.report-info {
-  flex: 1;
   padding: 20px;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
   background-color: #f9f9f9;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 }
 
-h2 {
-  font-size: 20px;
-  font-weight: bold;
-  color: #0056b3;
-  margin-bottom: 20px;
+p,
+.recommendation-list li {
+  font-size: 14px; /* 모든 텍스트 크기 줄이기 */
+  line-height: 1.4; /* 텍스트 줄 간격 축소 */
 }
 
 h3 {
-  font-size: 18px;
-  font-weight: bold;
-  color: #007bff;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  font-size: 16px; /* 제목 크기 조정 */
 }
 
-p {
-  font-size: 16px;
-  color: #555;
-  margin: 10px 0;
-  line-height: 1.5;
-}
-
-ul {
+.recommendation-list {
   list-style: none;
   padding: 0;
-  margin: 10px 0;
+  margin: 0;
 }
 
-li {
-  font-size: 15px;
-  margin: 5px 0;
-  padding: 8px;
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-li:hover {
-  background-color: #f1f3f5;
+.recommendation-list li {
+  margin: 8px 0;
 }
 
 </style>
+

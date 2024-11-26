@@ -54,7 +54,7 @@
                 <RouterLink class="nav-link" :to="{ name: 'SignUpView' }">회원가입</RouterLink>
               </li>
               <li class="nav-item">
-                <button v-if="store.isLogin" class="btn btn-outline-primary logout-btn" @click="logOut">
+                <button v-if="store.isLogin" class="nav-link" @click="logOut">
                   로그아웃
                 </button>
               </li>
