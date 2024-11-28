@@ -1,0 +1,299 @@
+[
+{
+    "model": "data.incomepergenderage",
+    "pk": 1,
+    "fields": {
+        "gender": "전체",
+        "agerange": "계",
+        "avgallincome": 4178500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 2,
+    "fields": {
+        "gender": "전체",
+        "agerange": "19세이하",
+        "avgallincome": 1770500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 3,
+    "fields": {
+        "gender": "전체",
+        "agerange": "20~24세",
+        "avgallincome": 2520000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 4,
+    "fields": {
+        "gender": "전체",
+        "agerange": "25~29세",
+        "avgallincome": 3213000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 5,
+    "fields": {
+        "gender": "전체",
+        "agerange": "30~34세",
+        "avgallincome": 3836500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 6,
+    "fields": {
+        "gender": "전체",
+        "agerange": "35~39세",
+        "avgallincome": 4525500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 7,
+    "fields": {
+        "gender": "전체",
+        "agerange": "40~44세",
+        "avgallincome": 4865000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 8,
+    "fields": {
+        "gender": "전체",
+        "agerange": "45~49세",
+        "avgallincome": 4951500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 9,
+    "fields": {
+        "gender": "전체",
+        "agerange": "50~54세",
+        "avgallincome": 4900500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 10,
+    "fields": {
+        "gender": "전체",
+        "agerange": "55~59세",
+        "avgallincome": 4438500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 11,
+    "fields": {
+        "gender": "전체",
+        "agerange": "60세이상",
+        "avgallincome": 3161500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 12,
+    "fields": {
+        "gender": "여자",
+        "agerange": "계",
+        "avgallincome": 3200500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 13,
+    "fields": {
+        "gender": "여자",
+        "agerange": "19세이하",
+        "avgallincome": 1565000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 14,
+    "fields": {
+        "gender": "여자",
+        "agerange": "20~24세",
+        "avgallincome": 2448500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 15,
+    "fields": {
+        "gender": "여자",
+        "agerange": "25~29세",
+        "avgallincome": 3077500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 16,
+    "fields": {
+        "gender": "여자",
+        "agerange": "30~34세",
+        "avgallincome": 3522500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 17,
+    "fields": {
+        "gender": "여자",
+        "agerange": "35~39세",
+        "avgallincome": 3895500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 18,
+    "fields": {
+        "gender": "여자",
+        "agerange": "40~44세",
+        "avgallincome": 3822000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 19,
+    "fields": {
+        "gender": "여자",
+        "agerange": "45~49세",
+        "avgallincome": 3544000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 20,
+    "fields": {
+        "gender": "여자",
+        "agerange": "50~54세",
+        "avgallincome": 3212500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 21,
+    "fields": {
+        "gender": "여자",
+        "agerange": "55~59세",
+        "avgallincome": 2777500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 22,
+    "fields": {
+        "gender": "여자",
+        "agerange": "60세이상",
+        "avgallincome": 2120000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 23,
+    "fields": {
+        "gender": "남자",
+        "agerange": "계",
+        "avgallincome": 4828500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 24,
+    "fields": {
+        "gender": "남자",
+        "agerange": "19세이하",
+        "avgallincome": 1995500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 25,
+    "fields": {
+        "gender": "남자",
+        "agerange": "20~24세",
+        "avgallincome": 2626000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 26,
+    "fields": {
+        "gender": "남자",
+        "agerange": "25~29세",
+        "avgallincome": 3341000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 27,
+    "fields": {
+        "gender": "남자",
+        "agerange": "30~34세",
+        "avgallincome": 4054000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 28,
+    "fields": {
+        "gender": "남자",
+        "agerange": "35~39세",
+        "avgallincome": 4875000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 29,
+    "fields": {
+        "gender": "남자",
+        "agerange": "40~44세",
+        "avgallincome": 5431500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 30,
+    "fields": {
+        "gender": "남자",
+        "agerange": "45~49세",
+        "avgallincome": 5798500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 31,
+    "fields": {
+        "gender": "남자",
+        "agerange": "50~54세",
+        "avgallincome": 5955000.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 32,
+    "fields": {
+        "gender": "남자",
+        "agerange": "55~59세",
+        "avgallincome": 5521500.0
+    }
+},
+{
+    "model": "data.incomepergenderage",
+    "pk": 33,
+    "fields": {
+        "gender": "남자",
+        "agerange": "60세이상",
+        "avgallincome": 3799000.0
+    }
+}
+]

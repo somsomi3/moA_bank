@@ -1,0 +1,101 @@
+[
+{
+    "model": "data.decile_income",
+    "pk": 1,
+    "fields": {
+        "per_range": "전체  평균소득",
+        "worker": 5719115.5,
+        "not_worker": 3787479.5
+    }
+},
+{
+    "model": "data.decile_income",
+    "pk": 2,
+    "fields": {
+        "per_range": "１분위소득",
+        "worker": 1392830.375,
+        "not_worker": 405571.375
+    }
+},
+{
+    "model": "data.decile_income",
+    "pk": 3,
+    "fields": {
+        "per_range": "２분위소득",
+        "worker": 2433469.5,
+        "not_worker": 924335.875
+    }
+},
+{
+    "model": "data.decile_income",
+    "pk": 4,
+    "fields": {
+        "per_range": "３분위소득",
+        "worker": 3104528.25,
+        "not_worker": 1334649.0
+    }
+},
+{
+    "model": "data.decile_income",
+    "pk": 5,
+    "fields": {
+        "per_range": "４분위소득",
+        "worker": 3776786.875,
+        "not_worker": 1891559.125
+    }
+},
+{
+    "model": "data.decile_income",
+    "pk": 6,
+    "fields": {
+        "per_range": "５분위소득",
+        "worker": 4494899.0,
+        "not_worker": 2554940.0
+    }
+},
+{
+    "model": "data.decile_income",
+    "pk": 7,
+    "fields": {
+        "per_range": "６분위소득",
+        "worker": 5296783.5,
+        "not_worker": 3293031.625
+    }
+},
+{
+    "model": "data.decile_income",
+    "pk": 8,
+    "fields": {
+        "per_range": "７분위소득",
+        "worker": 6215137.625,
+        "not_worker": 4126753.25
+    }
+},
+{
+    "model": "data.decile_income",
+    "pk": 9,
+    "fields": {
+        "per_range": "８분위소득",
+        "worker": 7355015.5,
+        "not_worker": 5205399.125
+    }
+},
+{
+    "model": "data.decile_income",
+    "pk": 10,
+    "fields": {
+        "per_range": "９분위소득",
+        "worker": 9051067.0,
+        "not_worker": 6777828.75
+    }
+},
+{
+    "model": "data.decile_income",
+    "pk": 11,
+    "fields": {
+        "per_range": "10분위소득",
+        "worker": 14043179.75,
+        "not_worker": 11325075.88
+    }
+}
+]
