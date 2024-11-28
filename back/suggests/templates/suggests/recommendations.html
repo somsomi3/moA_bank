@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations</title>
+</head>
+<body>
+    <h1>Recommendations</h1>
+    
+    <h2>Income Analysis</h2>
+    <p>{{ recommendations.income_analysis.income_analysis }}</p>
+    <p>{{ recommendations.income_analysis.spending_analysis }}</p>
+
+    <h2>Card Recommendations</h2>
+    <ul>
+        {% for card in recommendations.card_recommendations %}
+            <li>{{ card.card_name }}: {{ card.merit_summary }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Deposit Recommendations</h2>
+    <ul>
+        {% for deposit in recommendations.deposit_recommendations %}
+            <li>{{ deposit.0 }}: {{ deposit.1 }}% (기간: {{ deposit.2 }})</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Saving Recommendations</h2>
+    <ul>
+        {% for saving in recommendations.saving_recommendations %}
+            <li>{{ saving.0 }}: {{ saving.1 }}% (기간: {{ saving.2 }})</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Tax Refund</h2>
+    <p>{{ recommendations.tax_refund.refund_estimation }}</p>
+</body>
+</html>
