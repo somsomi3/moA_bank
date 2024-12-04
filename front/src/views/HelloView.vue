@@ -1,7 +1,13 @@
 <template>
+<div class="contaiver">
+
+
+  <div class="left-box">
+
+  </div>
   <div class="survey-container">
     <!-- 왼쪽 배너 -->
-    <aside class="input-summary" v-show="!showReport">
+    <!-- <aside class="input-summary" v-show="!showReport">
   <ul>
     <li v-if="userData.nickname" class="circle-item">{{ userData.nickname }}</li>
     <li v-if="userData.username" class="circle-item">{{ userData.username }}</li>
@@ -15,7 +21,7 @@
     <li v-if="userData.job" class="circle-item">{{ userData.job }}</li>
     <li v-if="userData.desire_period" class="circle-item">{{ userData.desire_period }}개월</li>
   </ul>
-</aside>
+</aside> -->
 
 
 
@@ -182,6 +188,7 @@
    <!-- 메인으로 가기 버튼 -->
       <button @click="goToMain" class="main-button">메인으로 가기</button>
 
+</div>
   
 </template>
 
@@ -201,8 +208,8 @@ const goToMain = () => {
 
 // 메시지 리스트
 const messages = [
-  "안녕하세요! 저는 당신의 경제 생활 매니저 모아에요!",
-  "저는 당신께서 제공해주는 간단한 정보들을 바탕으로 경제 생활에 대한 리포트를 만들어 드릴거에요!",
+  "경제 생활 매니저 모아!",
+  "회원가입을 통한 경제 생활 리포트 생성",
   "닉네임, 아이디, 비밀번호를 입력해주세요.",
   "성별을 선택해주세요.",
   "나이, 지역, 주거래 은행을 입력해주세요.",
@@ -667,67 +674,52 @@ watch(recommendations, (newRecommendations) => {
 </script>
 
 <style scoped>
+/* 전체 컨테이너 */
+.container {
+  display: flex; /* 왼쪽과 오른쪽 박스를 가로로 배치 */
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: center; /* 전체 컨테이너 중앙 정렬 */
+  gap: 20px; /* 왼쪽과 오른쪽 박스 간격 */
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
 .survey-container {
+  flex: 2;
   display: flex;
-  flex-wrap: nowrap; /* 줄바꿈 허용하지 않음 */
+  flex-direction: column; /* 세로 방향 배치 */
+  align-items: center; /* 중앙 정렬 */
+  justify-content: flex-start; /* 위쪽에 맞춤 */
   border: 2px solid #ddd;
   border-radius: 10px;
+  width: 600px; /* 고정된 너비 */
+  height: 900px; /* 고정된 높이 */
+  margin: 0 auto; /* 화면 중앙 정렬 */
+  background-color: #8db4ae; /* 흰색 배경 */
   padding: 20px;
-  gap: 20px;
-  background-color: #f9f9f9;
-  width: 70%; /* 전체 화면의 70%를 사용 */
-  height: 600px; /* 고정된 전체 높이 */
-  margin: 0 auto; /* 중앙 정렬 */
-}
-/* 왼쪽 배너 스타일 */
-.input-summary {
-  width: 300px; /* 고정된 왼쪽 영역 너비 */
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: auto; /* 스크롤 가능 */
-}
-.input-summary ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap; /* 줄바꿈 허용 */
-  gap: 20px; /* 원 사이 간격 */
-  justify-content: center; /* 가운데 정렬 */
-}
-.input-summary h3 {
-  font-size: 18px;
-  color: #007bff;
-  margin-bottom: 15px;
-  text-align: center;
+  box-sizing: border-box; /* 패딩을 포함한 박스 크기 계산 */
 }
 
-.input-summary li {
-  width: 120px; /* 고정된 타원의 가로 크기 */
-  height: 80px; /* 고정된 타원의 세로 크기 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ffffff; /* 흰색 배경 */
-  border-radius: 50% 40%; /* 비대칭 타원형 */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-  font-size: 14px;
-  font-weight: bold;
+.left-box {
+  flex: 1; /* 왼쪽 박스가 비율에 맞게 공간 차지 */
+  background-color: #f9f9f9; /* 배경색 */
+  border: 1px solid #ddd; /* 테두리 */
+  border-radius: 10px; /* 둥근 모서리 */
+  padding: 20px; /* 내부 여백 */
+  font-size: 16px;
   color: #333;
-  border: 2px solid #007bff; /* 파란색 테두리 */
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  font-weight: bold;
+  display: flex;
+  align-items: center; /* 텍스트 세로 중앙 정렬 */
+  justify-content: center; /* 텍스트 가로 중앙 정렬 */
+  min-height: 400px; /* 최소 높이 */
+  max-width: 400px; /* 왼쪽 박스 너비 제한 */
 }
 
-.input-summary li:hover {
-  transform: scale(1.1); /* 호버 시 확대 */
-  background-color: #f0f8ff; /* 호버 시 배경색 변화 */
-}
-
-/* 메인 설문지 영역 스타일 */
-/* 메인 설문지 영역 스타일 */
+/* 설문지 영역 */
 .form-area {
-  flex: 1;
+  width: 100%; /* 고정된 너비 */
+  height: 100%; /* 고정된 높이 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -735,61 +727,84 @@ watch(recommendations, (newRecommendations) => {
   background-color: white;
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: auto; /* 스크롤 가능 */
+  overflow-y: auto; /* 세로 스크롤 가능 */
+  box-sizing: border-box; /* 패딩 포함한 크기 계산 */
 }
 
+/* 입력 필드 */
 .input {
-  width: 80%;
-  margin: 10px 0;
+  width: 100%; /* 입력 필드 너비 */
+  max-width: 620px; /* 입력 필드 최대 너비 */
+  margin: 20px 0;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 8px;
+  box-sizing: border-box; /* 패딩 포함한 크기 계산 */
 }
 
-
+/* 다음 버튼 */
 .next-button {
   margin-top: 10px;
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
-  background-color: #007bff;
+  background-color: #0f7d6c;
   color: white;
   font-weight: bold;
   cursor: pointer;
+  box-sizing: border-box; /* 패딩 포함한 크기 계산 */
 }
 
 .next-button:hover {
-  background-color: #0056b3;
+  background-color: #0f7d6c;
 }
 
-
+/* 차트 컨테이너 */
 .chartsize {
-  display: flex; /* 차트를 가로로 나열 */
-  flex-wrap: wrap; /* 화면 크기에 따라 차트가 줄 바꿈될 수 있도록 설정 */
-  justify-content: space-between; /* 차트 간 간격을 균등 분배 */
-  gap: 20px; /* 차트 사이의 간격 */
+  display: flex;
+  flex-direction: column; /* 차트를 세로로 배치 */
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px; /* 차트 사이 간격 */
   padding: 20px;
+  width: 100%; /* 고정된 너비 */
+  box-sizing: border-box; /* 패딩 포함한 크기 계산 */
 }
 
+/* 차트 제목 */
 .chartsize h3 {
   text-align: center;
   font-size: 16px;
   margin-bottom: 10px;
-  width: 100%; /* 제목은 각 줄의 전체 너비를 차지 */
+  width: 100%;
 }
 
-.chartsize > * {
-  flex: 1 1 calc(33.333% - 20px); /* 차트가 3등분으로 배치되도록 설정 */
-  max-width: calc(33.333% - 20px); /* 각 차트 최대 너비 제한 */
-  display: flex;
-  flex-direction: column; /* 제목과 차트를 세로로 배치 */
-  align-items: center;
-}
-
+/* 차트 */
 .chartsize canvas {
-  width: 100% !important; /* 차트 크기를 부모 컨테이너에 맞춤 */
-  height: auto !important; /* 비율을 유지하며 높이를 자동 조정 */
+  width: 100%; /* 차트 너비를 부모에 맞춤 */
+  height: auto; /* 높이를 자동으로 조정 */
 }
+
+.main-button {
+  position: absolute; /* 부모 요소 기준 위치 */
+  bottom: 20px; /* 아래쪽 20px 간격 */
+  right: 20px; /* 오른쪽 20px 간격 */
+  padding: 10px 20px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+.main-button:hover {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+
 
 </style> 

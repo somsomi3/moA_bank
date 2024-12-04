@@ -81,7 +81,11 @@
         <div class="banner-text ms-lg-5">
           <h1 class="fs-2 fw-bold banner-heading">당신의 경제 생활 매니저, moA</h1>
           <p class="fs-6 text-secondary mt-2">경제적인 삶을 위한 맞춤형 금융 솔루션</p>
-          <button class="btn2 btn-primary btn-lg mt-3" @click="navigate('start')">지금 시작하기</button>
+          <div class="button-container">
+            <button class="btn2" @click="navigate('start')">리포터 시작하기</button>
+            <button class="btn3" @click="navigate('start')">지금 우리지역은</button>
+          </div>
+
         </div>
       </div>
     </div>
@@ -308,15 +312,35 @@ const features = [
   display: block;
 }
 
-.btn2 {
+.button-container {
+  display: flex; /* 버튼을 가로로 배치 */
+  justify-content: center; /* 가로 중앙 정렬 */
+  gap: 20px; /* 버튼 간 간격 */
+  margin-top: 40px; /* 위에서 떨어진 간격 */
+}
+
+.btn2,
+.btn3 {
   padding: 12px 30px;
-  background-color: #4c8a81;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
+  width: 300px;
+  height: 280px;
+  display: flex;
+  align-items: center; /* 텍스트 세로 중앙 정렬 */
+  justify-content: center; /* 텍스트 가로 중앙 정렬 */
+}
+
+.btn2 {
+  background-color: #4c8a81; /* 첫 번째 버튼 색상 */
+}
+
+.btn3 {
+  background-color: #7299cb; /* 두 번째 버튼 색상 */
 }
 
 .btn2:hover {
