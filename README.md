@@ -36,11 +36,29 @@ Few-shot font generation 및 Stable Diffusion과 같은 AI 기술을 활용하�
 사용자의 재정 상태와 목표에 맞는 최적의 서비스를 제공합니다.
 프로젝트 구조
 
-- 기술 스택
-프론트엔드: Vue.js
-백엔드: Django, DRF
-데이터베이스: sqlite3
-AI 기술: Few-shot font generation, Stable Diffusion
+| **분류**       | **기술**                     |          |
+| -------------- | ---------------------------- | ------------------ |
+| 프론트엔드     | Vue.js                       | 🌐                |
+| 백엔드         | Django, DRF                  | 🖥️                |
+| 데이터베이스   | sqlite3                      | 🗄️                |
+| AI 기술        | Few-shot font generation, Stable Diffusion | 🤖                |
+
+
+<table style="width: 100%; border: 3px double #000; border-collapse: collapse; text-align: center;">
+  <tr style="border: 3px double #000;">
+    <th style="padding: 10px; border: 3px double #000;">역할</th>
+    <th style="padding: 10px; border: 3px double #000;">담당자</th>
+  </tr>
+  <tr style="border: 3px double #000;">
+    <td style="padding: 10px; border: 3px double #000;"><strong>백엔드</strong></td>
+    <td style="padding: 10px; border: 3px double #000;"><strong>전민경</strong></td>
+  </tr>
+  <tr style="border: 3px double #000;">
+    <td style="padding: 10px; border: 3px double #000;"><strong>프론트엔드</strong></td>
+    <td style="padding: 10px; border: 3px double #000;"><strong>김원겸</strong></td>
+  </tr>
+</table>
+
 
 주요 페이지 구성
 홈 화면
@@ -56,3 +74,9 @@ AI 기술: Few-shot font generation, Stable Diffusion
 맞춤형 추천 페이지
 
 개인 데이터 기반의 분석 리포트 및 추천 제공
+
+
+[전체 erd]
+
+![팔로우좋아요기능추가 (2) (1)](https://github.com/user-attachments/assets/efde1da7-9d80-4132-87a8-339047e630d7)
+
